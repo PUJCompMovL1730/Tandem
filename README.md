@@ -8,5 +8,5 @@
 
 > More information about team members on the [Wiki](https://github.com/PUJCompMovL1730/Tandem/wiki)
 
-## About PeerCheck
+## About Tandem
 Project for the subject Introduction to mobile computating, which consists of designing and developing an app for bike's users
