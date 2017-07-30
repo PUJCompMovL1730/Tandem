@@ -12,4 +12,4 @@
 Project for the subject Introduction to mobile computating, which consists of designing and developing an app for bike's users
 
 ## Delivers
-> ### Deliver 1: [Use cases and class diagram](https://github.com/PUJWebServices1730/PUJCompMovL1730/tree/master/Diagrams)
+> ### Deliver 1: [Use cases and class diagram](https://github.com/PUJCompMovL1730/Tandem/tree/master/Diagrams)
