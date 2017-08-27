@@ -2,6 +2,9 @@ package co.edu.javeriana.tandem;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -35,7 +38,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         LatLng javeriana = new LatLng(4.626951, -74.064160);
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.mini_icon);
+        BitmapDescriptor icon = Utils.getBitmapDescriptor(getBaseContext(), R.drawable.tandem, 100, 49);
         MarkerOptions marker = new MarkerOptions().position(javeriana).title("Universidad Javeriana").icon(icon);
         mMap.addMarker(marker);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
