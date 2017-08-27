@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@color/colorPrimary"
+    tools:context="co.edu.javeriana.tandem.SignupActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/tandem_logo"
+                android:layout_gravity="center"/>
+
+            <EditText
+                android:id="@+id/signup_name"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_name"
+                android:inputType="text"/>
+            <EditText
+                android:id="@+id/signup_username"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_user"
+                android:inputType="text"/>
+            <EditText
+                android:id="@+id/signup_email"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_mail"
+                android:inputType="textEmailAddress"/>
+            <EditText
+                android:id="@+id/signup_cellphone"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_phone"
+                android:inputType="phone"/>
+            <EditText
+                android:id="@+id/signup_password"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_password"
+                android:fontFamily="sans-serif"
+                android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/signup_conf_password"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/register_password_confirmation"
+                android:fontFamily="sans-serif"
+                android:inputType="textPassword"/>
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register_button"
+                android:layout_marginTop="30dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

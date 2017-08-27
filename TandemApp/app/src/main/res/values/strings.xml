@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Tandem</string>
+
+    <!--Activity_Main-->
+    <string name="main_facebook">Iniciar con Facebook</string>
+    <string name="main_twitter">Iniciar con Twitter</string>
+    <string name="main_google">Iniciar con Google</string>
+    <string name="main_mail">Inicia con tu correo</string>
+    <string name="main_register">Regístrate</string>
+
+    <!--Activity_Signup-->
+    <string name="register_name">Nombre completo</string>
+    <string name="register_user">Usuario</string>
+    <string name="register_mail">Correo electrónico</string>
+    <string name="register_phone">Número celular</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_password_confirmation">Conformación de contraseña</string>
+    <string name="register_button">Registrarse</string>
+
+    <!--Activity_Login-->
+    <string name="login_user">Usuario / Correo</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_button">Ingresar</string>
+
+    <!--Home_Activity-->
+    <string name="home_search_bar">¿Buscas un lugar?</string>
+
+
+</resources>
