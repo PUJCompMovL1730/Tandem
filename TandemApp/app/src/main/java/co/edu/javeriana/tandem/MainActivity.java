@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btn_facebook;
@@ -17,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     private Intent homeIntent;
     private Intent loginIntent;
     private Intent signupIntent;
+    private ArrayList<String> users;
+    private ArrayList<String> passs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
         homeIntent = new Intent(getBaseContext(), HomeActivity.class);
         loginIntent = new Intent(getBaseContext(), LoginActivity.class);
         signupIntent = new Intent(getBaseContext(), SignupActivity.class);
+
+        users = new ArrayList<String>();
+        users.add("asdf");
+        users.add("qwer");
+        users.add("zxcv");
+        passs = new ArrayList<String>();
+        passs.add("asdf");
+        passs.add("qwer");
+        passs.add("zxcv");
 
         btn_facebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         option_email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bund = new Bundle();
+                bund.putStringArrayList("users", users);
+                bund.putStringArrayList("passs", passs);
+                loginIntent.putExtra("bundle", bund);
                 startActivity(loginIntent);
             }
         });
@@ -63,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         option_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                signupIntent.putStringArrayListExtra("users", users);
                 startActivity(signupIntent);
             }
         });
