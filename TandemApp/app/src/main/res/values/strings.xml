@@ -25,5 +25,10 @@
     <!--Home_Activity-->
     <string name="home_search_bar">¿Buscas un lugar?</string>
 
+    <!--Friends_Activity-->
+    <string name="friends_search_bar">¿Buscas un amigo?</string>
+
+    <!--Group_Activity-->
+    <string name="group_search_bar">¿Buscas un grupo?</string>
 
 </resources>

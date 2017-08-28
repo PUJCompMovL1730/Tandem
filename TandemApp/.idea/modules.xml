@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Tandem.iml" filepath="$PROJECT_DIR$/Tandem.iml" />
       <module fileurl="file://$PROJECT_DIR$/TandemApp.iml" filepath="$PROJECT_DIR$/TandemApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/TandemApp.iml" filepath="$PROJECT_DIR$/TandemApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

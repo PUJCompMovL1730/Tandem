@@ -20,6 +20,7 @@
         android:orientation="horizontal">
 
         <ImageButton
+            android:id="@+id/sideBar"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/menu_bars"

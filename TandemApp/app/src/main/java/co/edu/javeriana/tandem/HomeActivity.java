@@ -1,6 +1,7 @@
 package co.edu.javeriana.tandem;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,6 +9,9 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private ImageButton sideBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        sideBar = (ImageButton) findViewById(R.id.sideBar);
+        sideBar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

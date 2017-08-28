@@ -35,6 +35,7 @@
                 android:drawableLeft="@drawable/facebook"
                 android:paddingLeft="10dp"
                 android:text="@string/main_facebook"/>
+
             <Button
                 android:id="@+id/btn_twitter"
                 android:layout_width="250dp"
