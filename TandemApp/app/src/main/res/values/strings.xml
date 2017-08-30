@@ -31,4 +31,7 @@
     <!--Group_Activity-->
     <string name="group_search_bar">¿Buscas un grupo?</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_profile"
+            android:icon="@drawable/ic_person_black_24px"
+            android:title="Perfil"/>
+        <item
+            android:id="@+id/menu_travels"
+            android:icon="@drawable/ic_directions_bike_black_24px"
+            android:title="Recorridos"/>
+        <item
+            android:id="@+id/menu_friends"
+            android:icon="@drawable/ic_contacts_black_24px"
+            android:title="Amigos"/>
+        <item
+            android:id="@+id/menu_messages"
+            android:icon="@drawable/ic_chat_black_24px"
+            android:title="Mensajes"/>
+        <item
+            android:id="@+id/menu_groups"
+            android:icon="@drawable/ic_group_black_24px"
+            android:title="Grupos"/>
+    </group>
+
+    <item android:title="Tandem Squad">
+        <menu>
+            <item
+                android:id="@+id/menu_contact"
+                android:icon="@drawable/ic_mail_outline_black_24px"
+                android:title="Contáctanos"/>
+        </menu>
+    </item>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_settings"
+            android:icon="@drawable/ic_settings_black_24px"
+            android:title="Ajuste"/>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_logout"
+            android:icon="@drawable/ic_exit_to_app_black_24px"
+            android:title="Cerrar sesión"/>
+    </group>
+
+</menu>
