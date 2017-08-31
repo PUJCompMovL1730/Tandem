@@ -14,13 +14,15 @@
     <string name="register_mail">Correo electrónico</string>
     <string name="register_phone">Número celular</string>
     <string name="register_password">Contraseña</string>
-    <string name="register_password_confirmation">Conformación de contraseña</string>
+    <string name="register_password_confirmation">Confirmación de contraseña</string>
     <string name="register_button">Registrarse</string>
 
     <!--Activity_Login-->
     <string name="login_user">Usuario / Correo</string>
     <string name="login_password">Contraseña</string>
     <string name="login_button">Ingresar</string>
+    <string name="err_msg_name">Ingresa tu usuario o correo</string>
+    <string name="err_msg_password">Ingresa tu contraseña</string>
 
     <!--Home_Activity-->
     <string name="home_search_bar">¿Buscas un lugar?</string>
@@ -33,5 +35,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
 
 </resources>
