@@ -22,15 +22,18 @@
         </activity>
         <activity android:name=".LoginActivity"/>
         <activity android:name=".SignupActivity"/>
+        <activity android:name=".BaseNavigationActivity"/>
+        <activity android:name=".HomeActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".ProfileActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".FriendsActivity"/>
+        <activity android:name=".GroupActivity"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".HomeActivity"/>
-        <activity android:name=".ProfileActivity"/>
-        <activity android:name=".FriendsActivity"/>
-        <activity android:name=".GroupActivity"/>
     </application>
 
 </manifest>

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         passs.add("zxcv");
 
         //Se especifica que se lanza el layout que contiene el sidebar, no el del contenido como tal
-        homeIntent.putExtra("layout", R.layout.activity_home_navigation);
+        homeIntent.putExtra("layout", R.layout.base_navigation_layout);
 
         btn_facebook.setOnClickListener(new View.OnClickListener() {
             @Override

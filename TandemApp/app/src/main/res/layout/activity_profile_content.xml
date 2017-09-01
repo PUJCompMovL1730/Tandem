@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,15 +9,82 @@
     android:background="@color/colorPrimary"
     tools:context="co.edu.javeriana.tandem.ProfileActivity">
 
-    <ImageButton
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/photoView"
+            android:layout_width="match_parent"
+            android:layout_height="250dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/sideBarProfile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/menu_bars"
+                    android:background="#ffffff"
+                    android:padding="15dp"
+                    android:layout_margin="15dp"
+                    android:layout_alignParentStart="true"/>
+
+                <TextView
+                    android:text="Sebastián Bobadilla"
+                    android:textColor="#FFFFFF"
+                    android:textAlignment="center"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:layout_alignParentBottom="true"
+                    android:paddingBottom="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:paddingTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    
+
+
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/menu_bars"
-        android:background="#ffffff"
-        android:padding="15dp"
-        android:layout_margin="15dp"/>
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorSecundary"
+        app:layout_anchor="@id/photoView"
+        app:layout_anchorGravity="bottom|right|end"
+        app:srcCompat="@drawable/ic_create_white_24px"/>
 
-    <LinearLayout
+</android.support.design.widget.CoordinatorLayout>
+
+<!--
+<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -99,5 +166,4 @@
             android:drawablePadding="10dip"
             android:background="@color/colorPrimary"/>
     </LinearLayout>
-
-</LinearLayout>
+-->

@@ -8,12 +8,11 @@ import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -28,42 +27,36 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HomeActivity extends FragmentActivity implements OnMapReadyCallback {
+public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCallback {
 
-    private static final int GOOGLE_PERMISSION = 12;
-    private GoogleMap mMap;
-    private ImageButton sideBar;
-    private LatLng javeriana;
-    private BitmapDescriptor icon;
-    private Map<String, MarkerOptions> markers;
+    static final int GOOGLE_PERMISSION = 12;
+    GoogleMap mMap;
+    ImageButton drawerButton;
+    LatLng javeriana;
+    BitmapDescriptor icon;
+    Map<String, MarkerOptions> markers;
 
-    private DrawerLayout drawer;
+    ViewStub stub;
+    View contentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle parameters = getIntent().getExtras();
-        if(parameters != null && parameters.containsKey("layout"))
-            //Mostar el layout especificado, el que contiene el sidebar
-            setContentView(parameters.getInt("layout"));
-        else
-            setContentView(R.layout.activity_home_content);
+        //Obtener el stub y actualizarlo con el layout requerido
+        stub = (ViewStub) findViewById(R.id.layout_stub);
+        stub.setLayoutResource(R.layout.activity_home_content);
+        contentView = stub.inflate();
 
-        //Obtener el contenedor del sidebar
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        sideBar = (ImageButton) findViewById(R.id.sideBar);
-        sideBar.setOnClickListener(new View.OnClickListener() {
+        drawerButton = (ImageButton) findViewById(R.id.sideBar);
+        drawerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Desplegar el sidebar
                 drawer.openDrawer(GravityCompat.START);
-                //Intent intent = new Intent(getBaseContext(), ProfileActivity.class);
-                //startActivity(intent);
             }
         });
 

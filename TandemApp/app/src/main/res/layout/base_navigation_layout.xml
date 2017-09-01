@@ -9,8 +9,11 @@
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
 
-    <!--Contenido de la actividad que se quiere mostrar-->
-    <include layout="@layout/activity_home_content"/>
+    <!--Layout que se quiere mostrar-->
+    <ViewStub
+        android:id="@+id/layout_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <!--Sidebar-->
     <android.support.design.widget.NavigationView

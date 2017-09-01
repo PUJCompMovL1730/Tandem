@@ -1,34 +1,36 @@
 package co.edu.javeriana.tandem;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.ImageButton;
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends BaseNavigationActivity {
 
-  private Button friendsButton;
-  private Button groupButton;
+  Button friendsButton, groupButton;
+  ImageButton drawerButton;
+
+  ViewStub stub;
+  View contentView;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_profile);
-    friendsButton = (Button) findViewById(R.id.friendsButton);
-    friendsButton.setOnClickListener(new View.OnClickListener() {
+
+    //Obtener el stub y actualizarlo con el layout requerido
+    stub = (ViewStub) findViewById(R.id.layout_stub);
+    stub.setLayoutResource(R.layout.activity_profile_content);
+    contentView = stub.inflate();
+
+    drawerButton = (ImageButton) findViewById(R.id.sideBarProfile);
+
+    drawerButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent intent = new Intent(getBaseContext(), FriendsActivity.class);
-        startActivity(intent);
-      }
-    });
-    groupButton = (Button) findViewById(R.id.groupButton);
-    groupButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Intent intent = new Intent(getBaseContext(), GroupActivity.class);
-        startActivity(intent);
+        drawer.openDrawer(GravityCompat.START);
       }
     });
   }
