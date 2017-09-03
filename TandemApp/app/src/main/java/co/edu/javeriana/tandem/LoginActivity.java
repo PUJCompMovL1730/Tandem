@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -60,11 +58,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void submitForm() {
-        if (!validateName()) {
-            return;
-        }
+        boolean validForm = true;
+        validForm &= Utils.validateText(this, username, username_layout);
+        validForm &= Utils.validatePassword(this, password, password_layout);
 
-        if (!validatePassword()) {
+        if (!validForm) {
             return;
         }
 
@@ -73,8 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         boolean flag = false;
 
         for(int i = 0; i < users.size() && flag == false; i++) {
-            if(users.get(i).equals(user) && passs.get(i).equals(pass))
-            {
+            if(users.get(i).equals(user) && passs.get(i).equals(pass)) {
                 flag = true;
             }
         }
@@ -83,36 +80,6 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(homeIntent);
         } else {
             Snackbar.make(btn_login, "Wrong username or password", Snackbar.LENGTH_SHORT).show();
-        }
-    }
-
-    private boolean validateName() {
-        if (username.getText().toString().trim().isEmpty()) {
-            username_layout.setError(getString(R.string.err_msg_name));
-            requestFocus(username);
-            return false;
-        } else {
-            username_layout.setErrorEnabled(false);
-        }
-
-        return true;
-    }
-
-    private boolean validatePassword() {
-        if (password.getText().toString().trim().isEmpty()) {
-            password_layout.setError(getString(R.string.err_msg_password));
-            requestFocus(password);
-            return false;
-        } else {
-            password_layout.setErrorEnabled(false);
-        }
-
-        return true;
-    }
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
 
@@ -131,10 +98,10 @@ public class LoginActivity extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.login_username:
-                    validateName();
+                    Utils.validateText(LoginActivity.this, username, username_layout);
                     break;
                 case R.id.login_password:
-                    validatePassword();
+                    Utils.validatePassword(LoginActivity.this, password, password_layout);
                     break;
             }
         }

@@ -91,9 +91,9 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
 
         if (permission_FINE == PackageManager.PERMISSION_GRANTED && permission_COARSE == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
-            Location location;
+
             LocationManager locationManagerCt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            location = locationManagerCt.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location location = locationManagerCt.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {
                 place = new LatLng(location.getLatitude(), location.getLongitude());
                 marker = new MarkerOptions().position(place).title("Tu ubicación").icon(icon);
@@ -101,7 +101,11 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
                 Toast.makeText(getBaseContext(), "Null perro", Toast.LENGTH_SHORT).show();
             }
         } else {
-            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, GOOGLE_PERMISSION);
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.INTERNET
+            }, GOOGLE_PERMISSION);
         }
 
         Snackbar.make(findViewById(android.R.id.content), marker.getTitle(), Snackbar.LENGTH_SHORT).show();
