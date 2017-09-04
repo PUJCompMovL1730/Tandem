@@ -14,7 +14,7 @@ import android.view.MenuItem;
 public class BaseNavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     protected DrawerLayout drawer;
-    private Intent profileIntent;
+    private Intent profileIntent, friendsActivity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -24,6 +24,7 @@ public class BaseNavigationActivity extends AppCompatActivity implements Navigat
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         profileIntent = new Intent(getBaseContext(), ProfileActivity.class);
+        friendsActivity = new Intent(getBaseContext(), FriendsActivity.class);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -32,10 +33,14 @@ public class BaseNavigationActivity extends AppCompatActivity implements Navigat
     @Override
     public boolean onNavigationItemSelected(MenuItem item){
         int id = item.getItemId();
-        //drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);
         switch (item.getItemId()) {
             case R.id.menu_profile: {
                 startActivity(profileIntent);
+                break;
+            }
+            case R.id.menu_friends: {
+                startActivity(friendsActivity);
                 break;
             }
             default:
