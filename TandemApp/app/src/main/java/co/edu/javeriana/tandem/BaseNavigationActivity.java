@@ -14,7 +14,7 @@ import android.view.MenuItem;
 public class BaseNavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     protected DrawerLayout drawer;
-    private Intent profileIntent, friendsActivity, groupsActivity, messagesActivity;
+    private Intent profileIntent, friendsActivity, groupsActivity, messagesActivity, homeIntent, editIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState){
@@ -27,6 +27,8 @@ public class BaseNavigationActivity extends AppCompatActivity implements Navigat
         friendsActivity = new Intent(getBaseContext(), FriendsActivity.class);
         groupsActivity = new Intent(getBaseContext(), GroupsActivity.class);
         messagesActivity = new Intent(getBaseContext(), MessagesActivity.class);
+        homeIntent = new Intent(getBaseContext(), HomeActivity.class);
+        editIntent = new Intent(getBaseContext(), EditProfileActivity.class);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -48,8 +50,17 @@ public class BaseNavigationActivity extends AppCompatActivity implements Navigat
             case R.id.menu_groups: {
                 startActivity(groupsActivity);
                 break;
-            }case R.id.menu_messages: {
+            }
+            case R.id.menu_messages: {
                 startActivity(messagesActivity);
+                break;
+            }
+            case R.id.menu_home: {
+                startActivity(homeIntent);
+                break;
+            }
+            case R.id.menu_settings: {
+                startActivity(editIntent);
                 break;
             }
             default:

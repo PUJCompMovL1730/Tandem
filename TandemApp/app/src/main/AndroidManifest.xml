@@ -35,19 +35,21 @@
         <activity
             android:name=".GroupsActivity"
             android:launchMode="singleTop" />
-
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
         <activity
             android:name=".MessagesActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".ChatActivity"
             android:launchMode="singleTop"/>
-        <activity android:name=".EditProfileActivity">
+        <activity
+            android:name=".EditProfileActivity"
+            android:launchMode="singleTop">
         </activity>
+
+        <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/google_maps_key" />
+
     </application>
 
 </manifest>

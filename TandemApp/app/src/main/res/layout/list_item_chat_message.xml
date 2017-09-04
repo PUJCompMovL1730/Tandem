@@ -23,8 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:background="@drawable/in_message_bg"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp"
+            android:padding="@dimen/gutter"
             android:orientation="vertical">
 
             <TextView

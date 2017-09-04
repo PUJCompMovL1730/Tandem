@@ -3,6 +3,10 @@
 
     <group>
         <item
+            android:id="@+id/menu_home"
+            android:icon="@drawable/tandem_logo"
+            android:title="Inicio"/>
+        <item
             android:id="@+id/menu_profile"
             android:icon="@drawable/ic_person_black_24px"
             android:title="Perfil"/>
