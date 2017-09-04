@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorPrimary"
     tools:context="co.edu.javeriana.tandem.ProfileActivity">
 
     <android.support.v7.widget.Toolbar
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:id="@+id/friends_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,4 +20,112 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/friends_toolbar">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingLeft="16dp"
+                android:src="@drawable/alejandro"
+                android:layout_gravity="center"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+
+            <TextView
+                android:paddingLeft="16dp"
+                android:layout_gravity="center"
+                android:text="César Alejandro Guayara"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingLeft="16dp"
+                android:src="@drawable/jose"
+                android:layout_gravity="center"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+
+            <TextView
+                android:paddingLeft="16dp"
+                android:layout_gravity="center"
+                android:text="José Rafael Domínguez"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingLeft="16dp"
+                android:src="@drawable/juan"
+                android:layout_gravity="center"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+
+            <TextView
+                android:paddingLeft="16dp"
+                android:layout_gravity="center"
+                android:text="Juan Manuel Sánchez"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingLeft="16dp"
+                android:src="@drawable/sergio"
+                android:layout_gravity="center"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+
+            <TextView
+                android:paddingLeft="16dp"
+                android:layout_gravity="center"
+                android:text="Sergio Forero Gómez"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorSecundary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/ic_add_white_24px"/>
+
+</RelativeLayout>
