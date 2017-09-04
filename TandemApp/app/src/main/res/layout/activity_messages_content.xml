@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="co.edu.javeriana.tandem.GroupsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/messages_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:elevation="4dp"
+        app:navigationIcon="@drawable/ic_menu_white_24px"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <TextView
+        android:id="@+id/today"
+        android:padding="8dp"
+        android:text="Hoy"
+        android:textStyle="bold"
+        android:layout_below="@id/messages_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/today">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingLeft="16dp"
+                android:src="@drawable/alejandro"
+                android:layout_gravity="center"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:text="César Alejandro Guayara"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:text="Estaríamos saliendo a la 1 para allá ..."
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:text="9:50am"
+                android:textSize="12sp"
+                android:paddingStart="14dp"
+                android:gravity="right"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="72dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:paddingLeft="16dp"
+                android:src="@drawable/sergio"
+                android:layout_gravity="center"
+                android:layout_width="72dp"
+                android:layout_height="72dp"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:text="Sergio Forero Gómez"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:text="Me iimagino"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:text="8:35am"
+                android:textSize="12sp"
+                android:paddingStart="95dp"
+                android:gravity="right"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/colorSecundary"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:srcCompat="@drawable/ic_add_white_24px"/>
+
+</RelativeLayout>
