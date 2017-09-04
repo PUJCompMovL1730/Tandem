@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -25,8 +23,6 @@ public class Utils {
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bm);
     }
-
-
 
     public static void requestFocus(AppCompatActivity activity, View view) {
         if(view.requestFocus()) {

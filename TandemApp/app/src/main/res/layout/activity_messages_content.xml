@@ -39,91 +39,90 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="72dp">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
                 android:src="@drawable/alejandro"
                 android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/gutter">
 
                 <TextView
-                    android:paddingLeft="16dp"
                     android:text="César Alejandro Guayara"
                     android:textStyle="bold"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingLeft="16dp"
                     android:text="Estaríamos saliendo a la 1 para allá ..."
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"/>
 
+                <TextView
+                    android:text="9:50am"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
-            <TextView
-                android:text="9:50am"
-                android:textSize="12sp"
-                android:paddingStart="14dp"
-                android:gravity="right"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="72dp">
+            android:layout_height="wrap_content"
+            android:padding="8dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
                 android:src="@drawable/sergio"
                 android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:gravity="left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/gutter">
 
                 <TextView
-                    android:paddingLeft="16dp"
                     android:text="Sergio Forero Gómez"
                     android:textStyle="bold"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"/>
 
                 <TextView
-                    android:paddingLeft="16dp"
-                    android:text="Me iimagino"
-                    android:layout_width="wrap_content"
+                    android:text="Me imagino..."
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"/>
 
+                <TextView
+                    android:text="8:32am"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
             </LinearLayout>
 
-            <TextView
-                android:text="8:35am"
-                android:textSize="12sp"
-                android:paddingStart="95dp"
-                android:gravity="right"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
         </LinearLayout>
 
     </LinearLayout>
