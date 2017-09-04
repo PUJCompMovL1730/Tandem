@@ -75,18 +75,68 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:text="sdfasfas"/>
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:drawablePadding="10dip"
+                    android:drawableTop="@drawable/route"
+                    android:text="Historial de viajes" />
+
+                <Button
+                    android:id="@+id/friendsButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:drawablePadding="10dip"
+                    android:drawableTop="@drawable/friends"
+                    android:text="Mis amigos" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/groupButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:drawablePadding="10dip"
+                    android:drawableTop="@drawable/group"
+                    android:text="Grupos" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorPrimary"
+                    android:drawablePadding="10dip"
+                    android:drawableTop="@drawable/inbox"
+                    android:text="Mensajes" />
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -99,88 +149,3 @@
         app:srcCompat="@drawable/ic_create_white_24px"/>
 
 </android.support.design.widget.CoordinatorLayout>
-
-<!--
-<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:src="@drawable/profile"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textSize="25sp"
-            android:text="Sebastián Bobadilla Zubieta"
-            android:layout_marginTop="10dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="kaykos"
-            android:textSize="17sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="75dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/route"
-            android:text="Historial de viajes"
-            android:layout_weight="0.5"
-            android:drawablePadding="10dip"
-            android:background="@color/colorPrimary"/>
-
-        <Button
-            android:id="@+id/friendsButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/friends"
-            android:text="Mis amigos"
-            android:layout_weight="0.5"
-            android:drawablePadding="10dip"
-            android:background="@color/colorPrimary"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp">
-
-        <Button
-            android:id="@+id/groupButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/group"
-            android:text="Grupos"
-            android:layout_weight="0.5"
-            android:drawablePadding="10dip"
-            android:background="@color/colorPrimary"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:drawableTop="@drawable/inbox"
-            android:text="Mensajes"
-            android:layout_weight="0.5"
-            android:drawablePadding="10dip"
-            android:background="@color/colorPrimary"/>
-    </LinearLayout>
--->
