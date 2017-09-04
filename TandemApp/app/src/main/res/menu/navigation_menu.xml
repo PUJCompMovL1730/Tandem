@@ -24,15 +24,6 @@
             android:title="Grupos"/>
     </group>
 
-    <item android:title="Tandem Squad">
-        <menu>
-            <item
-                android:id="@+id/menu_contact"
-                android:icon="@drawable/ic_mail_outline_black_24px"
-                android:title="Contáctanos"/>
-        </menu>
-    </item>
-
     <group>
         <item
             android:id="@+id/menu_settings"
