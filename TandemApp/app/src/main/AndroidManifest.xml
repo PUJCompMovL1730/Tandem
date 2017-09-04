@@ -30,7 +30,7 @@
             android:name=".ProfileActivity"
             android:launchMode="singleTop" />
         <activity android:name=".FriendsActivity" />
-        <activity android:name=".GroupActivity" />
+        <activity android:name=".GroupsActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
