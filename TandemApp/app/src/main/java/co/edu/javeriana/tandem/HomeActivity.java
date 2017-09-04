@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -48,13 +49,17 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MapsInitializer.initialize(getApplicationContext());
+
         //Obtener el stub y actualizarlo con el layout requerido
         stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_home_content);
         contentView = stub.inflate();
 
+        markers = new HashMap<>();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
 
         drawerButton = (ImageButton) findViewById(R.id.sideBar);
         drawerButton.setOnClickListener(new View.OnClickListener() {
@@ -65,9 +70,6 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
         });
 
         javeriana = new LatLng(4.626951, -74.064160);
-        icon = Utils.getBitmapDescriptor(getBaseContext(), R.drawable.tandem, 120, 59);
-        markers = new HashMap<>();
-        markers.put("Universidad Javeriana", new MarkerOptions().position(javeriana).title("Universidad Javeriana").snippet("Jaaaa perro").icon(icon));
 
         mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Places.GEO_DATA_API).addApi(Places.PLACE_DETECTION_API).enableAutoManage(this, this).build();
     }
@@ -75,6 +77,10 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        icon = Utils.getBitmapDescriptor(getBaseContext(), R.drawable.tandem, 120, 59);
+        markers.put("Universidad Javeriana", new MarkerOptions().position(javeriana).title("Universidad Javeriana").snippet("A").icon(icon));
+
         setMyLocation();
     }
 
@@ -103,7 +109,7 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
                 place = new LatLng(location.getLatitude(), location.getLongitude());
                 marker = new MarkerOptions().position(place).title("Tu ubicación").icon(icon);
             } else {
-                Toast.makeText(getBaseContext(), "Null perro", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
             }
         } else {
             ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, GOOGLE_PERMISSION);

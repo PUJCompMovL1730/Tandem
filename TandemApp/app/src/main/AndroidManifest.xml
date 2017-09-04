@@ -46,6 +46,8 @@
         <activity
             android:name=".ChatActivity"
             android:launchMode="singleTop"/>
+        <activity android:name=".EditProfileActivity">
+        </activity>
     </application>
 
 </manifest>
