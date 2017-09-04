@@ -16,6 +16,9 @@ import android.view.ViewStub;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCallback {
+public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
 
     static final int GOOGLE_PERMISSION = 12;
     GoogleMap mMap;
@@ -38,6 +41,8 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
 
     ViewStub stub;
     View contentView;
+
+    GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,8 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
         icon = Utils.getBitmapDescriptor(getBaseContext(), R.drawable.tandem, 120, 59);
         markers = new HashMap<>();
         markers.put("Universidad Javeriana", new MarkerOptions().position(javeriana).title("Universidad Javeriana").snippet("Jaaaa perro").icon(icon));
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Places.GEO_DATA_API).addApi(Places.PLACE_DETECTION_API).enableAutoManage(this, this).build();
     }
 
     @Override
@@ -105,5 +112,11 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
         Snackbar.make(findViewById(android.R.id.content), marker.getTitle(), Snackbar.LENGTH_SHORT).show();
         mMap.addMarker(marker);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place, 16));
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult)
+    {
+        Toast.makeText(this, "Error al intentar conectarse con Google Places API", Toast.LENGTH_SHORT).show();
     }
 }
