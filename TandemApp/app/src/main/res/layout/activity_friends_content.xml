@@ -21,184 +21,373 @@
         android:layout_alignParentStart="true" />
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/stories_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/friends_toolbar">
 
-        <LinearLayout
+        <HorizontalScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/colorPrimary">
+            android:layout_height="match_parent"
+            android:scrollbars="none">
 
-            <HorizontalScrollView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none">
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="@color/colorPrimaryDark"
+                    android:src="@drawable/ic_add_white_24px" />
 
-                    <android.support.design.widget.FloatingActionButton
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:layout_margin="8dp"
-                        android:backgroundTint="@color/colorPrimaryDark"
-                        android:src="@drawable/ic_add_white_24px" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_margin="8dp"
-                        android:src="@drawable/profile" />
-                </LinearLayout>
-            </HorizontalScrollView>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/alejandro"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
-
-            <TextView
-                android:paddingLeft="16dp"
-                android:layout_gravity="center"
-                android:text="César Alejandro Guayara"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/jose"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
-
-            <TextView
-                android:paddingLeft="16dp"
-                android:layout_gravity="center"
-                android:text="José Rafael Domínguez"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/juan"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
-
-            <TextView
-                android:paddingLeft="16dp"
-                android:layout_gravity="center"
-                android:text="Juan Manuel Sánchez"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/sergio"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
-
-            <TextView
-                android:paddingLeft="16dp"
-                android:layout_gravity="center"
-                android:text="Sergio Forero Gómez"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"/>
-
-        </LinearLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/profile" />
+            </LinearLayout>
+        </HorizontalScrollView>
 
     </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/stories_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/alejandro"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="César Alejandro Guayara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/jose"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="José Rafael Domínguez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/juan"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Juan Manuel Sánchez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/sergio"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Sergio Forero Gómez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/alejandro"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="César Alejandro Guayara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/jose"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="José Rafael Domínguez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/juan"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Juan Manuel Sánchez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/sergio"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Sergio Forero Gómez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/alejandro"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="César Alejandro Guayara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/jose"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="José Rafael Domínguez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/juan"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Juan Manuel Sánchez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/sergio"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <TextView
+                    android:paddingLeft="16dp"
+                    android:layout_gravity="center"
+                    android:text="Sergio Forero Gómez"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

@@ -20,119 +20,440 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <LinearLayout
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/groups_toolbar">
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/tandem_chapinero"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
+            android:layout_height="wrap_content">
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
 
-                <TextView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:paddingLeft="16dp"
-                    android:text="Tandem Chapinero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
+                    android:src="@drawable/tandem_chapinero"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
 
-                <TextView
-                    android:paddingLeft="16dp"
-                    android:text="15 miembros"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"/>
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="Tandem Chapinero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="15 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/bikewars_usaquen"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
 
-                <TextView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:paddingLeft="16dp"
-                    android:text="BikeWars Usaquén"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
+                    android:src="@drawable/bikewars_usaquen"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
 
-                <TextView
-                    android:paddingLeft="16dp"
-                    android:text="21 miembros"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"/>
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="BikeWars Usaquén"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="21 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="72dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:paddingLeft="16dp"
-                android:src="@drawable/pedalapp_familia"
-                android:layout_gravity="center"
-                android:layout_width="72dp"
-                android:layout_height="72dp"/>
 
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
 
-                <TextView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:paddingLeft="16dp"
-                    android:text="PedalApp Familia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"/>
+                    android:src="@drawable/pedalapp_familia"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
 
-                <TextView
-                    android:paddingLeft="16dp"
-                    android:text="7 miembros"
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"/>
+                    android:layout_height="wrap_content">
 
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="PedalApp Familia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="7 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
             </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/tandem_chapinero"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="Tandem Chapinero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="15 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/bikewars_usaquen"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="BikeWars Usaquén"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="21 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/pedalapp_familia"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="PedalApp Familia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="7 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/tandem_chapinero"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="Tandem Chapinero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="15 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/bikewars_usaquen"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="BikeWars Usaquén"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="21 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/pedalapp_familia"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="PedalApp Familia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="7 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/tandem_chapinero"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="Tandem Chapinero"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="15 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/bikewars_usaquen"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="BikeWars Usaquén"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="21 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="72dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:paddingLeft="16dp"
+                    android:src="@drawable/pedalapp_familia"
+                    android:layout_gravity="center"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"/>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="PedalApp Familia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:paddingLeft="16dp"
+                        android:text="7 miembros"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
