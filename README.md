@@ -2,4 +2,4 @@
 
 ### [About Tandem](https://github.com/PUJCompMovL1730/Tandem/wiki)
 ### [Tandem Team](https://github.com/PUJCompMovL1730/Tandem/wiki/Tandem-Team)
-### [Assigments](https://github.com/PUJCompMovL1730/Tandem/wiki/Assigments)
+### [Assignments](https://github.com/PUJCompMovL1730/Tandem/wiki/Assignments)
