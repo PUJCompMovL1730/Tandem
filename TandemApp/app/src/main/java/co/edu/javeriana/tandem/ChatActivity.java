@@ -38,8 +38,7 @@ public class ChatActivity extends BaseNavigationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-        /*
+
         //Obtener el stub y actualizarlo con el layout requerido
         stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_chat);
@@ -50,7 +49,7 @@ public class ChatActivity extends BaseNavigationActivity {
         toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
         toolbar.setTitle(getIntent().getStringExtra("partner").toString());
 
-        actionBar = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);*/
+        actionBar = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
         initControls();
     }
