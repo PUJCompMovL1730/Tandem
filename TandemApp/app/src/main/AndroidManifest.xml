@@ -29,14 +29,21 @@
         <activity
             android:name=".ProfileActivity"
             android:launchMode="singleTop"/>
-        <activity android:name=".FriendsActivity"/>
-        <activity android:name=".GroupsActivity"/>
+        <activity
+            android:name=".FriendsActivity"
+            android:launchMode="singleTop"/>
+
+        <activity
+            android:name=".GroupsActivity"
+            android:launchMode="singleTop"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".MessagesActivity">
+        <activity
+            android:name=".MessagesActivity"
+            android:launchMode="singleTop">
         </activity>
     </application>
 
