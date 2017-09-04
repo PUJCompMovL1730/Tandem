@@ -48,7 +48,6 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
         stub.setLayoutResource(R.layout.activity_home_content);
         contentView = stub.inflate();
 
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 

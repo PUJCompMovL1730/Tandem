@@ -6,34 +6,26 @@
     android:layout_height="@dimen/nav_header_height"
     android:background="@color/colorPrimaryDark"
     android:gravity="bottom"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="@dimen/gutter">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:paddingTop="@dimen/gutter"
         android:src="@drawable/profile"/>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/sidebar_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/gutter">
+        android:paddingTop="@dimen/gutter"
+        android:textSize="20sp"
+        android:text="Sebastián Bobadilla"/>
 
-        <TextView
-            android:id="@+id/sidebar_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/gutter"
-            android:textSize="20sp"
-            android:text="Sebastián Bobadilla"/>
-
-        <TextView
-            android:id="@+id/sidebar_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/sidebar_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="username"/>
 </LinearLayout>

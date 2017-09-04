@@ -13,29 +13,35 @@ import android.view.MenuItem;
 
 public class BaseNavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-  DrawerLayout drawer;
+    protected DrawerLayout drawer;
+    private Intent profileIntent;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState){
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.base_navigation_layout);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.base_navigation_layout);
 
-    drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-    navigationView.setNavigationItemSelectedListener(this);
-  }
+        profileIntent = new Intent(getBaseContext(), ProfileActivity.class);
 
-  @Override
-  public boolean onNavigationItemSelected(MenuItem item){
-    int id = item.getItemId();
-    Intent intent;
-    drawer.closeDrawer(GravityCompat.START);
-    if(id == R.id.menu_profile){
-      intent = new Intent(this, ProfileActivity.class);
-      startActivity(intent);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
-    return true;
-  }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item){
+        int id = item.getItemId();
+        //drawer.closeDrawer(GravityCompat.START);
+        switch (item.getItemId()) {
+            case R.id.menu_profile: {
+                startActivity(profileIntent);
+                break;
+            }
+            default:
+                return false;
+        }
+
+        return true;
+    }
 }
