@@ -3,6 +3,7 @@ package co.edu.javeriana.tandem;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
@@ -70,17 +71,14 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
         });
 
         javeriana = new LatLng(4.626951, -74.064160);
-
+        icon = Utils.getBitmapDescriptor(getBaseContext(), R.drawable.tandem, 120, 59);
+        markers.put("Universidad Javeriana", new MarkerOptions().position(javeriana).title("Universidad Javeriana").snippet("Facultad de ingeniería").icon(icon));
         mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Places.GEO_DATA_API).addApi(Places.PLACE_DETECTION_API).enableAutoManage(this, this).build();
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        icon = Utils.getBitmapDescriptor(getBaseContext(), R.drawable.tandem, 120, 59);
-        markers.put("Universidad Javeriana", new MarkerOptions().position(javeriana).title("Universidad Javeriana").snippet("A").icon(icon));
-
         setMyLocation();
     }
 
@@ -102,15 +100,18 @@ public class HomeActivity extends BaseNavigationActivity implements OnMapReadyCa
         MarkerOptions marker = markers.get("Universidad Javeriana");
 
         if (permission_FINE == PackageManager.PERMISSION_GRANTED && permission_COARSE == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
-            LocationManager locationManagerCt = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Location location = locationManagerCt.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            /*mMap.setMyLocationEnabled(true);
+            LocationManager service = (LocationManager)getSystemService(LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = service.getBestProvider(criteria, false);
+            Location location = service.getLastKnownLocation(provider);
+
             if (location != null) {
                 place = new LatLng(location.getLatitude(), location.getLongitude());
                 marker = new MarkerOptions().position(place).title("Tu ubicación").icon(icon);
             } else {
                 Toast.makeText(getBaseContext(), "No se pudo obtener la ubicación", Toast.LENGTH_SHORT).show();
-            }
+            }*/
         } else {
             ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, GOOGLE_PERMISSION);
         }
