@@ -52,10 +52,10 @@
             android:label="@string/title_activity_profile"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".TravelsActivity"
+            android:name=".HistorialActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".FriendsActivity" />
-        <activity android:name=".GroupsActivity" />
+        <activity android:name=".RecorridosActivity" />
         <activity android:name=".ChatsActivity"></activity>
     </application>
 

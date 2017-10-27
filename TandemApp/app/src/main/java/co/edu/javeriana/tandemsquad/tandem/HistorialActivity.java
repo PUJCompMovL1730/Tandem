@@ -3,7 +3,6 @@ package co.edu.javeriana.tandemsquad.tandem;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewStub;
@@ -17,22 +16,20 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.javeriana.tandemsquad.tandem.adapters.GroupAdapter;
 import co.edu.javeriana.tandemsquad.tandem.adapters.TravelAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Group;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Travel;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
-public class GroupsActivity extends NavigationActivity {
+public class HistorialActivity extends NavigationActivity {
 
     private FireBaseAuthentication fireBaseAuthentication;
     private FireBaseStorage fireBaseStorage;
 
-    private ListView groups;
-    private List<Group> listGroups;
-    private GroupAdapter groupAdapter;
+    private ListView travels;
+    private List<Recorrido> listTravels;
+    private TravelAdapter travelAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +38,7 @@ public class GroupsActivity extends NavigationActivity {
         MapsInitializer.initialize(getApplicationContext());
 
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
-        stub.setLayoutResource(R.layout.activity_groups);
+        stub.setLayoutResource(R.layout.activity_travels);
         View contentView = stub.inflate();
 
         initComponents();
@@ -58,7 +55,7 @@ public class GroupsActivity extends NavigationActivity {
             @Override
             protected void onDownloadFileSuccess(Task<FileDownloadTask.TaskSnapshot> task, File file) {
                 Uri uri = Uri.fromFile(file);
-                Bitmap image = (Bitmap) Utils.getImageFormUri(GroupsActivity.this, uri);
+                Bitmap image = (Bitmap) Utils.getImageFormUri(HistorialActivity.this, uri);
                 viewImage.setImageBitmap(image);
             }
         };
@@ -68,10 +65,10 @@ public class GroupsActivity extends NavigationActivity {
     protected void initComponents() {
         super.initComponents();
 
-        groups = (ListView) findViewById(R.id.groups_list_view);
-        listGroups = new ArrayList<>();
-        groupAdapter = new GroupAdapter(this, listGroups);
-        groups.setAdapter(groupAdapter);
+        travels = (ListView) findViewById(R.id.travels_list_view);
+        listTravels = new ArrayList<>();
+        travelAdapter = new TravelAdapter(this, listTravels);
+        travels.setAdapter(travelAdapter);
     }
 
     @Override

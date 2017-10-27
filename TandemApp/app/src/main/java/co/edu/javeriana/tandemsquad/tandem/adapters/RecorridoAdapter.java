@@ -12,20 +12,18 @@ import android.widget.TextView;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.R;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Group;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Travel;
-import de.hdodenhof.circleimageview.CircleImageView;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 
-public class GroupAdapter extends ArrayAdapter<Group> {
+public class RecorridoAdapter extends ArrayAdapter<Recorrido> {
 
-    public GroupAdapter(Context context, List<Group> array) {
+    public RecorridoAdapter(Context context, List<Recorrido> array) {
         super(context, 0, array);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Group group = getItem(position);
+        Recorrido recorrido = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_adapter_group, parent, false);
         }
@@ -33,8 +31,8 @@ public class GroupAdapter extends ArrayAdapter<Group> {
         TextView name = (TextView) convertView.findViewById(R.id.group_adapter_name);
         TextView members = (TextView) convertView.findViewById(R.id.group_adapter_members);
 
-        name.setText(group.getName());
-        members.setText(group.getMembers().size() + "");
+        //name.setText(recorrido.getName());
+        //members.setText(recorrido.getMembers().size() + "");
 
         return convertView;
     }

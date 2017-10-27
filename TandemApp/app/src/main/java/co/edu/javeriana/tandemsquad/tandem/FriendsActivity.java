@@ -3,7 +3,6 @@ package co.edu.javeriana.tandemsquad.tandem;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewStub;
@@ -17,12 +16,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.javeriana.tandemsquad.tandem.adapters.TravelAdapter;
 import co.edu.javeriana.tandemsquad.tandem.adapters.UserAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Travel;
-import co.edu.javeriana.tandemsquad.tandem.negocio.User;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
 public class FriendsActivity extends NavigationActivity {
@@ -31,7 +28,7 @@ public class FriendsActivity extends NavigationActivity {
     private FireBaseStorage fireBaseStorage;
 
     private ListView users;
-    private List<User> listUsers;
+    private List<Usuario> listUsers;
     private UserAdapter userAdapter;
 
     @Override

@@ -28,6 +28,7 @@ import com.google.firebase.storage.FileDownloadTask;
 import java.io.File;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
+import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapConstants;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
@@ -51,6 +52,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_home);
         View contentView = stub.inflate();
+
+        FireBaseDatabase database = new FireBaseDatabase(this);
 
         initComponents();
         setButtonActions();

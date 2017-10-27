@@ -12,20 +12,19 @@ import android.widget.TextView;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.R;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Travel;
-import co.edu.javeriana.tandemsquad.tandem.negocio.User;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserAdapter extends ArrayAdapter<User> {
+public class UserAdapter extends ArrayAdapter<Usuario> {
 
-    public UserAdapter(Context context, List<User> array) {
+    public UserAdapter(Context context, List<Usuario> array) {
         super(context, 0, array);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        User user = getItem(position);
+        Usuario user = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_adapter_user, parent, false);
         }
@@ -35,8 +34,8 @@ public class UserAdapter extends ArrayAdapter<User> {
         TextView username = (TextView) convertView.findViewById(R.id.user_adapter_username);
 
         //image.setText(user.getOriginName());
-        name.setText(user.getName());
-        username.setText(user.getUsername());
+        //name.setText(user.getName());
+        //username.setText(user.getUsername());
 
         return convertView;
     }

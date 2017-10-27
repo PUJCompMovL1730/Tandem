@@ -83,7 +83,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
                 intent = new Intent(this, ProfileActivity.class);
                 break;
             case R.id.navigation_travels:
-                intent = new Intent(this, TravelsActivity.class);
+                intent = new Intent(this, HistorialActivity.class);
                 break;
             case R.id.navigation_friends:
                 intent = new Intent(this, FriendsActivity.class);
@@ -92,7 +92,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
                 intent = new Intent(this, ChatsActivity.class);
                 break;
             case R.id.navigation_groups:
-                intent = new Intent(this, GroupsActivity.class);
+                intent = new Intent(this, RecorridosActivity.class);
                 break;
             case R.id.navigation_settings:
                 intent = new Intent(this, ProfileActivity.class);
