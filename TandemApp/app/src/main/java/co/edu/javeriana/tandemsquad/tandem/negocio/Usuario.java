@@ -13,9 +13,9 @@ public class Usuario {
     private Uri foto;
     private Uri portada;
     private String telefono;
-    private List<String> amigos;
-    private List<Long> historias;
-    private List<Long> historial;
+    private List<Usuario> amigos;
+    private List<Historia> historias;
+    private List<Recorrido> historial;
 
     public Usuario(String id, String nombre, String correo) {
         this.id = id;
@@ -107,15 +107,15 @@ public class Usuario {
         this.telefono = telefono;
     }
 
-    public List<String> getAmigos() {
+    public List<Usuario> getAmigos() {
         return amigos;
     }
 
-    public List<Long> getHistorias() {
+    public List<Historia> getHistorias() {
         return historias;
     }
 
-    public List<Long> getHistorial() {
+    public List<Recorrido> getHistorial() {
         return historial;
     }
 }

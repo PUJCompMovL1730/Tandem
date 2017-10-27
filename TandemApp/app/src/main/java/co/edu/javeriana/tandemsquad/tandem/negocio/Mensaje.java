@@ -6,10 +6,14 @@ public class Mensaje {
 
     private String texto;
     private GregorianCalendar fecha;
+    private Usuario emisor;
+    private Usuario receptor;
 
-    public Mensaje(String texto) {
+    public Mensaje(String texto, Usuario emisor, Usuario receptor) {
         this.texto = texto;
-        fecha = new GregorianCalendar();
+        this.fecha = new GregorianCalendar();
+        this.emisor = emisor;
+        this.receptor = receptor;
     }
 
     public String getTexto() {
@@ -26,5 +30,21 @@ public class Mensaje {
 
     public void setFecha(GregorianCalendar fecha) {
         this.fecha = fecha;
+    }
+
+    public Usuario getEmisor() {
+        return emisor;
+    }
+
+    public void setEmisor(Usuario emisor) {
+        this.emisor = emisor;
+    }
+
+    public Usuario getReceptor() {
+        return receptor;
+    }
+
+    public void setReceptor(Usuario receptor) {
+        this.receptor = receptor;
     }
 }

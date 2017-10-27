@@ -5,7 +5,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class Marcador {
 
     public enum Tipo {
-        ACCIDENTE, EMBOTELLAMIENTO, PELIGRO, HUECO, MARCHA, GENERICO;
+        ACCIDENTE, EMBOTELLAMIENTO, PELIGRO, HUECO, MARCHA, GENERICO, INICIO, FIN;
     }
 
     private LatLng posicion;

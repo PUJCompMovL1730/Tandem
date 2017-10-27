@@ -8,14 +8,19 @@ public class Recorrido {
         PUBLICADO, CASUAL, VIAJE;
     }
 
+    private Marcador inicio;
+    private Marcador fin;
     private GregorianCalendar horaInicio;
     private GregorianCalendar horaFinal;
     private Estado estado;
+    private Clima clima;
 
-    public Recorrido(Estado estado) {
+    public Recorrido(Marcador inicio, Marcador fin, Estado estado) {
+        this.inicio = inicio;
+        this.fin = fin;
+        this.horaInicio = new GregorianCalendar();
+        this.horaFinal = new GregorianCalendar();
         this.estado = estado;
-        horaInicio = new GregorianCalendar();
-        horaFinal = new GregorianCalendar();
     }
 
     public Estado getEstado() {
@@ -32,5 +37,29 @@ public class Recorrido {
 
     public GregorianCalendar getHoraFinal() {
         return horaFinal;
+    }
+
+    public Marcador getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(Marcador inicio) {
+        this.inicio = inicio;
+    }
+
+    public Marcador getFin() {
+        return fin;
+    }
+
+    public void setFin(Marcador fin) {
+        this.fin = fin;
+    }
+
+    public void setHoraInicio(GregorianCalendar horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public void setHoraFinal(GregorianCalendar horaFinal) {
+        this.horaFinal = horaFinal;
     }
 }
