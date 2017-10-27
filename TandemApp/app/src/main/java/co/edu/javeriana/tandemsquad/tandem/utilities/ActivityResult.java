@@ -7,12 +7,16 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import java.io.File;
 
 public class ActivityResult {
     public static final int GALLERY_INTENT = 0;
     public static final int CAMERA_INTENT = 1;
     public static final int CROP_INTENT = 2;
+    public static final int GOOGLE_SIGN_IN = 3;
 
     public static void startGalleryActivity(Activity activity) {
         Intent galleryintent = new Intent(Intent.ACTION_PICK, null);
@@ -43,5 +47,10 @@ public class ActivityResult {
         cropIntent.putExtra("outputY", 250);
         cropIntent.putExtra("return-data", true);
         activity.startActivityForResult(cropIntent, ActivityResult.CROP_INTENT);
+    }
+
+    public static void startGoogleLogin(Activity activity, GoogleApiClient googleApiClient){
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        activity.startActivityForResult(signInIntent, ActivityResult.GOOGLE_SIGN_IN);
     }
 }

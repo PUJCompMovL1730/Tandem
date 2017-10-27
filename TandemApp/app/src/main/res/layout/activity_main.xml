@@ -76,15 +76,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center">
 
-                <ImageButton
+                <com.facebook.login.widget.LoginButton
                     android:id="@+id/login_btn_facebook"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/login_btn_google"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_facebook"
-                    android:background="@color/transparent"
                     android:layout_margin="@dimen/gutter"/>
 
                 <ImageButton
@@ -92,16 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon_twitter"
-                    android:background="@color/transparent"
-                    android:layout_margin="@dimen/gutter"/>
-
-                <ImageButton
-                    android:id="@+id/login_btn_google"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/icon_google"
-                    android:background="@color/transparent"
-                    android:layout_margin="@dimen/gutter"/>
+                    android:background="@color/transparent"/>
             </LinearLayout>
         </LinearLayout>
 
