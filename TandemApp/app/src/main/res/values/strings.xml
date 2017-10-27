@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Tandem</string>
+    <string name="correo_hint">Correo</string>
+    <string name="contrasena_hint">Contraseña</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="title_activity_home">Map</string>
+    <string name="email_error">Ingrese un correo valido</string>
+    <string name="password_error">La contraseña debe contener entre 6 y 20 caracteres</string>
+    <string name="phone_error">Ingrese un telefono celular valido</string>
+    <string name="confirmation_error">La contraseña no coincide</string>
+    <string name="username_error">Ingrese un nombre de usuario</string>
+    <string name="name_error">Ingrese un nombre</string>
+    <string name="menu_logout">Cerrar sesión</string>
+    <string name="name_hint">Nombres y apellidos</string>
+    <string name="username_hint">Nombre de usuario</string>
+    <string name="phone_hint">Celular</string>
+    <string name="confirmacion_hint">Confirme su contraseña</string>
+    <string name="msg_signup">Porfavor espere, puede tardar unos segundos</string>
+    <string name="permission_gps">Permitenos poder ubicarte, concede los permisos</string>
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="action_settings">Settings</string>
+</resources>
