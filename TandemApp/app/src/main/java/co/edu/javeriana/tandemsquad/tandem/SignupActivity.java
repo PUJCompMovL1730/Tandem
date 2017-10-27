@@ -20,7 +20,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.UploadTask;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
+import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult;
 import co.edu.javeriana.tandemsquad.tandem.utilities.FieldValidator;
@@ -31,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private FireBaseAuthentication fireBaseAuthentication;
     private FireBaseStorage fireBaseStorage;
+    private FireBaseDatabase fireBaseDatabase;
 
     private CircleImageView inputPhoto;
     private TextInputLayout layoutName;
@@ -74,8 +77,13 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onUserProfileUpdateSuccess() {
-                btnSignup.setEnabled(true);
-                goHome();
+                FirebaseUser user = getUser();
+                if(user != null) {
+                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl(), user.getPhotoUrl(), inputPhone.getText().toString());
+                    fireBaseDatabase.writeUser(usuario);
+                    btnSignup.setEnabled(true);
+                    goHome();
+                }
             }
         };
         fireBaseStorage = new FireBaseStorage(this) {
@@ -94,6 +102,7 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void initComponents() {
+        fireBaseDatabase = new FireBaseDatabase(this);
         inputPhoto = (CircleImageView) findViewById(R.id.signup_input_photo);
         layoutName = (TextInputLayout) findViewById(R.id.signup_layout_name);
         layoutUsername = (TextInputLayout) findViewById(R.id.signup_layout_username);

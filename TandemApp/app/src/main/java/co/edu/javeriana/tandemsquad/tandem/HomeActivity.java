@@ -33,6 +33,7 @@ import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapConstants;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
 import co.edu.javeriana.tandemsquad.tandem.location.LocationController;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
@@ -54,6 +55,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         View contentView = stub.inflate();
 
         FireBaseDatabase database = new FireBaseDatabase(this);
+        Usuario user = new Usuario("abcdef", "Juan Manuel Sanchez", "jsanchez.l@javeriana.edu.co");
+        database.writeUser(user);
 
         initComponents();
         setButtonActions();
