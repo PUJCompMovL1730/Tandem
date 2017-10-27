@@ -8,6 +8,7 @@ public class Marcador {
         ACCIDENTE, EMBOTELLAMIENTO, PELIGRO, HUECO, MARCHA, GENERICO, INICIO, FIN;
     }
 
+    private long id;
     private LatLng posicion;
     private Tipo tipo;
     private String descripcion;

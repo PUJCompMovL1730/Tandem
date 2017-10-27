@@ -54,10 +54,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         stub.setLayoutResource(R.layout.activity_home);
         View contentView = stub.inflate();
 
-        FireBaseDatabase database = new FireBaseDatabase(this);
-        Usuario user = new Usuario("abcdef", "Juan Manuel Sanchez", "jsanchez.l@javeriana.edu.co");
-        database.writeUser(user);
-
         initComponents();
         setButtonActions();
 
