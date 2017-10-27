@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Usuario {
 
+    private String id;
     private String nombre;
     private String correo;
     private Uri foto;
@@ -16,7 +17,8 @@ public class Usuario {
     private List<Long> historias;
     private List<Long> historial;
 
-    public Usuario(String nombre, String correo) {
+    public Usuario(String id, String nombre, String correo) {
+        this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         amigos = new ArrayList<>();
@@ -24,7 +26,8 @@ public class Usuario {
         historial = new ArrayList<>();
     }
 
-    public Usuario(String nombre, String correo, Uri foto) {
+    public Usuario(String id, String nombre, String correo, Uri foto) {
+        this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.foto = foto;
@@ -33,7 +36,8 @@ public class Usuario {
         historial = new ArrayList<>();
     }
 
-    public Usuario(String nombre, String correo, Uri foto, Uri portada) {
+    public Usuario(String id, String nombre, String correo, Uri foto, Uri portada) {
+        this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.foto = foto;
@@ -43,7 +47,8 @@ public class Usuario {
         historial = new ArrayList<>();
     }
 
-    public Usuario(String nombre, String correo, Uri foto, Uri portada, String telefono) {
+    public Usuario(String id, String nombre, String correo, Uri foto, Uri portada, String telefono) {
+        this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.foto = foto;
@@ -52,6 +57,14 @@ public class Usuario {
         amigos = new ArrayList<>();
         historias = new ArrayList<>();
         historial = new ArrayList<>();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNombre() {
