@@ -33,6 +33,7 @@ import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapConstants;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
 import co.edu.javeriana.tandemsquad.tandem.location.LocationController;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
@@ -43,6 +44,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     protected FireBaseAuthentication fireBaseAuthentication;
     protected FireBaseStorage fireBaseStorage;
     protected LocationController locationController;
+    private FireBaseDatabase fireBaseDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +90,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setOnPlaceSelectedListener(this);
+        fireBaseDatabase = new FireBaseDatabase(this);
     }
 
     @Override
@@ -155,6 +158,9 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         cameraPosition.target(bogota);
         cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
         cameraPosition.bearing(0);
+
+        Marcador marcador = new Marcador(bogota, Marcador.Tipo.FIN);
+        fireBaseDatabase.writeMarker(marcador);
 
         GoogleMapController.addMarker(bogota, place.getName().toString(), place.getAddress().toString(), googleMap);
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
