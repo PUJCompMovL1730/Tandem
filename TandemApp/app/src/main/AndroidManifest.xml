@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="co.edu.javeriana.tandem">
+    package="co.edu.javeriana.tandemsquad.tandem">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -12,44 +14,49 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/MyMaterialTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".BaseNavigationActivity" />
         <activity
-            android:name=".HomeActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ProfileActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".FriendsActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".GroupsActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".MessagesActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name=".ChatActivity"
-            android:launchMode="singleTop"/>
-        <activity
-            android:name=".EditProfileActivity"
-            android:launchMode="singleTop">
-        </activity>
+            android:name=".SignupActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="@string/google_maps_key" />
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".HomeActivity"
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="co.edu.javeriana.tandemsquad.tandem.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity
+            android:name=".ProfileActivity"
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TravelsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".FriendsActivity" />
+        <activity android:name=".GroupsActivity" />
+        <activity android:name=".ChatsActivity"></activity>
     </application>
 
 </manifest>

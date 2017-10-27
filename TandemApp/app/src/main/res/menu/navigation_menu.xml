@@ -1,45 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/icon_bicicle"
+        android:title="Inicio" />
 
-    <group>
-        <item
-            android:id="@+id/menu_home"
-            android:icon="@drawable/tandem_logo"
-            android:title="Inicio"/>
-        <item
-            android:id="@+id/menu_profile"
-            android:icon="@drawable/ic_person_black_24px"
-            android:title="Perfil"/>
-        <item
-            android:id="@+id/menu_travels"
-            android:icon="@drawable/ic_directions_bike_black_24px"
-            android:title="Recorridos"/>
-        <item
-            android:id="@+id/menu_friends"
-            android:icon="@drawable/ic_contacts_black_24px"
-            android:title="Amigos"/>
-        <item
-            android:id="@+id/menu_messages"
-            android:icon="@drawable/ic_chat_black_24px"
-            android:title="Mensajes"/>
-        <item
-            android:id="@+id/menu_groups"
-            android:icon="@drawable/ic_group_black_24px"
-            android:title="Grupos"/>
-    </group>
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/icon_user"
+        android:title="Perfil" />
 
-    <group>
-        <item
-            android:id="@+id/menu_settings"
-            android:icon="@drawable/ic_settings_black_24px"
-            android:title="Ajustes"/>
-    </group>
+    <item
+        android:id="@+id/navigation_travels"
+        android:icon="@drawable/icon_marker"
+        android:title="Recorridos" />
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/menu_logout"
-            android:icon="@drawable/ic_exit_to_app_black_24px"
-            android:title="Cerrar sesión"/>
-    </group>
+    <item
+        android:id="@+id/navigation_friends"
+        android:icon="@drawable/icon_people"
+        android:title="Amigos" />
+
+    <item
+        android:id="@+id/navigation_messages"
+        android:icon="@drawable/icon_messages"
+        android:title="Mensajes" />
+
+    <item
+        android:id="@+id/navigation_groups"
+        android:icon="@drawable/icon_group"
+        android:title="Grupos" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/icon_settings"
+        android:title="Configuración" />
+
+    <item
+        android:id="@+id/navigation_logout"
+        android:icon="@drawable/icon_logout"
+        android:title="Cerrar sesión" />
 
 </menu>
