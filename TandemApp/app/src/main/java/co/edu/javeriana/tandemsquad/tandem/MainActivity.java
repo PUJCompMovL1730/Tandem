@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         fireBaseAuthentication = new FireBaseAuthentication(this) {
             @Override
             public void onSignInSuccess() {
-
-                dialog.dismiss();
+                if(dialog != null) dialog.dismiss();
                 goHome();
             }
         };

@@ -1,5 +1,6 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
@@ -49,6 +51,7 @@ public class EditActivity extends AppCompatActivity {
     private Uri imageUri;
     private Bundle signupBundle;
     private FirebaseUser user;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,7 @@ public class EditActivity extends AppCompatActivity {
         imageUri = null;
         signupBundle = null;
         user = null;
+        dialog = null;
     }
 
     private void setButtonActions() {
@@ -134,15 +138,13 @@ public class EditActivity extends AppCompatActivity {
 
     private void saveAction() {
         boolean validData = true;
-        boolean name = false;
         boolean password = false;
         Bundle signupData = getData();
         enableErrorLayouts(false);
 
-        if(!FieldValidator.validateText(signupData.getString("name")) && !signupData.getString("name").equals("")) {
+        if(!FieldValidator.validateText(signupData.getString("name"))) {
             layoutName.setErrorEnabled(true);
             layoutName.setError(getString(R.string.name_error));
-            name = true;
             validData = false;
         }
 
@@ -168,14 +170,27 @@ public class EditActivity extends AppCompatActivity {
             }
         }
 
-        if(validData && !FieldValidator.validatePassword(signupData.getString("save")) && ((password || name) || imageUri != null)) {
+        if(validData && !FieldValidator.validatePassword(signupData.getString("save")) && (password || imageUri != null)) {
             layoutSave.setErrorEnabled(true);
             layoutSave.setError("Introdusca su contraseña para guardar los cambios");
             validData = false;
         }
 
-        if(validData && ((password || name) || imageUri != null)) {
-            Snackbar.make(this.getCurrentFocus(), "Cambiando", Snackbar.LENGTH_LONG).show();
+        if(validData && (password || imageUri != null)) {
+            dialog = ProgressDialog.show(this, "Estamos actualizando tus datos", "Espera un momento " + signupData.getString("name") + " porfavor...", false, false);
+            if(imageUri == null) {
+                fireBaseAuthentication.updateUserProfile(signupData.getString("name"));
+            } else {
+                fireBaseAuthentication.updateUserProfile(signupData.getString("name"), imageUri);
+            }
+            if(password) {
+                fireBaseAuthentication.getUser().updatePassword(signupData.getString("password")).addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        dialog.dismiss();
+                    }
+                });
+            }
         }
     }
 

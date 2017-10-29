@@ -114,6 +114,7 @@ public class SignupActivity extends AppCompatActivity {
         imageUri = null;
         signupBundle = null;
         user = null;
+        dialog = null;
     }
 
     private void setButtonActions() {
