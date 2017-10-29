@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:weightSum="1">
 
         <ImageButton
             android:id="@+id/toolbar_drawer"
@@ -28,16 +29,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:background="@color/background"
             android:gravity="center"
             android:layout_marginRight="@dimen/gutter"
             android:layout_marginLeft="@dimen/gutter">
 
-            <fragment
+            <!--<fragment
                 android:id="@+id/place_autocomplete_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"/>
+            -->
         </LinearLayout>
 
 

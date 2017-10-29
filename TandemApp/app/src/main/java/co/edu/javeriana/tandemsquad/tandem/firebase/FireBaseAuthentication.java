@@ -1,10 +1,12 @@
 package co.edu.javeriana.tandemsquad.tandem.firebase;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -53,6 +55,17 @@ public class FireBaseAuthentication {
                 }
             }
         };
+
+        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("761540755261-8l6eg1m6p278s3lktso5t6pplffuqhmg.apps.googleusercontent.com").requestEmail().build();
+
+        googleApiClient = new GoogleApiClient.Builder(activity)
+                .enableAutoManage((FragmentActivity) activity, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Snackbar.make(FireBaseAuthentication.this.activity.getCurrentFocus(), connectionResult.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                }).addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions).build();
     }
 
     public void start() {
@@ -92,39 +105,19 @@ public class FireBaseAuthentication {
     }
 
     /***********************************
-     * SIGN IN USER USING SOCIAL NETWORKS
-     * **********************************/
+    * SIGN IN WITH GOOGLE
+    * **********************************/
 
     public final void signInWithGoogle() {
-
-        googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("761540755261-8l6eg1m6p278s3lktso5t6pplffuqhmg.apps.googleusercontent.com")
-            .requestEmail()
-            .build();
-
-        googleApiClient = new GoogleApiClient.Builder(activity)
-            .enableAutoManage((FragmentActivity) activity, new GoogleApiClient.OnConnectionFailedListener() {
-                @Override
-                public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                    Snackbar.make(activity.getCurrentFocus(), connectionResult.getErrorMessage(), Snackbar.LENGTH_LONG).show();
-                }
-            })
-            .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
-            .build();
-
         ActivityResult.startGoogleLogin(activity, googleApiClient);
-
     }
 
-    public void onGoogleSignInSucess(GoogleSignInResult result){
-        GoogleSignInAccount account = result.getSignInAccount();
-        firebaseAuthWithGoogle(account);
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        authentication.signInWithCredential(credential)
-            .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+    public void onGoogleSignInSucess(Intent data){
+        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+        if (result.isSuccess()) {
+            GoogleSignInAccount account = result.getSignInAccount();
+            AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+            authentication.signInWithCredential(credential).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
@@ -134,7 +127,14 @@ public class FireBaseAuthentication {
                     else onSignUpFailed(task);
                 }
             });
+        } else {
+            Snackbar.make(activity.getCurrentFocus(), result.getStatus().getStatusMessage(), Snackbar.LENGTH_LONG).show();
+        }
     }
+
+    /***********************************
+    * SIGN IN WITH FACEBOOK
+    * **********************************/
 
     public final void setUpFacebookAuthentication(LoginButton loginButton, CallbackManager callbackManager){
         loginButton.setReadPermissions("email", "public_profile");

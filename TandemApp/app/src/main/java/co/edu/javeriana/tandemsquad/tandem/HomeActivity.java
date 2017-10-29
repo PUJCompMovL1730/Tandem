@@ -13,6 +13,8 @@ import android.view.ViewStub;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.internal.PlaceEntity;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -88,8 +90,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         super.initComponents();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        autocompleteFragment.setOnPlaceSelectedListener(this);
+        //PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        //autocompleteFragment.setOnPlaceSelectedListener(this);
         fireBaseDatabase = new FireBaseDatabase(this);
     }
 
@@ -159,17 +161,12 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
         cameraPosition.bearing(0);
 
-        Marcador marcador = new Marcador(bogota, Marcador.Tipo.FIN);
-        fireBaseDatabase.writeMarker(marcador);
-
         GoogleMapController.addMarker(bogota, place.getName().toString(), place.getAddress().toString(), googleMap);
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
     }
 
     @Override
-    public void onError(Status status) {
-
-    }
+    public void onError(Status status) {}
 
     @Override
     protected void onStart() {
@@ -193,4 +190,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainIntent);
     }
+
+
 }

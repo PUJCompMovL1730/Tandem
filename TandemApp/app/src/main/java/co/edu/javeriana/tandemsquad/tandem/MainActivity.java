@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult;
@@ -34,12 +35,12 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText inputPassword;
     private Button btnLogin;
     private Button btnSignup;
-    private ImageButton btnTwitter;
     private Bundle loginBundle;
 
+    private TwitterLoginButton btnTwitter;
     private SignInButton btnGoogle;
-
     private LoginButton facebookButton;
+
     private CallbackManager facebookCallBackManager;
 
     @Override
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         inputPassword = (TextInputEditText) findViewById(R.id.login_input_password);
         btnLogin = (Button) findViewById(R.id.login_btn_login);
         btnSignup = (Button) findViewById(R.id.login_btn_signup);
-        btnTwitter = (ImageButton) findViewById(R.id.login_btn_twitter);
+        btnTwitter = (TwitterLoginButton) findViewById(R.id.login_btn_twitter);
         btnGoogle = (SignInButton) findViewById(R.id.login_btn_google);
         facebookButton = (LoginButton) findViewById(R.id.login_btn_facebook);
         facebookCallBackManager = CallbackManager.Factory.create();
@@ -169,22 +170,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == ActivityResult.GOOGLE_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                // Google Sign In was successful, authenticate with Firebase
-                fireBaseAuthentication.onGoogleSignInSucess(result);
-                goHome();
-            } else {
-                Toast.makeText(this, "Test error !", Toast.LENGTH_LONG).show();
-            }
+        if(resultCode != RESULT_OK) {
+            return;
         }
-
-        else if(requestCode == FACEBOOK_LOGIN_REQUEST_CODE){
-            facebookCallBackManager.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ActivityResult.GOOGLE_SIGN_IN:
+                fireBaseAuthentication.onGoogleSignInSucess(data);
+                break;
+            case FACEBOOK_LOGIN_REQUEST_CODE:
+                facebookCallBackManager.onActivityResult(requestCode, resultCode, data);
+                break;
         }
     }
 

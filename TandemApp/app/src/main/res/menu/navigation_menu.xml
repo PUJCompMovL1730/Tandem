@@ -6,11 +6,6 @@
         android:title="Inicio" />
 
     <item
-        android:id="@+id/navigation_profile"
-        android:icon="@drawable/icon_user"
-        android:title="Perfil" />
-
-    <item
         android:id="@+id/navigation_travels"
         android:icon="@drawable/icon_marker"
         android:title="Recorridos" />
@@ -24,20 +19,5 @@
         android:id="@+id/navigation_messages"
         android:icon="@drawable/icon_messages"
         android:title="Mensajes" />
-
-    <item
-        android:id="@+id/navigation_groups"
-        android:icon="@drawable/icon_group"
-        android:title="Grupos" />
-
-    <item
-        android:id="@+id/navigation_settings"
-        android:icon="@drawable/icon_settings"
-        android:title="Configuración" />
-
-    <item
-        android:id="@+id/navigation_logout"
-        android:icon="@drawable/icon_logout"
-        android:title="Cerrar sesión" />
 
 </menu>

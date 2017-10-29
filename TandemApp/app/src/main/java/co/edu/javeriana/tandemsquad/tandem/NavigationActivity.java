@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -58,6 +59,14 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
                 drawer.openDrawer(GravityCompat.START);
             }
         });
+
+        viewImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     protected void setToolbarData(FireBaseAuthentication fireBaseAuthentication, FireBaseStorage fireBaseStorage) {
@@ -79,9 +88,6 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
             case R.id.navigation_home:
                 intent = new Intent(this, HomeActivity.class);
                 break;
-            case R.id.navigation_profile:
-                intent = new Intent(this, ProfileActivity.class);
-                break;
             case R.id.navigation_travels:
                 intent = new Intent(this, HistorialActivity.class);
                 break;
@@ -90,15 +96,6 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
                 break;
             case R.id.navigation_messages:
                 intent = new Intent(this, ChatsActivity.class);
-                break;
-            case R.id.navigation_groups:
-                intent = new Intent(this, RecorridosActivity.class);
-                break;
-            case R.id.navigation_settings:
-                intent = new Intent(this, ProfileActivity.class);
-                break;
-            case R.id.navigation_logout:
-                logout();
                 break;
         }
         if(intent != null) {
@@ -116,5 +113,23 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
         } else {
             drawer.openDrawer(GravityCompat.START);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_settings:
+                break;
+            case R.id.menu_logout:
+                logout();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

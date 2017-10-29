@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/icon_settings"
+        android:title="Configuración" />
+
+    <item
         android:id="@+id/menu_logout"
-        android:title="@string/menu_logout" />
+        android:icon="@drawable/icon_logout"
+        android:title="Cerrar sesión" />
 </menu>
