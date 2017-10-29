@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:padding="@dimen/gutter">
+    android:paddingTop="@dimen/gutter"
+    android:paddingBottom="@dimen/gutter">
 
     <ImageView
         android:layout_width="60dp"
@@ -40,7 +41,7 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/icon_bicicle"/>
+        android:src="@drawable/icon_bicicle" />
 
     <LinearLayout
         android:layout_width="match_parent"

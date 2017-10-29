@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +55,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     protected LocationController locationController;
     private FireBaseDatabase fireBaseDatabase;
     private Place place;
+    private boolean otherPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,32 +89,35 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         locationController = new LocationController(this) {
             @Override
             protected void onMyLocationRecieved(Location location) {
-                if(location != null) {
+                if(location != null && !otherPath) {
                     googleMap.clear();
                     LatLng latLng =  new LatLng(location.getLatitude(), location.getLongitude());
                     drawMyPoint(latLng);
 
                     if(place != null) {
-                        LatLng lastPlace = place.getLatLng();
-                        CameraPosition.Builder cameraPosition = CameraPosition.builder();
-                        cameraPosition.target(lastPlace);
-                        cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
-                        cameraPosition.bearing(0);
-
-                        Utils.drawPathBetween(latLng, lastPlace, googleMap);
-                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
-                        GoogleMapController.addMarker(lastPlace, place.getName().toString(), place.getAddress().toString(), googleMap, R.drawable.pin);
+                        drawPath(latLng, place.getLatLng(), place.getName().toString(), place.getAddress().toString());
                     }
                 }
             }
         };
     }
 
+    private void drawPath(LatLng latLng1, LatLng latLng2, String title, String snippet) {
+        googleMap.clear();
+        drawMyPoint(latLng1);
+
+        CameraPosition.Builder cameraPosition = CameraPosition.builder();
+        cameraPosition.target(latLng2);
+        cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
+        cameraPosition.bearing(0);
+
+        Utils.drawPathBetween(latLng1, latLng2, googleMap);
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
+        GoogleMapController.addMarker(latLng2, title, snippet, googleMap, R.drawable.pin);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode != RESULT_OK && requestCode != REQUEST_CHECK_SETTINGS) {
-            return;
-        }
         switch (requestCode){
             case REQUEST_CHECK_SETTINGS:
                 locationAction();
@@ -122,7 +127,9 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
     @Override
     protected void initComponents() {
+
         super.initComponents();
+        otherPath = false;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -141,8 +148,24 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(true);
 
-        LatLng bogota = new LatLng(4.711000, -74.072094);
-        drawMyPoint(bogota);
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            otherPath = extras.getBoolean("draw", false);
+        }
+        if(otherPath) {
+            double lat1 = extras.getDouble("lat1");
+            double lon1 = extras.getDouble("lon1");
+            double lat2 = extras.getDouble("lat2");
+            double lon2 = extras.getDouble("lon2");
+            Log.i("JAJAJA", lat1 + " " + lon1 + " " + lat2 + " " + lon2);
+
+            LatLng latLng1 = new LatLng(lat1, lon1);
+            LatLng latLng2 = new LatLng(lat2, lon2);
+            drawPath(latLng1, latLng2, "Destino", "Vamos!");
+        } else {
+            LatLng bogota = new LatLng(4.711000, -74.072094);
+            drawMyPoint(bogota);
+        }
 
         if(Permissions.askPermissionWithJustification(this, Permissions.FINE_LOCATION, getString(R.string.permission_gps))) {
             locationAction();
@@ -173,6 +196,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     @Override
     public void onPlaceSelected(Place place) {
         this.place = place;
+        otherPath = false;
         locationController.getMyLocation();
     }
 

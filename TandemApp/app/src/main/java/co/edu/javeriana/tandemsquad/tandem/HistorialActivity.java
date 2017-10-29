@@ -9,6 +9,7 @@ import android.view.ViewStub;
 import android.widget.ListView;
 
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 
@@ -16,8 +17,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.edu.javeriana.tandemsquad.tandem.adapters.TravelAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
@@ -58,6 +61,11 @@ public class HistorialActivity extends NavigationActivity {
                 viewImage.setImageBitmap(image);
             }
         };
+
+
+        Marcador marcador_inicio = new Marcador(new LatLng(4.711000, -74.072094), Marcador.Tipo.INICIO, "Bogota");
+        Marcador marcador_fin = new Marcador(new LatLng(4.599730, -74.161994), Marcador.Tipo.INICIO, "Otro lugar");
+        travelAdapter.add(new Recorrido(marcador_inicio, marcador_fin, Recorrido.Estado.CASUAL));
     }
 
     @Override
