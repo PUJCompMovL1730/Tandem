@@ -17,6 +17,7 @@ public class ActivityResult {
     public static final int CAMERA_INTENT = 1;
     public static final int CROP_INTENT = 2;
     public static final int GOOGLE_SIGN_IN = 3;
+    public static final int REQUEST_CHECK_SETTINGS = 4;
 
     public static void startGalleryActivity(Activity activity) {
         Intent galleryintent = new Intent(Intent.ACTION_PICK, null);

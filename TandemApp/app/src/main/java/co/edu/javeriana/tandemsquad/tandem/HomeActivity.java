@@ -2,10 +2,12 @@ package co.edu.javeriana.tandemsquad.tandem;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
@@ -34,11 +37,14 @@ import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapConstants;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
+import co.edu.javeriana.tandemsquad.tandem.google.pathTracking.DirectionsJSONParser;
 import co.edu.javeriana.tandemsquad.tandem.location.LocationController;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
+
+import static co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult.REQUEST_CHECK_SETTINGS;
 
 public class HomeActivity extends NavigationActivity implements OnMapReadyCallback, PlaceSelectionListener {
 
@@ -47,6 +53,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     protected FireBaseStorage fireBaseStorage;
     protected LocationController locationController;
     private FireBaseDatabase fireBaseDatabase;
+    private Place place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +87,37 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         locationController = new LocationController(this) {
             @Override
             protected void onMyLocationRecieved(Location location) {
-                super.onMyLocationRecieved(location);
+                if(location != null) {
+                    googleMap.clear();
+                    LatLng latLng =  new LatLng(location.getLatitude(), location.getLongitude());
+                    drawMyPoint(latLng);
+
+                    if(place != null) {
+                        LatLng lastPlace = place.getLatLng();
+                        CameraPosition.Builder cameraPosition = CameraPosition.builder();
+                        cameraPosition.target(lastPlace);
+                        cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
+                        cameraPosition.bearing(0);
+
+                        Utils.drawPathBetween(latLng, lastPlace, googleMap);
+                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
+                        GoogleMapController.addMarker(lastPlace, place.getName().toString(), place.getAddress().toString(), googleMap, R.drawable.pin);
+                    }
+                }
             }
         };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != RESULT_OK && requestCode != REQUEST_CHECK_SETTINGS) {
+            return;
+        }
+        switch (requestCode){
+            case REQUEST_CHECK_SETTINGS:
+                locationAction();
+                break;
+        }
     }
 
     @Override
@@ -90,9 +125,10 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         super.initComponents();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        //PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
-        //autocompleteFragment.setOnPlaceSelectedListener(this);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.setOnPlaceSelectedListener(this);
         fireBaseDatabase = new FireBaseDatabase(this);
+        place = null;
     }
 
     @Override
@@ -100,18 +136,13 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         this.googleMap = googleMap;
         this.googleMap.setPadding(0, 0, 0, 0);
 
-        LatLng bogota = new LatLng(4.711000, -74.072094);
-        CameraPosition.Builder cameraPosition = CameraPosition.builder();
-        cameraPosition.target(bogota);
-        cameraPosition.zoom(GoogleMapConstants.ZOOM_CITY);
-        cameraPosition.bearing(0);
-
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
-
         this.googleMap.getUiSettings().setCompassEnabled(true);
         this.googleMap.getUiSettings().setZoomGesturesEnabled(true);
         this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         this.googleMap.getUiSettings().setMapToolbarEnabled(true);
+
+        LatLng bogota = new LatLng(4.711000, -74.072094);
+        drawMyPoint(bogota);
 
         if(Permissions.askPermissionWithJustification(this, Permissions.FINE_LOCATION, getString(R.string.permission_gps))) {
             locationAction();
@@ -120,24 +151,11 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
     private void locationAction() {
         if(Permissions.checkSelfPermission(this, Permissions.FINE_LOCATION) && googleMap != null) {
-            googleMap.setMyLocationEnabled(true);
+            if(locationController.askForGPS()) {
+                googleMap.setMyLocationEnabled(true);
+                locationController.getMyLocation();
+            }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int itemClicked = item.getItemId();
-        switch (itemClicked) {
-            case R.id.menu_logout:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -147,7 +165,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         }
         switch (requestCode) {
             case Permissions.FINE_LOCATION:
-                locationController.askForGPS();
                 locationAction();
                 break;
         }
@@ -155,14 +172,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
     @Override
     public void onPlaceSelected(Place place) {
-        LatLng bogota = place.getLatLng();
-        CameraPosition.Builder cameraPosition = CameraPosition.builder();
-        cameraPosition.target(bogota);
-        cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
-        cameraPosition.bearing(0);
-
-        GoogleMapController.addMarker(bogota, place.getName().toString(), place.getAddress().toString(), googleMap);
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
+        this.place = place;
+        locationController.getMyLocation();
     }
 
     @Override
@@ -172,9 +183,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     protected void onStart() {
         super.onStart();
         fireBaseAuthentication.start();
-        if(Permissions.askPermissionWithJustification(this, Permissions.FINE_LOCATION, getString(R.string.permission_gps))) {
-            locationController.askForGPS();
-        }
+        locationAction();
     }
 
     @Override
@@ -191,5 +200,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         startActivity(mainIntent);
     }
 
-
+    private void drawMyPoint(LatLng latLng) {
+        GoogleMapController.addMarkerAndMove(latLng, "Tu estas aquí", "Pedalea", GoogleMapConstants.ZOOM_STREET, googleMap, R.drawable.bicycle);
+        googleMap.addCircle(new CircleOptions().center(latLng).radius(500).fillColor(Color.argb(100, 109, 184, 242)));
+    }
 }

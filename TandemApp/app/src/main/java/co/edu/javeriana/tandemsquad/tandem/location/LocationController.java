@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
+import co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult;
 
 public class LocationController {
 
@@ -71,7 +72,7 @@ public class LocationController {
                         case CommonStatusCodes.RESOLUTION_REQUIRED:
                             try {
                                 ResolvableApiException resolvable = (ResolvableApiException) exception;
-                                resolvable.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS);
+                                resolvable.startResolutionForResult(activity, ActivityResult.REQUEST_CHECK_SETTINGS);
                             } catch(IntentSender.SendIntentException sendEx) { }
                             break;
                         case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:

@@ -53,11 +53,6 @@ public class MainActivity extends AppCompatActivity {
             public void onSignInSuccess() {
                 goHome();
             }
-
-            @Override
-            protected void onSignInFailed(Task<AuthResult> task) {
-                signup();
-            }
         };
 
         initComponents();

@@ -35,9 +35,6 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_navigation);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-
         drawer = (DrawerLayout) findViewById(R.id.navigation_menu);
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -45,6 +42,9 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     }
 
     protected void initComponents() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         drawerAction = (ImageButton) findViewById(R.id.toolbar_drawer);
         viewName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
         viewEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
@@ -63,7 +63,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
         viewImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), HomeActivity.class);
+                Intent intent = new Intent(getBaseContext(), EditActivity.class);
                 startActivity(intent);
             }
         });
