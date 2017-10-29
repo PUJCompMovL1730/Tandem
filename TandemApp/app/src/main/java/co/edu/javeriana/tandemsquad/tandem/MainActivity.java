@@ -1,5 +1,6 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private TwitterLoginButton btnTwitter;
 
     private CallbackManager facebookCallBackManager;
+    private ProgressDialog dialog;
 
     private TwitterConfig twitterConfig;
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         fireBaseAuthentication = new FireBaseAuthentication(this) {
             @Override
             public void onSignInSuccess() {
+                if(dialog != null) dialog.dismiss();
                 goHome();
             }
         };
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
         facebookButton = (LoginButton) findViewById(R.id.login_btn_facebook);
         facebookCallBackManager = CallbackManager.Factory.create();
         loginBundle = null;
+        dialog = null;
     }
 
     private void setButtonActions() {
@@ -151,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(validData) {
+            dialog = ProgressDialog.show(this, "Ingresando a Tandem", "Espera un momento porfavor...", false, false);
             fireBaseAuthentication.signInWithEmailAndPassword(
                 loginData.getString("email"),
                 loginData.getString("password")
