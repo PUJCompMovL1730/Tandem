@@ -1,6 +1,7 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,21 +38,18 @@ public class SignupActivity extends AppCompatActivity {
 
     private CircleImageView inputPhoto;
     private TextInputLayout layoutName;
-    private TextInputLayout layoutUsername;
     private TextInputLayout layoutEmail;
-    private TextInputLayout layoutPhone;
     private TextInputLayout layoutPassword;
     private TextInputLayout layoutConfirmation;
     private TextInputEditText inputName;
-    private TextInputEditText inputUsername;
     private TextInputEditText inputEmail;
-    private TextInputEditText inputPhone;
     private TextInputEditText inputPassword;
     private TextInputEditText inputConfirmation;
     private Button btnSignup;
     private Uri imageUri;
     private Bundle signupBundle;
     private FirebaseUser user;
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +77,9 @@ public class SignupActivity extends AppCompatActivity {
             public void onUserProfileUpdateSuccess() {
                 FirebaseUser user = getUser();
                 if(user != null) {
-                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl(), user.getPhotoUrl(), inputPhone.getText().toString());
+                    dialog.dismiss();
+                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl(), user.getPhotoUrl());
                     fireBaseDatabase.writeUser(usuario);
-                    btnSignup.setEnabled(true);
                     goHome();
                 }
             }
@@ -105,15 +103,11 @@ public class SignupActivity extends AppCompatActivity {
         fireBaseDatabase = new FireBaseDatabase(this);
         inputPhoto = (CircleImageView) findViewById(R.id.signup_input_photo);
         layoutName = (TextInputLayout) findViewById(R.id.signup_layout_name);
-        layoutUsername = (TextInputLayout) findViewById(R.id.signup_layout_username);
         layoutEmail = (TextInputLayout) findViewById(R.id.signup_layout_email);
-        layoutPhone = (TextInputLayout) findViewById(R.id.signup_layout_phone);
         layoutPassword = (TextInputLayout) findViewById(R.id.signup_layout_contrasena);
         layoutConfirmation = (TextInputLayout) findViewById(R.id.signup_layout_confirmacion);
         inputName = (TextInputEditText) findViewById(R.id.signup_input_name);
-        inputUsername = (TextInputEditText) findViewById(R.id.signup_input_username);
         inputEmail = (TextInputEditText) findViewById(R.id.signup_input_email);
-        inputPhone = (TextInputEditText) findViewById(R.id.signup_input_phone);
         inputPassword = (TextInputEditText) findViewById(R.id.signup_input_contrasena);
         inputConfirmation = (TextInputEditText) findViewById(R.id.signup_input_confirmacion);
         btnSignup = (Button) findViewById(R.id.signup_btn_signup);
@@ -224,21 +218,9 @@ public class SignupActivity extends AppCompatActivity {
             validData = false;
         }
 
-        if(!FieldValidator.validateUsername(signupData.getString("username"))) {
-            layoutUsername.setErrorEnabled(true);
-            layoutUsername.setError(getString(R.string.username_error));
-            validData = false;
-        }
-
         if(!FieldValidator.validateEmail(signupData.getString("email"))) {
             layoutEmail.setErrorEnabled(true);
             layoutEmail.setError(getString(R.string.email_error));
-            validData = false;
-        }
-
-        if(!FieldValidator.validatePhone(signupData.getString("phone"))) {
-            layoutPhone.setErrorEnabled(true);
-            layoutPhone.setError(getString(R.string.phone_error));
             validData = false;
         }
 
@@ -261,8 +243,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if(validData) {
-            Snackbar.make(this.getCurrentFocus(), getString(R.string.msg_signup), Snackbar.LENGTH_INDEFINITE).show();
-            btnSignup.setEnabled(false);
+            dialog = ProgressDialog.show(this, "Te estamos registrando en Tandem", "Espera un momento " + signupData.getString("name") + " porfavor...", false, false);
             fireBaseAuthentication.createUserWithEmailAndPassword(
                 signupData.getString("email"),
                 signupData.getString("password")
@@ -278,9 +259,7 @@ public class SignupActivity extends AppCompatActivity {
     private Bundle getData() {
         signupBundle = new Bundle();
         signupBundle.putString("name", inputName.getText().toString());
-        signupBundle.putString("username", inputUsername.getText().toString());
         signupBundle.putString("email", inputEmail.getText().toString());
-        signupBundle.putString("phone", inputPhone.getText().toString());
         signupBundle.putString("password", inputPassword.getText().toString());
         signupBundle.putString("confirmation", inputConfirmation.getText().toString());
         return signupBundle;
@@ -288,9 +267,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void enableErrorLayouts(boolean enable) {
         layoutName.setErrorEnabled(enable);
-        layoutUsername.setErrorEnabled(enable);
         layoutEmail.setErrorEnabled(enable);
-        layoutPhone.setErrorEnabled(enable);
         layoutPassword.setErrorEnabled(enable);
         layoutConfirmation.setErrorEnabled(enable);
     }

@@ -132,10 +132,6 @@ public class FireBaseAuthentication {
         }
     }
 
-    /***********************************
-    * SIGN IN WITH FACEBOOK
-    * **********************************/
-
     public final void setUpFacebookAuthentication(LoginButton loginButton, CallbackManager callbackManager){
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
