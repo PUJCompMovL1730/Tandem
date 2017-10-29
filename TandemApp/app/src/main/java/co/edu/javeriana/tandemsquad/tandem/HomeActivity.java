@@ -7,12 +7,14 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.ImageButton;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -56,6 +58,12 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     private FireBaseDatabase fireBaseDatabase;
     private Place place;
     private boolean otherPath;
+
+    private ImageButton share;
+    private ImageButton type;
+    private ImageButton members;
+    private ImageButton track;
+    private ImageButton photoHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +144,73 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         autocompleteFragment.setOnPlaceSelectedListener(this);
         fireBaseDatabase = new FireBaseDatabase(this);
         place = null;
+
+        share = (ImageButton) findViewById(R.id.home_share);
+        type = (ImageButton) findViewById(R.id.home_type);
+        members = (ImageButton) findViewById(R.id.home_members);
+        track = (ImageButton) findViewById(R.id.home_begin);
+        photoHistory = (ImageButton) findViewById(R.id.home_history);
+    }
+
+    @Override
+    protected void setButtonActions() {
+        super.setButtonActions();
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
+
+        type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type();
+            }
+        });
+
+        members.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                members();
+            }
+        });
+
+        track.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                track();
+            }
+        });
+
+        photoHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                photoHistory();
+            }
+        });
+
+    }
+
+    private void share() {
+        Snackbar.make(this.getCurrentFocus(), "Compartir este viaje para que se unan", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void type() {
+        Snackbar.make(this.getCurrentFocus(), "Hacer este recorrido como unviaje familiar o solo un recorrido publico", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void members() {
+        Snackbar.make(this.getCurrentFocus(), "Miembros en el recorrido/Invitar", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void track() {
+        Snackbar.make(this.getCurrentFocus(), "Comenzar viaje, wuuuuu la mera hierba", Snackbar.LENGTH_LONG).show();
+    }
+
+    private void photoHistory() {
+        Snackbar.make(this.getCurrentFocus(), "Tomar una foto y subir a historia", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
