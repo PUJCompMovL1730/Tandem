@@ -18,11 +18,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult;
 import co.edu.javeriana.tandemsquad.tandem.utilities.FieldValidator;
@@ -66,9 +68,20 @@ public class EditActivity extends AppCompatActivity {
             public void onSignInSuccess() {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
             }
+
+            @Override
+            protected void onUserProfileUpdateSuccess() {
+                dialog.dismiss();
+            }
         };
 
         fireBaseStorage = new FireBaseStorage(this) {
+            @Override
+            protected void onUploadFileSuccess(Task<UploadTask.TaskSnapshot> task) {
+                imageUri = task.getResult().getDownloadUrl();
+                fireBaseAuthentication.updateUserProfile(signupBundle.getString("name"), imageUri);
+            }
+
             @Override
             protected void onDownloadFileSuccess(Task<FileDownloadTask.TaskSnapshot> task, File file) {
                 Uri uri = Uri.fromFile(file);
@@ -176,12 +189,12 @@ public class EditActivity extends AppCompatActivity {
             validData = false;
         }
 
-        if(validData && (password || imageUri != null)) {
+        if(validData) {
             dialog = ProgressDialog.show(this, "Estamos actualizando tus datos", "Espera un momento " + signupData.getString("name") + " porfavor...", false, false);
-            if(imageUri == null) {
-                fireBaseAuthentication.updateUserProfile(signupData.getString("name"));
+            if(imageUri != null) {
+                fireBaseStorage.uploadFile(imageUri, fireBaseAuthentication.getUser());
             } else {
-                fireBaseAuthentication.updateUserProfile(signupData.getString("name"), imageUri);
+                fireBaseAuthentication.updateUserProfile(signupData.getString("name"));
             }
             if(password) {
                 fireBaseAuthentication.getUser().updatePassword(signupData.getString("password")).addOnCompleteListener(this, new OnCompleteListener<Void>() {

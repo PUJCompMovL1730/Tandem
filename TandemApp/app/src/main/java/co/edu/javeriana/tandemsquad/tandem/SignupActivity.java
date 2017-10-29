@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.UploadTask;
 
@@ -74,6 +75,12 @@ public class SignupActivity extends AppCompatActivity {
             }
 
             @Override
+            protected void onSignUpFailed(Task<AuthResult> task) {
+                super.onSignUpFailed(task);
+                dialog.dismiss();
+            }
+
+            @Override
             public void onUserProfileUpdateSuccess() {
                 FirebaseUser user = getUser();
                 if(user != null) {
@@ -82,6 +89,12 @@ public class SignupActivity extends AppCompatActivity {
                     fireBaseDatabase.writeUser(usuario);
                     goHome();
                 }
+            }
+
+            @Override
+            protected void onUserProfileUpdateFailed(Task<Void> task) {
+                super.onUserProfileUpdateFailed(task);
+                dialog.dismiss();
             }
         };
         fireBaseStorage = new FireBaseStorage(this) {

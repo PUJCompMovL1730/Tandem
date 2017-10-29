@@ -34,13 +34,6 @@
                 android:textSize="20sp"/>
 
             <TextView
-                android:id="@+id/nav_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Usuario"
-                android:textSize="18sp"/>
-
-            <TextView
                 android:id="@+id/nav_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

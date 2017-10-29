@@ -91,7 +91,7 @@
                     android:id="@+id/edit_input_contrasena"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/contrasena_hint"
+                    android:hint="Contraseña nueva"
                     android:inputType="textPassword"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -104,7 +104,7 @@
                     android:id="@+id/edit_input_confirmacion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/confirmacion_hint"
+                    android:hint="Confirme su nueva contraseña"
                     android:inputType="textPassword"/>
             </android.support.design.widget.TextInputLayout>
 

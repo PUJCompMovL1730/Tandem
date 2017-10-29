@@ -15,71 +15,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_weight="1">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/travel_adapter_origin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:text="Origen"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Origen:"
-                android:layout_marginRight="@dimen/gutter"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/travel_adapter_origin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/travel_adapter_origin_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:text="Fecha"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Destino:"
-                android:layout_marginRight="@dimen/gutter"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/travel_adapter_destiny"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""/>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/travel_adapter_origin_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Distancia aproximada:"
-                android:layout_marginRight="@dimen/gutter"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/travel_adapter_distance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""/>
-
-        </LinearLayout>
+            android:text="Hora"/>
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/icon_bicicle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/travel_adapter_destiny"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Destino"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/travel_adapter_destiny_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/travel_adapter_destiny_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hora"
+            android:textAlignment="textEnd"/>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/icon_marker"/>
 
 
 </LinearLayout>

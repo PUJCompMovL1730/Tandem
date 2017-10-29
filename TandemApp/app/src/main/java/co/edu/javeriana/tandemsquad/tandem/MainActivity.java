@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity {
                 if(dialog != null) dialog.dismiss();
                 goHome();
             }
+
+            @Override
+            protected void onSignInFailed(Task<AuthResult> task) {
+                super.onSignInFailed(task);
+                if(dialog != null) dialog.dismiss();
+            }
         };
 
         initComponents();

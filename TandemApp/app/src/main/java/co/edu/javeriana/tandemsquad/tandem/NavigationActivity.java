@@ -26,7 +26,6 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     protected ImageButton drawerAction;
     protected TextView viewName;
     protected TextView viewEmail;
-    protected TextView viewUsername;
     protected CircleImageView viewImage;
     private NavigationView navigationView;
 
@@ -48,7 +47,6 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
         drawerAction = (ImageButton) findViewById(R.id.toolbar_drawer);
         viewName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
         viewEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
-        viewUsername = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_username);
         viewImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_image);
     }
 

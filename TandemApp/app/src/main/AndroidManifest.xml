@@ -55,12 +55,6 @@
             android:name=".FriendsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RecorridosActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ChatsActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:screenOrientation="portrait" />
