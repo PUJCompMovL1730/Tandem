@@ -2,9 +2,11 @@ package co.edu.javeriana.tandemsquad.tandem;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +19,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterLoginButton;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
@@ -37,15 +47,25 @@ public class MainActivity extends AppCompatActivity {
     private Button btnSignup;
     private Bundle loginBundle;
 
-    private TwitterLoginButton btnTwitter;
     private SignInButton btnGoogle;
     private LoginButton facebookButton;
+    private TwitterLoginButton btnTwitter;
 
     private CallbackManager facebookCallBackManager;
+
+    private TwitterConfig twitterConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        twitterConfig = new TwitterConfig.Builder(this)
+            .logger(new DefaultLogger(Log.DEBUG))
+            .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.twitter_key), getString(R.string.twitter_secret)))
+            .debug(true)
+            .build();
+        Twitter.initialize(twitterConfig);
+
         setContentView(R.layout.activity_main);
 
         fireBaseAuthentication = new FireBaseAuthentication(this) {
@@ -74,6 +94,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setButtonActions() {
+        btnTwitter.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                fireBaseAuthentication.handleTwitterSession(result.data);
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Snackbar.make(getCurrentFocus(), exception.getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,12 +116,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signup();
-            }
-        });
-        btnTwitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                twitter();
             }
         });
         btnGoogle.setOnClickListener(new View.OnClickListener() {
@@ -153,12 +179,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(signupIntent);
     }
 
-    private void facebook() {
-    }
-
-    private void twitter() {
-    }
-
     private void google() {
         fireBaseAuthentication.signInWithGoogle();
     }
@@ -174,6 +194,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case FACEBOOK_LOGIN_REQUEST_CODE:
                 facebookCallBackManager.onActivityResult(requestCode, resultCode, data);
+                break;
+            case TwitterAuthConfig.DEFAULT_AUTH_REQUEST_CODE:
+                btnTwitter.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }

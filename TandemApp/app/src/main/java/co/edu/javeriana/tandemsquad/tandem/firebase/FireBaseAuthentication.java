@@ -28,7 +28,9 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.TwitterAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult;
 
@@ -239,6 +241,27 @@ public class FireBaseAuthentication {
 
     public boolean isAnUserSignedIn() {
         return user != null;
+    }
+
+    public void handleTwitterSession(TwitterSession session) {
+        AuthCredential credential = TwitterAuthProvider.getCredential(
+            session.getAuthToken().token,
+            session.getAuthToken().secret);
+
+        authentication.signInWithCredential(credential)
+            .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        user = authentication.getCurrentUser();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        onSignUpFailed(task);
+                    }
+                    // ...
+                }
+            });
     }
 
     public void signOut() {
