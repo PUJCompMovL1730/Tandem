@@ -9,6 +9,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -72,30 +74,32 @@ public class FireBaseDatabase {
 
     public Usuario getUser(String id) {
         if (userPool.containsKey(id)) {
-            return userPool.get(id);
-        } else {
-            Map<String, String> unparsedUser = getGenericClassFromDatabase("users/" + id);
-            if (unparsedUser != null) {
-                try {
-                    String uid = unparsedUser.get("id");
-                    String nombre = unparsedUser.get("nombre");
-                    String correo = unparsedUser.get("correo");
-
-                    if (uid != null && nombre != null && correo != null) {
-                        Usuario allegedUser = new Usuario(uid, nombre, correo);
-                        userPool.put(id, allegedUser);
-                        return allegedUser;
-                    } else {
-                        throw new IllegalArgumentException("Unable to create User (Invalid data)");
-                    }
-                } catch (Exception e) {
-                    Log.e("DATABASE EXCEPTION", "Invalid user data: " + e.getMessage());
-                    return null;
-                }
-            } else {
-                Log.e("DATABASE INFO", "TIMEOUT getting user: " + id);
+            if(userPool.get(id) != null) {
+                return userPool.get(id);
             }
         }
+        Map<String, String> unparsedUser = getGenericClassFromDatabase("users/" + id);
+        if (unparsedUser != null) {
+            try {
+                String uid = unparsedUser.get("id");
+                String nombre = unparsedUser.get("nombre");
+                String correo = unparsedUser.get("correo");
+
+                if (uid != null && nombre != null && correo != null) {
+                    Usuario allegedUser = new Usuario(uid, nombre, correo);
+                    userPool.put(id, allegedUser);
+                    return allegedUser;
+                } else {
+                    throw new IllegalArgumentException("Unable to create User (Invalid data)");
+                }
+            } catch (Exception e) {
+                Log.e("DATABASE EXCEPTION", "Invalid user data: " + e.getMessage());
+                return null;
+            }
+        } else {
+            Log.e("DATABASE INFO", "TIMEOUT getting user: " + id);
+        }
+
         return null;
     }
 
@@ -253,24 +257,38 @@ public class FireBaseDatabase {
         });
     }
 
-    public void addTravel( Recorrido recorrido )
+    public void addTravel(final Recorrido recorrido )
     {
-        Map<String, String> messageData = new HashMap<>();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+        final Map<String, String> messageData = new HashMap<>();
+        String estado = recorrido.getEstado() == Recorrido.Estado.VIAJE ? "viaje" : "casual";
         messageData.put("inicio", recorrido.getInicio().getPosicion().toString());
         messageData.put("fin", recorrido.getFin().getPosicion().toString());
-        messageData.put("horaI", recorrido.getHoraInicio().toString());
-        messageData.put("horaF", recorrido.getHoraFinal().toString());
-        messageData.put("participantes", recorrido.getParticipantes().toString());
+        messageData.put("hora", dateFormatter.format(recorrido.getHoraInicio().getTime()));
+        messageData.put("tipo", estado);
+        List<String> uids = new ArrayList<>();
 
-        recorridosReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        for( Usuario u : recorrido.getParticipantes())
+        {
+            uids.add(u.getId());
+        }
+        messageData.put("participantes", uids.toString());
+
+        recorridosReference.addListenerForSingleValueEvent(new ValueEventListener()
+        {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
                 DatabaseReference ref = dataSnapshot.getRef();
+                ref = ref.child(recorrido.getParticipantes().get(0).getId());
+                ref = ref.push();
+                ref.setValue(messageData);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.e("DATABASE EXCEPTION", "Error en la consulta");
             }
         });
     }

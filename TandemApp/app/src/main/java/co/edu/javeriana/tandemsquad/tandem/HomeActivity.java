@@ -32,6 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
+import java.util.Calendar;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
@@ -82,10 +83,20 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         initComponents();
         setButtonActions();
 
+        fireBaseDatabase = new FireBaseDatabase(this);
+
         fireBaseAuthentication = new FireBaseAuthentication(this) {
             @Override
             public void onSignInSuccess() {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
+                    }
+                }).start();
             }
         };
 
@@ -225,18 +236,27 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
     private void members()
     {
-        if( place != null )
+        if( place != null && travelStarted )
         {
-
+            Intent intent = new Intent(HomeActivity.this, TravelMembersActivity.class);
+            //startActivity(intent);
         }
         else
         {
-            Snackbar.make(this.getCurrentFocus(), "Primero debes buscar un reccorido.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(this.getCurrentFocus(), "Primero debes buscar un reccorido para poder ver los miembros.", Snackbar.LENGTH_LONG).show();
         }
     }
 
-    private void track() {
-        Snackbar.make(this.getCurrentFocus(), "Comenzar viaje, wuuuuu la mera hierba", Snackbar.LENGTH_LONG).show();
+    private void track()
+    {
+        if( place != null )
+        {
+            travelStarted = true;
+        }
+        else
+        {
+            Snackbar.make(this.getCurrentFocus(), "Primero debes buscar un recorrido para poder iniciar el viaje.", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void photoHistory() {
@@ -264,7 +284,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
                     {
                         if( optionSelected == 0 )
                         {
-                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
                             Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
                             Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
                             Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
@@ -273,23 +292,28 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
                         }
                         else if( optionSelected == 1 )
                         {
-                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
                             Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
                             Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
                             Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.PUBLICADO);
                             r.agregarParticipante(currentUser);
                             currentUser.agregarRecorrido(r);
-                            // TODO: Manejar en BD
+                            fireBaseDatabase.addTravel(r);
                         }
                         else if( optionSelected == 2 )
                         {
-                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
                             Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
                             Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
                             Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.VIAJE);
-                            r.agregarParticipante(currentUser);
-                            currentUser.agregarRecorrido(r);
-                            // TODO: Manejar en BD
+                            if( r.getHoraInicio().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || r.getHoraInicio().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY  )
+                            {
+                                r.agregarParticipante(currentUser);
+                                currentUser.agregarRecorrido(r);
+                                fireBaseDatabase.addTravel(r);
+                            }
+                            else
+                            {
+                                Snackbar.make(HomeActivity.this.getCurrentFocus(), "No estas en una fecha admitida para crear un Viaje.", Snackbar.LENGTH_LONG).show();
+                            }
                         }
                     }
                 })

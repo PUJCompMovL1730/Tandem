@@ -110,6 +110,6 @@
     <string-array name="travel_dialog_opts">
         <item>Privado</item>
         <item>Publico</item>
-        <item>Familiar/Empresarial</item>
+        <item>Viaje</item>
     </string-array>
 </resources>
