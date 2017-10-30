@@ -239,7 +239,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         if( place != null && travelStarted )
         {
             Intent intent = new Intent(HomeActivity.this, TravelMembersActivity.class);
-            //startActivity(intent);
+            startActivity(intent);
         }
         else
         {
@@ -252,6 +252,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         if( place != null )
         {
             travelStarted = true;
+            Snackbar.make(this.getCurrentFocus(), "Se ha iniciado el viaje. Pedalea seguro :D", Snackbar.LENGTH_LONG).show();
         }
         else
         {

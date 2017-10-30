@@ -6,13 +6,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
-import com.twitter.sdk.android.core.models.User;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.UserAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
+import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
@@ -28,6 +31,7 @@ public class TravelMembersActivity extends NavigationActivity
 {
     private FireBaseAuthentication fireBaseAuthentication;
     private FireBaseStorage fireBaseStorage;
+    private FireBaseDatabase fireBaseDatabase;
 
     private ListView friends;
     private ListView members;
@@ -39,19 +43,39 @@ public class TravelMembersActivity extends NavigationActivity
     private int invitedPosition;
     private int removedPosition;
 
+    private Usuario currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_travel_members);
+
+        MapsInitializer.initialize(getApplicationContext());
+
+        ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
+        stub.setLayoutResource(R.layout.activity_travel_members);
+        View contentView = stub.inflate();
+
+        friends = (ListView) findViewById(R.id.invites_list_view);
+        members = (ListView) findViewById(R.id.members_list_view);
 
         initComponents();
         setButtonActions();
+
+        fireBaseDatabase = new FireBaseDatabase(this);
 
         fireBaseAuthentication = new FireBaseAuthentication(this) {
             @Override
             public void onSignInSuccess() {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
+                new Thread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
+                    }
+                }).start();
             }
         };
 
@@ -70,13 +94,19 @@ public class TravelMembersActivity extends NavigationActivity
     {
         super.initComponents();
 
-        friends = (ListView) findViewById(R.id.invites_list_view);
-        //TODO: Obetener los amigos del usuario
-        listFriends = new ArrayList<>();
+        listFriends = new ArrayList<Usuario>();
         userAdapter = new UserAdapter(this, listFriends);
-        members = (ListView) findViewById(R.id.members_list_view);
-        listMembers = new ArrayList<>();
+        listMembers = new ArrayList<Usuario>();
         memebersAdapter = new UserAdapter(this, listMembers );
+
+        if(friends == null)
+        {
+            Log.i("friends", R.id.invites_list_view+"");
+        }
+        if(members == null)
+        {
+            Log.i("members", R.id.members_list_view+"");
+        }
 
         friends.setAdapter(userAdapter);
         members.setAdapter(memebersAdapter);
