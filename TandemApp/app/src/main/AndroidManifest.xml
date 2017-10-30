@@ -71,7 +71,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".EditActivity" />
+        <activity android:name=".TravelMembersActivity"></activity>
     </application>
 
 </manifest>

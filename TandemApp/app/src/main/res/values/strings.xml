@@ -97,4 +97,19 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="members">Miembros</string>
+    <string name="friends">Amigos</string>
+
+    <!-- Dialog strings -->
+    <string name="dialog_ok">Ok</string>
+    <string name="dialog_cancel">Cancelar</string>
+    <string name="travel_opts_title">Escoja el tipo de Recorrido</string>
+    <string name="invite_dialog_title">Invitar a este amigo al recorrido?</string>
+    <string name="remove_dialog_title">Remover a este amigo del recorrido?</string>
+    <string-array name="travel_dialog_opts">
+        <item>Privado</item>
+        <item>Publico</item>
+        <item>Familiar/Empresarial</item>
+    </string-array>
 </resources>

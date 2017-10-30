@@ -1,5 +1,7 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -8,18 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageButton;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.internal.PlaceEntity;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +28,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
@@ -40,10 +38,9 @@ import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapConstants;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
-import co.edu.javeriana.tandemsquad.tandem.google.pathTracking.DirectionsJSONParser;
 import co.edu.javeriana.tandemsquad.tandem.location.LocationController;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
@@ -58,12 +55,16 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     private FireBaseDatabase fireBaseDatabase;
     private Place place;
     private boolean otherPath;
+    private boolean travelStarted;
+    private int optionSelected;
 
     private ImageButton share;
     private ImageButton type;
     private ImageButton members;
     private ImageButton track;
     private ImageButton photoHistory;
+
+    private LatLng myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +102,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
                     googleMap.clear();
                     LatLng latLng =  new LatLng(location.getLatitude(), location.getLongitude());
                     drawMyPoint(latLng);
+                    myLocation = latLng;
 
                     if(place != null) {
                         drawPath(latLng, place.getLatLng(), place.getName().toString(), place.getAddress().toString());
@@ -138,6 +140,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
         super.initComponents();
         otherPath = false;
+        travelStarted = false;
+        optionSelected = -1;
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
@@ -197,12 +201,36 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         Snackbar.make(this.getCurrentFocus(), "Compartir este viaje para que se unan", Snackbar.LENGTH_LONG).show();
     }
 
-    private void type() {
-        Snackbar.make(this.getCurrentFocus(), "Hacer este recorrido como unviaje familiar o solo un recorrido publico", Snackbar.LENGTH_LONG).show();
+    private void type()
+    {
+        if( place != null )
+        {
+            if( travelStarted )
+            {
+                Snackbar.make(this.getCurrentFocus(), "Ya has iniciado el recorrido.", Snackbar.LENGTH_LONG).show();
+            }
+            else
+            {
+                showTravelOptionsDialog();
+                travelStarted = true;
+            }
+        }
+        else
+        {
+            Snackbar.make(this.getCurrentFocus(), "Primero debes buscar un reccorido.", Snackbar.LENGTH_LONG).show();
+        }
     }
 
-    private void members() {
-        Snackbar.make(this.getCurrentFocus(), "Miembros en el recorrido/Invitar", Snackbar.LENGTH_LONG).show();
+    private void members()
+    {
+        if( place != null )
+        {
+
+        }
+        else
+        {
+            Snackbar.make(this.getCurrentFocus(), "Primero debes buscar un reccorido.", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     private void track() {
@@ -211,6 +239,66 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
     private void photoHistory() {
         Snackbar.make(this.getCurrentFocus(), "Tomar una foto y subir a historia", Snackbar.LENGTH_LONG).show();
+    }
+
+    public void showTravelOptionsDialog()
+    {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle(R.string.travel_opts_title)
+                .setSingleChoiceItems(R.array.travel_dialog_opts, -1, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        optionSelected = which;
+                    }
+                })
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        if( optionSelected == 0 )
+                        {
+                            // TODO: Obtener Usuario
+                            Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
+                            Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+                            Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
+                            // TODO: Agregar al historial del usuario
+                        }
+                        else if( optionSelected == 1 )
+                        {
+                            // TODO: Obtener Usuario
+                            Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
+                            Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+                            Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.PUBLICADO);
+                            // TODO: Agregar al historial del usuario
+                            // TODO: Manejar en BD
+                        }
+                        else if( optionSelected == 2 )
+                        {
+                            // TODO: Obtener Usuario
+                            Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
+                            Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+                            Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.VIAJE);
+                            // TODO: Agregar al historial del usuario
+                            // TODO: Manejar en BD
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

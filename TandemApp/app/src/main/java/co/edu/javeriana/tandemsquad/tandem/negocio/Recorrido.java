@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 public class Recorrido {
 
     public enum Estado {
-        PUBLICADO, CASUAL, VIAJE;
+        PUBLICADO, CASUAL, VIAJE, TERMINADO;
     }
 
     private Marcador inicio;
