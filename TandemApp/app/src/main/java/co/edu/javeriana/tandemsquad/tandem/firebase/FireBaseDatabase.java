@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Mensaje;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 
 public class FireBaseDatabase {
@@ -248,6 +249,28 @@ public class FireBaseDatabase {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.e("DATABASE EXCEPTION", "Error en la consulta");
+            }
+        });
+    }
+
+    public void addTravel( Recorrido recorrido )
+    {
+        Map<String, String> messageData = new HashMap<>();
+        messageData.put("inicio", recorrido.getInicio().getPosicion().toString());
+        messageData.put("fin", recorrido.getFin().getPosicion().toString());
+        messageData.put("horaI", recorrido.getHoraInicio().toString());
+        messageData.put("horaF", recorrido.getHoraFinal().toString());
+        messageData.put("participantes", recorrido.getParticipantes().toString());
+
+        recorridosReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DatabaseReference ref = dataSnapshot.getRef();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

@@ -41,6 +41,7 @@ import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
 import co.edu.javeriana.tandemsquad.tandem.location.LocationController;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.permissions.Permissions;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
@@ -63,6 +64,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     private ImageButton members;
     private ImageButton track;
     private ImageButton photoHistory;
+
+    private Usuario currentUser;
 
     private LatLng myLocation;
 
@@ -212,7 +215,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
             else
             {
                 showTravelOptionsDialog();
-                travelStarted = true;
             }
         }
         else
@@ -262,28 +264,31 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
                     {
                         if( optionSelected == 0 )
                         {
-                            // TODO: Obtener Usuario
+                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
                             Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
                             Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
                             Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
-                            // TODO: Agregar al historial del usuario
+                            r.agregarParticipante(currentUser);
+                            currentUser.agregarRecorrido(r);
                         }
                         else if( optionSelected == 1 )
                         {
-                            // TODO: Obtener Usuario
+                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
                             Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
                             Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
                             Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.PUBLICADO);
-                            // TODO: Agregar al historial del usuario
+                            r.agregarParticipante(currentUser);
+                            currentUser.agregarRecorrido(r);
                             // TODO: Manejar en BD
                         }
                         else if( optionSelected == 2 )
                         {
-                            // TODO: Obtener Usuario
+                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
                             Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
                             Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
                             Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.VIAJE);
-                            // TODO: Agregar al historial del usuario
+                            r.agregarParticipante(currentUser);
+                            currentUser.agregarRecorrido(r);
                             // TODO: Manejar en BD
                         }
                     }

@@ -1,6 +1,8 @@
 package co.edu.javeriana.tandemsquad.tandem.negocio;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class Recorrido {
 
@@ -12,6 +14,7 @@ public class Recorrido {
     private Marcador fin;
     private GregorianCalendar horaInicio;
     private GregorianCalendar horaFinal;
+    private List<Usuario> participantes;
     private Estado estado;
     private Clima clima;
 
@@ -21,6 +24,17 @@ public class Recorrido {
         this.horaInicio = new GregorianCalendar();
         this.horaFinal = new GregorianCalendar();
         this.estado = estado;
+        participantes = new ArrayList<>();
+    }
+
+    public void agregarParticipante( Usuario usuario )
+    {
+        participantes.add(usuario);
+    }
+
+    public List<Usuario> getParticipantes()
+    {
+        return participantes;
     }
 
     public Estado getEstado() {

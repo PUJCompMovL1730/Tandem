@@ -59,6 +59,11 @@ public class Usuario {
         historial = new ArrayList<>();
     }
 
+    public void agregarRecorrido( Recorrido r )
+    {
+        this.historial.add(r);
+    }
+
     public String getId() {
         return id;
     }
