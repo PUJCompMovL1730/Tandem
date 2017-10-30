@@ -3,6 +3,7 @@ package co.edu.javeriana.tandemsquad.tandem.firebase;
 import android.app.Activity;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -266,8 +267,10 @@ public class FireBaseDatabase {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
         final Map<String, String> messageData = new HashMap<>();
         String estado = recorrido.getEstado() == Recorrido.Estado.VIAJE ? "viaje" : "casual";
-        messageData.put("inicio", recorrido.getInicio().getPosicion().toString());
-        messageData.put("fin", recorrido.getFin().getPosicion().toString());
+        messageData.put("inicioLat", recorrido.getInicio().getPosicion().latitude+"");
+        messageData.put("inicioLng", recorrido.getInicio().getPosicion().longitude+"");
+        messageData.put("finLat", recorrido.getFin().getPosicion().latitude+"");
+        messageData.put("finLng", recorrido.getFin().getPosicion().longitude+"");
         messageData.put("hora", dateFormatter.format(recorrido.getHoraInicio().getTime()));
         messageData.put("tipo", estado);
         List<String> uids = new ArrayList<>();
@@ -295,5 +298,44 @@ public class FireBaseDatabase {
                 Log.e("DATABASE EXCEPTION", "Error en la consulta");
             }
         });
+    }
+
+    public List<Recorrido> getTravels(String uid)
+    {
+        List<Recorrido> recorridos = new LinkedList<>();
+        List<Map<String, String>> unparsedTravels = getGenericListFromDatabase("travels/" + uid);
+        for (Map<String, String> unparsedTravel : unparsedTravels) {
+            try {
+                String inicioLat = unparsedTravel.get("inicioLat");
+                String inicioLng = unparsedTravel.get("inicioLng");
+                String finLat = unparsedTravel.get("finlat");
+                String finLng = unparsedTravel.get("finLng");
+                String tipo = unparsedTravel.get("tipo");
+
+                Usuario user = getUser(uid);
+
+                if (user != null && inicioLat != null && inicioLng != null && finLat != null && finLng != null && tipo != null) {
+                    Marcador inicio = new Marcador(new LatLng(Double.parseDouble(inicioLat), Double.parseDouble(inicioLng)), Marcador.Tipo.INICIO);
+                    Marcador fin = new Marcador(new LatLng(Double.parseDouble(finLat), Double.parseDouble(finLng)), Marcador.Tipo.FIN);
+                    Recorrido.Estado estado;
+
+                    if(tipo.equals("Casual"))
+                    {
+                        estado = Recorrido.Estado.CASUAL;
+                    }
+                    else  if(tipo.equals("Publicado"))
+                    {
+                        estado =Recorrido.Estado.PUBLICADO;
+                    }
+
+                    //Recorrido rec = new Recorrido(inicio, fin, tipo);
+                } else {
+                    throw new IllegalArgumentException("Unable to create Message");
+                }
+            } catch (Exception e) {
+                Log.e("DATABASE EXCEPTION", "Exception parsing Message. " + e.getMessage());
+            }
+        }
+        return recorridos;
     }
 }
