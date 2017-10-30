@@ -34,6 +34,10 @@ public class FireBaseDatabase {
     private static Map<String, Usuario> userPool = new HashMap<>();
     private static int DATABASE_TIMEOUT_SECONDS = 15;
 
+    public interface AsyncEventListener<T> {
+        void onActionPerformed(T item);
+    }
+
     public FireBaseDatabase(Activity acticity) {
         this.activity = acticity;
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -94,6 +98,46 @@ public class FireBaseDatabase {
         return null;
     }
 
+    public void addMessageListener(final String uid, final AsyncEventListener<Mensaje> handler) {
+        DatabaseReference messageReference = firebaseDatabase.getReference("messages/" + uid);
+        messageReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("DATABASE INFO", "Data changed");
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Map<String, String> unparsedMessage = (Map<String, String>) singleSnapshot.getValue();
+                    try {
+                        String plainSender = unparsedMessage.get("sender");
+                        String plainReceiver = unparsedMessage.get("receiver");
+                        String plainText = unparsedMessage.get("text");
+                        String plainDate = unparsedMessage.get("date");
+
+                        Usuario sender = getUser(plainSender);
+                        Usuario receiver = getUser(plainReceiver);
+                        GregorianCalendar date = getGregorianCalendar(Long.parseLong(plainDate));
+
+                        if (sender != null && receiver != null && date != null && plainText != null) {
+                            Mensaje mensaje = new Mensaje(plainText, sender, receiver, date, uid.equals(plainSender));
+                            handler.onActionPerformed(mensaje);
+                        } else {
+                            throw new IllegalArgumentException("Unable to create Message");
+                        }
+                    } catch (Exception e) {
+                        Log.e("DATABASE EXCEPTION", "Exception parsing Message. " + e.getMessage());
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("DATABASE EXCEPTION", "Error en la consulta");
+            }
+        });
+
+    }
+
     public List<Mensaje> getMessages(String uid) {
         List<Mensaje> mensajes = new LinkedList<>();
         List<Map<String, String>> unparsedMessages = getGenericListFromDatabase("messages/" + uid);
@@ -109,7 +153,7 @@ public class FireBaseDatabase {
                 GregorianCalendar date = getGregorianCalendar(Long.parseLong(plainDate));
 
                 if (sender != null && receiver != null && date != null && plainText != null) {
-                    Mensaje mensaje = new Mensaje(plainText, sender, receiver, date);
+                    Mensaje mensaje = new Mensaje(plainText, sender, receiver, date, uid.equals(plainSender));
                     mensajes.add(mensaje);
                 } else {
                     throw new IllegalArgumentException("Unable to create Message");

@@ -42,7 +42,11 @@ public class MessageAdapter extends ArrayAdapter<Mensaje>{
             @Override
             public void onClick(View v) {
                 Intent chatIntent = new Intent(getContext(), ChatActivity.class);
-                chatIntent.putExtra("receiver", mensaje.getReceptor().getId());
+                if (mensaje.isMe()) {
+                    chatIntent.putExtra("receiver", mensaje.getReceptor().getId());
+                } else {
+                    chatIntent.putExtra("receiver", mensaje.getEmisor().getId());
+                }
                 getContext().startActivity(chatIntent);
             }
         });

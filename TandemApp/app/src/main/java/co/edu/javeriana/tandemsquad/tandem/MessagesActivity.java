@@ -14,8 +14,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.MessageAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
@@ -53,7 +55,6 @@ public class MessagesActivity extends NavigationActivity {
         setButtonActions();
 
         dialog = null;
-
         fireBaseDatabase = new FireBaseDatabase(this);
 
         fireBaseAuthentication = new FireBaseAuthentication(this) {
@@ -95,13 +96,24 @@ public class MessagesActivity extends NavigationActivity {
     }
 
     private void updateAndCheckMessages(List<Mensaje> mensajes) {
-        messages = new LinkedList<>();
+        Map<String, Mensaje> filter = new HashMap<>();
         for (Mensaje mensaje : mensajes) {
-            if (mensaje.getReceptor().getId() == currentUser.getId()) {
-                messages.add(mensaje);
+            if (mensaje.getReceptor().getId().equals(currentUser.getId())) {
+                if (!filter.containsKey(mensaje.getEmisor().getId())) {
+                    filter.put(mensaje.getEmisor().getId(), mensaje);
+                } else {
+                    filter.put(mensaje.getEmisor().getId(), mensaje);
+                }
+            } else {
+                if (!filter.containsKey(mensaje.getReceptor().getId())) {
+                    filter.put(mensaje.getReceptor().getId(), mensaje);
+                } else {
+                    filter.put(mensaje.getReceptor().getId(), mensaje);
+                }
             }
         }
 
+        messages = new LinkedList<>(filter.values());
         messageAdapter = new MessageAdapter(this, messages);
         messagesContainer.setAdapter(messageAdapter);
     }

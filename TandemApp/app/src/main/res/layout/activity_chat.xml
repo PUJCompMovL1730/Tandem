@@ -8,5 +8,60 @@
     tools:context="co.edu.javeriana.tandemsquad.tandem.ChatActivity">
 
     <include layout="@layout/toolbar_basic" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/chat_list_container"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/chat_controls">
+            <ListView
+                android:id="@+id/chats_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="false"
+                android:layout_alignParentTop="false"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:listSelector="@android:color/transparent"
+                android:transcriptMode="alwaysScroll"
+                android:divider="@null" />
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/chat_controls"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <EditText
+                android:id="@+id/chat_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:hint="Escribir..."
+                android:layout_weight="0.9"/>
+
+            <Button
+                android:id="@+id/chat_send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:text="Enviar"
+                android:layout_weight="0.1"/>
+
+            <!--<ImageButton
+                 android:id="@+id/chatSendButton"
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:src="@drawable/ic_menu_send"
+                 android:background="@android:color/transparent"
+                 android:layout_weight="0.2"/>-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
