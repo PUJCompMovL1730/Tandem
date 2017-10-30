@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TandemApp.iml" filepath="$PROJECT_DIR$/TandemApp.iml" />
+      <module fileurl="file://C:\Users\joser\Desktop\Tandem2\TandemApp\TandemApp.iml" filepath="C:\Users\joser\Desktop\Tandem2\TandemApp\TandemApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\joser\Desktop\Tandem2\TandemApp\app\app.iml" filepath="C:\Users\joser\Desktop\Tandem2\TandemApp\app\app.iml" />
     </modules>
   </component>
 </project>

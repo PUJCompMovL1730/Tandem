@@ -35,7 +35,11 @@ public class MessageAdapter extends ArrayAdapter<Mensaje>{
         TextView message = (TextView) convertView.findViewById(R.id.message_adapter_msg);
 
         //image.setText(chat.getOriginName());
-        name.setText(mensaje.getEmisor().getNombre());
+        if (mensaje.isMe()) {
+            name.setText(mensaje.getReceptor().getNombre());
+        } else {
+            name.setText(mensaje.getEmisor().getNombre());
+        }
         message.setText(mensaje.getTexto());
 
         convertView.setOnClickListener(new View.OnClickListener() {
