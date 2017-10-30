@@ -180,7 +180,9 @@ public class FireBaseDatabase {
                 List<Map<String, String>> objects = new LinkedList<>();
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     Map<String, String> unparsedData = (Map<String, String>) child.getValue();
-                    objects.add(unparsedData);
+                    if (unparsedData != null) {
+                        objects.add(unparsedData);
+                    }
                 }
                 try {
                     asyncQueue.put(objects);
@@ -210,7 +212,9 @@ public class FireBaseDatabase {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, String> unparsedData = (Map<String, String>) dataSnapshot.getValue();
                 try {
-                    asyncQueue.put(unparsedData);
+                    if (unparsedData != null) {
+                        asyncQueue.put(unparsedData);
+                    }
                 } catch (InterruptedException e) {
                     Log.e("DATABASE EXCEPTION", e.getMessage());
                 }
