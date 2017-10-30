@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(validData) {
-            dialog = ProgressDialog.show(this, "Ingresando a Tandem", "Espera un momento porfavor...", false, false);
+            dialog = ProgressDialog.show(this, "Ingresando a Tandem", "Espera un momento por favor...", false, false);
             fireBaseAuthentication.signInWithEmailAndPassword(
                 loginData.getString("email"),
                 loginData.getString("password")

@@ -9,9 +9,9 @@ public class Mensaje {
     private Usuario emisor;
     private Usuario receptor;
 
-    public Mensaje(String texto, Usuario emisor, Usuario receptor) {
+    public Mensaje(String texto, Usuario emisor, Usuario receptor, GregorianCalendar fecha) {
         this.texto = texto;
-        this.fecha = new GregorianCalendar();
+        this.fecha = fecha;
         this.emisor = emisor;
         this.receptor = receptor;
     }

@@ -257,7 +257,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if(validData) {
-            dialog = ProgressDialog.show(this, "Te estamos registrando en Tandem", "Espera un momento " + signupData.getString("name") + " porfavor...", false, false);
+            dialog = ProgressDialog.show(this, "Te estamos registrando en Tandem", "Espera un momento " + signupData.getString("name") + " por favor...", false, false);
             fireBaseAuthentication.createUserWithEmailAndPassword(
                 signupData.getString("email"),
                 signupData.getString("password")

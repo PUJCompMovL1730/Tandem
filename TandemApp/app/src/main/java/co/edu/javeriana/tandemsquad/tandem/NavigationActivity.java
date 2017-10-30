@@ -93,6 +93,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
                 intent = new Intent(this, FriendsActivity.class);
                 break;
             case R.id.navigation_messages:
+                intent = new Intent(this, MessagesActivity.class);
                 break;
         }
         if(intent != null) {

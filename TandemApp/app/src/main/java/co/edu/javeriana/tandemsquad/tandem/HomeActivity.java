@@ -142,7 +142,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         mapFragment.getMapAsync(this);
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
         autocompleteFragment.setOnPlaceSelectedListener(this);
-        fireBaseDatabase = new FireBaseDatabase(this);
+
         place = null;
 
         share = (ImageButton) findViewById(R.id.home_share);
