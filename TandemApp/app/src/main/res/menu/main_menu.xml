@@ -3,10 +3,10 @@
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/icon_settings"
-        android:title="Configuración" />
+        android:title="@string/menu_settings" />
 
     <item
         android:id="@+id/menu_logout"
         android:icon="@drawable/icon_logout"
-        android:title="Cerrar sesión" />
+        android:title="@string/menu_logout" />
 </menu>

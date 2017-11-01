@@ -48,22 +48,25 @@
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="standard"/>
         <activity
             android:name=".HistorialActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:label="Recorridos"/>
         <activity
             android:name=".FriendsActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:label="Amigos"/>
         <activity android:name=".EditActivity" />
         <activity android:name=".TravelMembersActivity"/>
         <activity android:name=".MessagesActivity"
                   android:parentActivityName=".HomeActivity"
-                  android:launchMode="singleTop"/>
+                  android:launchMode="singleTop"
+                  android:label="Mensajes"/>
         <activity android:name=".ChatActivity"
                   android:parentActivityName=".MessagesActivity"/>
         <activity

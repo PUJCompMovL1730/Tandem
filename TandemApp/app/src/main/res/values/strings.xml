@@ -11,7 +11,6 @@
     <string name="confirmation_error">La contraseña no coincide</string>
     <string name="username_error">Ingrese un nombre de usuario</string>
     <string name="name_error">Ingrese un nombre</string>
-    <string name="menu_logout">Cerrar sesión</string>
     <string name="name_hint">Nombres y apellidos</string>
     <string name="username_hint">Nombre de usuario</string>
     <string name="phone_hint">Celular</string>
@@ -26,6 +25,17 @@
     <string name="twitter_secret">zsNwvdPFCAKiYPDd8VJAz6MMuzB0mIAA0x67ukib1j2ABoi7Os</string>
     <string name="title_activity_settings">Settings</string>
     <string name="search_bar_hint">Busca tu destino</string>
+    <string name="empty_search_place">Debes seleccionar un destino antes de crear un recorrido</string>
+    <string name="create_instant_travel_during_travel">Debes terminar el recorrido actual</string>
+    <string name="stop_travel">Finalizar</string>
+
+    <string name="menu_home">Inicio</string>
+    <string name="menu_travels">Recorridos</string>
+    <string name="menu_friends">Amigos</string>
+    <string name="menu_messages">Mensajes</string>
+    <string name="menu_logout">Cerrar sesión</string>
+    <string name="menu_settings">Configuración</string>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

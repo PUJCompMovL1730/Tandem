@@ -4,9 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.location.Location;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +16,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -32,11 +30,9 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
@@ -69,11 +65,12 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   protected FireBaseStorage fireBaseStorage;
   protected LocationController locationController;
   private FireBaseDatabase fireBaseDatabase;
-  private Place place;
+  private Place searchPlace;
 
   private boolean isFabOpen;
   private FloatingActionButton fabAddElement, fabInstantTravel, fabPlanTravel, fabAddStory, fabAddMarker;
-  private Animation fabOpen, fabClose, rotateForward, rotateBackward;
+  private Animation fabOpen, fabClose, rotateForward, rotateBackward, btnOpen, btnClose;
+  private Button stopTravelButton;
 
   private ImageView drawerIcon;
 
@@ -131,14 +128,15 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
           drawMyPoint(latLng);
           myLocation = latLng;
 
-          if (place != null) {
-            drawPath(latLng, place.getLatLng(), place.getName().toString(), place.getAddress().toString());
+          if (searchPlace != null) {
+            drawPath(latLng, searchPlace.getLatLng(), searchPlace.getName().toString(), searchPlace.getAddress().toString());
           }
         }
       }
     };
   }
 
+  //Mostrar ruta en el mapa
   private void drawPath(LatLng latLng1, LatLng latLng2, String title, String snippet) {
     googleMap.clear();
     drawMyPoint(latLng1);
@@ -170,6 +168,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     travelStarted = false;
     optionSelected = -1;
 
+    //Floating Buttons
     isFabOpen = false;
     fabAddElement = (FloatingActionButton)findViewById(R.id.fab_add_element);
     fabInstantTravel = (FloatingActionButton)findViewById(R.id.fab_instant_travel);
@@ -177,21 +176,27 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     fabAddStory = (FloatingActionButton)findViewById(R.id.fab_add_story);
     fabAddMarker = (FloatingActionButton)findViewById(R.id.fab_add_marker);
 
+    //Animaciones
     fabOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
     fabClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
     rotateForward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
     rotateBackward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
+    btnOpen = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_open);
+    btnClose = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.btn_close);
 
+    stopTravelButton = (Button)findViewById(R.id.finish_travel);
+
+    //Mapa
     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
 
+    //Búsqueda de Google Places
     PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
     autocompleteFragment.setBoundsBias(new LatLngBounds(new LatLng(BOGOTA_LOWER_BOUND_LATITUDE, BOGOTA_LOWER_BOUND_LONGITUDE),
         new LatLng(BOGOTA_UPPER_BOUND_LATITUDE, BOGOTA_UPPER_BOUND_LONGITUDE)));
     autocompleteFragment.setHint(getString(R.string.search_bar_hint));
     drawerIcon = (ImageView)((LinearLayout) autocompleteFragment.getView()).getChildAt(0);
     drawerIcon.setImageDrawable(getDrawable(R.drawable.icon_menu));
-
     drawerIcon.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -200,48 +205,138 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     });
     autocompleteFragment.setOnPlaceSelectedListener(this);
 
-    place = null;
+    searchPlace = null;
   }
 
+  //Inicializar los Floating Buttons
   @Override
   protected void setButtonActions(){
+    //Floating Button de añadir elemento (+)
     fabAddElement.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
 
-        if(isFabOpen){
-          fabAddElement.startAnimation(rotateBackward);
-          fabInstantTravel.startAnimation(fabClose);
-          fabInstantTravel.setClickable(false);
-          fabPlanTravel.startAnimation(fabClose);
-          fabPlanTravel.setClickable(false);
-          fabAddStory.startAnimation(fabClose);
-          fabAddStory.setClickable(false);
-          fabAddMarker.startAnimation(fabClose);
-          fabAddMarker.setClickable(false);
-          isFabOpen = false;
+        Log.i("      - Animation:", "FAB Add Element Pressed");
 
+        if(isFabOpen){
+          hideAllFloatingButtons();
         } else {
-          fabAddElement.startAnimation(rotateForward);
-          fabInstantTravel.startAnimation(fabOpen);
-          fabInstantTravel.setClickable(true);
-          fabPlanTravel.startAnimation(fabOpen);
-          fabPlanTravel.setClickable(true);
-          fabAddStory.startAnimation(fabOpen);
-          fabAddStory.setClickable(true);
-          fabAddMarker.startAnimation(fabOpen);
-          fabAddMarker.setClickable(true);
-          isFabOpen = true;
+          showAllFloatingButtons();
         }
       }
     });
 
+    //Floating Button para crear un recorrido "instantáneo" (privado y que se realiza de una vez)
+    fabInstantTravel.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if(searchPlace == null){ //No se ha seleccionado ningún lugar para el recorrido
+          Snackbar.make(getCurrentFocus(), R.string.empty_search_place, Snackbar.LENGTH_LONG).show();
+        } else {
+          if(travelStarted){ //Existe un recorrido en curso
+            Snackbar.make(getCurrentFocus(), R.string.create_instant_travel_during_travel,Snackbar.LENGTH_LONG).show();
+          } else { //Crear el recorrido
+            hideAllFloatingButtons();
+            createInstantTravel();
+          }
+        }
+      }
+    });
+
+    //Floating Button para crear un recorrido "frecuente"(público con una frecuencia[dia y hora])
+    // o viaje(público con una única fecha)
+    fabPlanTravel.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //No se ha seleccionado ningún lugar para el recorrido
+        if(searchPlace == null){
+          Snackbar.make(getCurrentFocus(), R.string.empty_search_place, Snackbar.LENGTH_LONG).show();
+        } else { //Crear el recorrido
+          hideAllFloatingButtons();
+          planTravel();
+        }
+      }
+    });
+
+    //Floating Button de publicar historia
     fabAddStory.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         //TODO Tomar foto y publicar historia
       }
     });
+
+    //Floating Button de añadir marcador
+    fabAddMarker.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        //TODO Desplegar dialogo de creación de marcador
+      }
+    });
+
+    //Ocultar el botón de finalizar recorrido
+    stopTravelButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+
+        Log.i("      - Animation:", "Hide Finish Button");
+
+        travelStarted = false;
+        stopTravelButton.startAnimation(btnClose);
+        stopTravelButton.setClickable(false);
+      }
+    });
+  }
+
+  //Esconder los Floating Buttons
+  private void hideAllFloatingButtons(){
+
+    Log.i("      - Animation:", "Hide Floating Buttons");
+
+    fabAddElement.startAnimation(rotateBackward);
+    toggleFloatingButton(fabInstantTravel, fabClose, false);
+    toggleFloatingButton(fabPlanTravel, fabClose, false);
+    toggleFloatingButton(fabAddStory, fabClose, false);
+    toggleFloatingButton(fabAddMarker, fabClose, false);
+    isFabOpen = false;
+  }
+
+  // Desplegar los Floating Buttons
+  private void showAllFloatingButtons() {
+
+    Log.i("      - Animation:", "Show Floating Buttons");
+
+    fabAddElement.startAnimation(rotateForward);
+    toggleFloatingButton(fabInstantTravel, fabOpen, true);
+    toggleFloatingButton(fabPlanTravel, fabOpen, true);
+    toggleFloatingButton(fabAddStory, fabOpen, true);
+    toggleFloatingButton(fabAddMarker, fabOpen, true);
+    isFabOpen = true;
+  }
+
+  //Cambiar el estado de un Floating Button con la animación dada
+  private void toggleFloatingButton(FloatingActionButton button, Animation animation, boolean clickable){
+    button.startAnimation(animation);
+    button.setClickable(clickable);
+  }
+
+  //Crear un recorrido "instantáneo" (privado y que se realiza de una vez)
+  private void createInstantTravel(){
+    Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
+    Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+    Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
+    r.agregarParticipante(currentUser);
+    currentUser.agregarRecorrido(r);
+
+    Log.i("      - Animation:", "Show Finish Button");
+
+    travelStarted = true;
+    stopTravelButton.startAnimation(btnOpen);
+    stopTravelButton.setClickable(true);
+  }
+
+  private void planTravel(){
+
   }
 
   private void share() {
@@ -249,7 +344,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   }
 
   private void type() {
-    if (place != null) {
+    if (searchPlace != null) {
       if (travelStarted) {
         Snackbar.make(this.getCurrentFocus(), "Ya has iniciado el recorrido.", Snackbar.LENGTH_LONG).show();
       } else {
@@ -261,7 +356,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   }
 
   private void members() {
-    if (place != null && travelStarted) {
+    if (searchPlace != null && travelStarted) {
       Intent intent = new Intent(HomeActivity.this, TravelMembersActivity.class);
       startActivity(intent);
     } else {
@@ -270,7 +365,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   }
 
   private void track() {
-    if (place != null) {
+    if (searchPlace != null) {
       travelStarted = true;
       Snackbar.make(this.getCurrentFocus(), "Se ha iniciado el viaje. Pedalea seguro :D", Snackbar.LENGTH_LONG).show();
     } else {
@@ -298,20 +393,20 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
           public void onClick(DialogInterface dialog, int which) {
             if (optionSelected == 0) {
               Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
-              Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+              Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
               Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
               r.agregarParticipante(currentUser);
               currentUser.agregarRecorrido(r);
             } else if (optionSelected == 1) {
               Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
-              Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+              Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
               Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.PUBLICADO);
               r.agregarParticipante(currentUser);
               currentUser.agregarRecorrido(r);
               fireBaseDatabase.addTravel(r);
             } else if (optionSelected == 2) {
               Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
-              Marcador mFinal = new Marcador(place.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+              Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
               Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.VIAJE);
               if (r.getHoraInicio().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || r.getHoraInicio().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 r.agregarParticipante(currentUser);
@@ -368,6 +463,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     }
   }
 
+  //Obtener ubicación actual
   private void locationAction() {
     if (Permissions.checkSelfPermission(this, Permissions.FINE_LOCATION) && googleMap != null) {
       if (locationController.askForGPS()) {
@@ -389,9 +485,10 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     }
   }
 
+  //Selección de un destino en la búsqueda de Google Places
   @Override
   public void onPlaceSelected(Place place) {
-    this.place = place;
+    this.searchPlace = place;
     otherPath = false;
     locationController.getMyLocation();
   }
@@ -417,8 +514,16 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   protected void logout() {
     fireBaseAuthentication.signOut();
     Intent mainIntent = new Intent(this, MainActivity.class);
-    mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
     startActivity(mainIntent);
+    finish();
+  }
+
+  @Override
+  public void onBackPressed(){
+    finish();
   }
 
   private void drawMyPoint(LatLng latLng) {

@@ -85,4 +85,16 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/gutter"/>
 
+    <Button
+        android:id="@+id/finish_travel"
+        android:visibility="invisible"
+        android:textAllCaps="false"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="bottom"
+        android:text="@string/stop_travel"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#FF5252"
+        android:drawableStart="@drawable/icon_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </FrameLayout>

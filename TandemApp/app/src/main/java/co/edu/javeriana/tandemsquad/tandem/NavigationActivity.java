@@ -100,6 +100,9 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
             case R.id.navigation_messages:
                 intent = new Intent(this, MessagesActivity.class);
                 break;
+            case R.id.navigation_logout:
+                logout();
+                break;
         }
         if(intent != null) {
             startActivity(intent);
