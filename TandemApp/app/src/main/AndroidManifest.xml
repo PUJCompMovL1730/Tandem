@@ -47,13 +47,25 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".HomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".HistorialActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".HomeActivity"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".FriendsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".HomeActivity"
+            android:launchMode="singleTop"/>
+        <activity android:name=".EditActivity" />
+        <activity android:name=".TravelMembersActivity"/>
+        <activity android:name=".MessagesActivity"
+                  android:parentActivityName=".HomeActivity"
+                  android:launchMode="singleTop"/>
+        <activity android:name=".ChatActivity"
+                  android:parentActivityName=".MessagesActivity"/>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -71,10 +83,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".EditActivity" />
-        <activity android:name=".TravelMembersActivity"></activity>
-        <activity android:name=".MessagesActivity" />
-        <activity android:name=".ChatActivity"></activity>
     </application>
 
 </manifest>

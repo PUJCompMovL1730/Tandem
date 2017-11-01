@@ -70,8 +70,13 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     protected void setToolbarData(FireBaseAuthentication fireBaseAuthentication, FireBaseStorage fireBaseStorage) {
         if(fireBaseAuthentication.isAnUserSignedIn()) {
             FirebaseUser user = fireBaseAuthentication.getUser();
-            viewName.setText(user.getDisplayName());
-            viewEmail.setText(user.getEmail());
+            if(viewName == null || viewEmail == null){
+                viewName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
+                viewEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
+                viewImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_image);
+                viewName.setText(user.getDisplayName());
+                viewEmail.setText(user.getEmail());
+            }
             if(user.getPhotoUrl() != null) {
                 fireBaseStorage.downloadFile(user);
             }
@@ -104,6 +109,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
 
     protected abstract void logout();
 
+    /*
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -112,6 +118,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
             drawer.openDrawer(GravityCompat.START);
         }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
