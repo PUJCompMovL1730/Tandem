@@ -50,7 +50,7 @@
             android:screenOrientation="portrait"
             android:launchMode="standard"/>
         <activity
-            android:name=".HistorialActivity"
+            android:name=".TravelsActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"
             android:launchMode="singleTop"

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="co.edu.javeriana.tandemsquad.tandem.HistorialActivity">
+    tools:context="co.edu.javeriana.tandemsquad.tandem.TravelsActivity">
 
     <include layout="@layout/toolbar_basic" />
 

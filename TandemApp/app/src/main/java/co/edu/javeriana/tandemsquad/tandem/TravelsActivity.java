@@ -24,7 +24,7 @@ import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
-public class HistorialActivity extends NavigationActivity {
+public class TravelsActivity extends NavigationActivity {
 
     private FireBaseAuthentication fireBaseAuthentication;
     private FireBaseStorage fireBaseStorage;
@@ -57,7 +57,7 @@ public class HistorialActivity extends NavigationActivity {
             @Override
             protected void onDownloadFileSuccess(Task<FileDownloadTask.TaskSnapshot> task, File file) {
                 Uri uri = Uri.fromFile(file);
-                Bitmap image = (Bitmap) Utils.getImageFormUri(HistorialActivity.this, uri);
+                Bitmap image = (Bitmap) Utils.getImageFormUri(TravelsActivity.this, uri);
                 viewImage.setImageBitmap(image);
             }
         };

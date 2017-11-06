@@ -36,6 +36,14 @@
     <string name="menu_logout">Cerrar sesión</string>
     <string name="menu_settings">Configuración</string>
 
+    <string name="create_travel_title">Publica un recorrido</string>
+    <string name="create_travel_action">Crear</string>
+    <string name="destination_hint">Destino</string>
+    <string name="travel_type">Tipo de recorrido</string>
+    <string name="button_trip">Viaje</string>
+    <string name="button_frequent_travel">Recorrido frecuente</string>
+    <string name="travel_datetime">Hora y fecha</string>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->

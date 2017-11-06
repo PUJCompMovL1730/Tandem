@@ -1,6 +1,8 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.View;
@@ -160,10 +163,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     }
   }
 
-  @Override
   protected void initComponents() {
-
-    //super.initComponents();
     otherPath = false;
     travelStarted = false;
     optionSelected = -1;
@@ -215,9 +215,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     fabAddElement.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
-        Log.i("      - Animation:", "FAB Add Element Pressed");
-
         if(isFabOpen){
           hideAllFloatingButtons();
         } else {
@@ -278,9 +275,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     stopTravelButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
-        Log.i("      - Animation:", "Hide Finish Button");
-
         travelStarted = false;
         stopTravelButton.startAnimation(btnClose);
         stopTravelButton.setClickable(false);
@@ -290,9 +284,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
   //Esconder los Floating Buttons
   private void hideAllFloatingButtons(){
-
-    Log.i("      - Animation:", "Hide Floating Buttons");
-
     fabAddElement.startAnimation(rotateBackward);
     toggleFloatingButton(fabInstantTravel, fabClose, false);
     toggleFloatingButton(fabPlanTravel, fabClose, false);
@@ -303,9 +294,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
   // Desplegar los Floating Buttons
   private void showAllFloatingButtons() {
-
-    Log.i("      - Animation:", "Show Floating Buttons");
-
     fabAddElement.startAnimation(rotateForward);
     toggleFloatingButton(fabInstantTravel, fabOpen, true);
     toggleFloatingButton(fabPlanTravel, fabOpen, true);
@@ -327,16 +315,23 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
     r.agregarParticipante(currentUser);
     currentUser.agregarRecorrido(r);
-
-    Log.i("      - Animation:", "Show Finish Button");
-
     travelStarted = true;
     stopTravelButton.startAnimation(btnOpen);
     stopTravelButton.setClickable(true);
   }
 
   private void planTravel(){
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    CreatePublicTravelDialog newFragment = new CreatePublicTravelDialog();
 
+    //Enviar datos al diálogo
+    Bundle bundle = new Bundle();
+    bundle.putString("placeName", searchPlace.getName().toString());
+    newFragment.setArguments(bundle);
+
+    FragmentTransaction transaction = fragmentManager.beginTransaction();
+    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+    transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
   }
 
   private void share() {
