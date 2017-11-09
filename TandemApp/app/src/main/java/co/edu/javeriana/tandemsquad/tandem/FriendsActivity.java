@@ -64,6 +64,7 @@ public class FriendsActivity extends NavigationActivity {
     @Override
     protected void initComponents() {
         super.initComponents();
+        getSupportActionBar().setTitle(R.string.activity_label_friends);
 
         users = (ListView) findViewById(R.id.friends_list_view);
         listUsers = new ArrayList<>();

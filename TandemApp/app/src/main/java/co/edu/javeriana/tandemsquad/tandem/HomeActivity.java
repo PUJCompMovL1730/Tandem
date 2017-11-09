@@ -1,7 +1,6 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -196,7 +195,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
         new LatLng(BOGOTA_UPPER_BOUND_LATITUDE, BOGOTA_UPPER_BOUND_LONGITUDE)));
     autocompleteFragment.setHint(getString(R.string.search_bar_hint));
     drawerIcon = (ImageView)((LinearLayout) autocompleteFragment.getView()).getChildAt(0);
-    drawerIcon.setImageDrawable(getDrawable(R.drawable.icon_menu));
+    drawerIcon.setImageDrawable(getDrawable(R.drawable.icon_menu_black));
     drawerIcon.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {

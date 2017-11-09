@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +30,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     protected TextView viewEmail;
     protected CircleImageView viewImage;
     private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +44,26 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     }
 
     protected void initComponents() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitle("");
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar.setNavigationIcon(R.drawable.icon_menu_white);
         setSupportActionBar(toolbar);
-        drawerAction = (ImageButton) findViewById(R.id.toolbar_drawer);
+
+        //drawerAction = (ImageButton) findViewById(R.id.toolbar_drawer);
         viewName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
         viewEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
         viewImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_image);
     }
 
     protected void setButtonActions() {
+
+        /**
         drawerAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawer.openDrawer(GravityCompat.START);
             }
         });
+         */
 
         viewImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,6 +97,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
         switch (item.getItemId()) {
             case R.id.navigation_home:
                 intent = new Intent(this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 break;
             case R.id.navigation_travels:
                 intent = new Intent(this, TravelsActivity.class);
@@ -112,17 +120,6 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
 
     protected abstract void logout();
 
-    /*
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            drawer.openDrawer(GravityCompat.START);
-        }
-    }
-    */
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -130,8 +127,16 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     }
 
     @Override
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                drawer.openDrawer(GravityCompat.START);
+                return true;
             case R.id.menu_settings:
                 break;
             case R.id.menu_logout:

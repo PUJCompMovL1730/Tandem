@@ -29,6 +29,10 @@
     <string name="create_instant_travel_during_travel">Debes terminar el recorrido actual</string>
     <string name="stop_travel">Finalizar</string>
 
+    <string name="activity_label_travels">Recorridos</string>
+    <string name="activity_label_messages">Mensajes</string>
+    <string name="activity_label_friends">Amigos</string>
+
     <string name="menu_home">Inicio</string>
     <string name="menu_travels">Recorridos</string>
     <string name="menu_friends">Amigos</string>

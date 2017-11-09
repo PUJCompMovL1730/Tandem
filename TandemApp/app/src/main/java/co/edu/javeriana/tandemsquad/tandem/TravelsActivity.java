@@ -72,6 +72,8 @@ public class TravelsActivity extends NavigationActivity {
     protected void initComponents() {
         super.initComponents();
 
+        getSupportActionBar().setTitle(R.string.activity_label_travels);
+
         travels = (ListView) findViewById(R.id.travels_list_view);
         listTravels = new ArrayList<>();
         travelAdapter = new TravelAdapter(this, listTravels);

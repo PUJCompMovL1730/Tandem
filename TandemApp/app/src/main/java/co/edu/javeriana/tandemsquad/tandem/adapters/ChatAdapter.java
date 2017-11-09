@@ -2,6 +2,7 @@ package co.edu.javeriana.tandemsquad.tandem.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,13 +73,17 @@ public class ChatAdapter extends BaseAdapter{
 
         boolean myMsg = chatMessage.isMe(); //Just a dummy check to simulate whether it me or other sender
         setAlignment(holder, myMsg);
+        if(!myMsg){
+            holder.txtMessage.setTextColor(Color.WHITE);
+        }
         holder.txtMessage.setText(chatMessage.getTexto());
         holder.txtInfo.setText(chatMessage.getCuteDate());
         return convertView;
     }
     private void setAlignment(ViewHolder holder, boolean isMe) {
         if (isMe) {
-            holder.contentWithBG.setBackgroundResource(R.drawable.in_message_bg);
+            //holder.contentWithBG.setBackgroundResource(R.drawable.in_message_bg);
+            holder.contentWithBG.setBackgroundResource(R.drawable.in_message_bg_new);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.contentWithBG.getLayoutParams();
             layoutParams.gravity = Gravity.RIGHT;
@@ -96,7 +101,8 @@ public class ChatAdapter extends BaseAdapter{
             layoutParams.gravity = Gravity.RIGHT;
             holder.txtInfo.setLayoutParams(layoutParams);
         } else {
-            holder.contentWithBG.setBackgroundResource(R.drawable.out_message_bg);
+            //holder.contentWithBG.setBackgroundResource(R.drawable.out_message_bg);
+            holder.contentWithBG.setBackgroundResource(R.drawable.out_message_bg_new);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.contentWithBG.getLayoutParams();
             layoutParams.gravity = Gravity.LEFT;

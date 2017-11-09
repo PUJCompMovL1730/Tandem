@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="co.edu.javeriana.tandemsquad.tandem.TravelMembersActivity">
 
-    <include layout="@layout/toolbar_basic" />
+    <include layout="@layout/toolbar" />
 
     <TextView
         android:layout_width="match_parent"

@@ -7,10 +7,12 @@
     android:orientation="vertical"
     tools:context="co.edu.javeriana.tandemsquad.tandem.ChatActivity">
 
-    <include layout="@layout/toolbar_basic" />
+    <include layout="@layout/toolbar" />
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/gutter"
+        android:paddingEnd="@dimen/gutter">
         <RelativeLayout
             android:id="@+id/chat_list_container"
             android:layout_alignParentTop="true"

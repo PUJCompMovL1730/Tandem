@@ -121,6 +121,7 @@ public class MessagesActivity extends NavigationActivity {
     @Override
     protected void initComponents() {
         super.initComponents();
+        getSupportActionBar().setTitle(R.string.activity_label_messages);
 
         messagesContainer = (ListView) findViewById(R.id.chats_list_view);
         messages = new LinkedList<>();

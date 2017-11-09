@@ -48,12 +48,12 @@
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
-            android:launchMode="standard"/>
+            android:launchMode="singleTop"/>
         <activity
             android:name=".TravelsActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".HomeActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:label="Recorridos"/>
         <activity
             android:name=".FriendsActivity"

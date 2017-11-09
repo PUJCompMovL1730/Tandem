@@ -53,8 +53,6 @@ public class ChatActivity extends NavigationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MapsInitializer.initialize(getApplicationContext());
-
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_chat);
         View contentView = stub.inflate();
@@ -165,6 +163,9 @@ public class ChatActivity extends NavigationActivity {
     @Override
     protected void initComponents() {
         super.initComponents();
+        if(otherUser != null){
+            getSupportActionBar().setTitle(otherUser.getNombre());
+        }
         chatsContainer = (ListView) findViewById(R.id.chats_container);
         chatInput = (EditText) findViewById(R.id.chat_edit);
         sendButton = (Button) findViewById(R.id.chat_send_button);
