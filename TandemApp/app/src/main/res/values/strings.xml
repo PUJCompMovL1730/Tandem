@@ -44,6 +44,14 @@
     <string name="button_frequent_travel">Recorrido frecuente</string>
     <string name="travel_datetime">Hora y fecha</string>
 
+    <string name="button_monday">Lun</string>
+    <string name="button_tuesday">Mar</string>
+    <string name="button_wednesday">Mie</string>
+    <string name="button_thursday">Jue</string>
+    <string name="button_friday">Vie</string>
+    <string name="button_saturday">Sab</string>
+    <string name="button_sunday">Dom</string>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
