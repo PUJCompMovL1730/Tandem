@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context="co.edu.javeriana.tandemsquad.tandem.MainActivity">
+    tools:context="co.edu.javeriana.tandemsquad.tandem.LoginActivity">
 
     <ScrollView
         android:layout_width="match_parent"

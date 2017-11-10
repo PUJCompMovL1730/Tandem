@@ -37,7 +37,7 @@ import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult;
 import co.edu.javeriana.tandemsquad.tandem.utilities.FieldValidator;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
   private static final int FACEBOOK_LOGIN_REQUEST_CODE = 64206;
 

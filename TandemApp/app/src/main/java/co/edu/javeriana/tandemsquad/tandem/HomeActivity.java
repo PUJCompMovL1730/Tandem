@@ -210,6 +210,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   //Inicializar los Floating Buttons
   @Override
   protected void setButtonActions(){
+    super.setButtonActions();
+
     //Floating Button de añadir elemento (+)
     fabAddElement.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -267,6 +269,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
       @Override
       public void onClick(View v) {
         //TODO Desplegar dialogo de creación de marcador
+        addMarker();
       }
     });
 
@@ -319,6 +322,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     stopTravelButton.setClickable(true);
   }
 
+  //Crear un recorrido público (frequente o viaje)
   private void planTravel(){
     FragmentManager fragmentManager = getSupportFragmentManager();
     CreatePublicTravelDialog newFragment = new CreatePublicTravelDialog();
@@ -333,8 +337,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
   }
 
-  private void share() {
-    Snackbar.make(this.getCurrentFocus(), "Compartir este viaje para que se unan", Snackbar.LENGTH_LONG).show();
+  private void addMarker(){
+    //TODO Mostrar diálogo de creación de un marcador
   }
 
   private void type() {
@@ -507,7 +511,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   @Override
   protected void logout() {
     fireBaseAuthentication.signOut();
-    Intent mainIntent = new Intent(this, MainActivity.class);
+    Intent mainIntent = new Intent(this, LoginActivity.class);
     mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
     mainIntent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

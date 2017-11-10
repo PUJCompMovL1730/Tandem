@@ -45,8 +45,6 @@ public class MessagesActivity extends NavigationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MapsInitializer.initialize(getApplicationContext());
-
         ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
         stub.setLayoutResource(R.layout.activity_messages);
         View contentView = stub.inflate();
@@ -145,7 +143,7 @@ public class MessagesActivity extends NavigationActivity {
     @Override
     protected void logout() {
         fireBaseAuthentication.signOut();
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent = new Intent(this, LoginActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainIntent);
     }

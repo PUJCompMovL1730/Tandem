@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
@@ -24,7 +20,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.ChatAdapter;
-import co.edu.javeriana.tandemsquad.tandem.adapters.MessageAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
@@ -200,7 +195,7 @@ public class ChatActivity extends NavigationActivity {
     @Override
     protected void logout() {
         fireBaseAuthentication.signOut();
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent = new Intent(this, LoginActivity.class);
         mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mainIntent);
     }

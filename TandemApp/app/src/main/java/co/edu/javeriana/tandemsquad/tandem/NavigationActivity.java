@@ -55,16 +55,9 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
     }
 
     protected void setButtonActions() {
-
-        /**
-        drawerAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(GravityCompat.START);
-            }
-        });
-         */
-
+        if(viewImage == null){
+            viewImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_image);
+        }
         viewImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
