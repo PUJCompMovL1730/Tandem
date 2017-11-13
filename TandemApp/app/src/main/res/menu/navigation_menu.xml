@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/icon_bicicle"
-        android:title="@string/menu_home" />
+    <group android:id="@+id/menu_group_main_actions">
 
-    <item
-        android:id="@+id/navigation_travels"
-        android:icon="@drawable/icon_history"
-        android:title="@string/menu_travels" />
+        <item
+            android:id="@+id/navigation_home"
+            android:icon="@drawable/icon_bicicle"
+            android:title="@string/menu_home"/>
 
-    <item
-        android:id="@+id/navigation_friends"
-        android:icon="@drawable/icon_people"
-        android:title="@string/menu_friends" />
+        <item
+            android:id="@+id/navigation_travels"
+            android:icon="@drawable/icon_history"
+            android:title="@string/menu_travels"/>
 
-    <item
-        android:id="@+id/navigation_messages"
-        android:icon="@drawable/icon_messages"
-        android:title="@string/menu_messages" />
+        <item
+            android:id="@+id/navigation_friends"
+            android:icon="@drawable/icon_people"
+            android:title="@string/menu_friends"/>
 
-    <item
-        android:id="@+id/navigation_logout"
-        android:icon="@drawable/icon_logout"
-        android:title="@string/menu_logout" />
+        <item
+            android:id="@+id/navigation_messages"
+            android:icon="@drawable/icon_messages"
+            android:title="@string/menu_messages"/>
+    </group>
+    <group android:id="@+id/menu_group_extra_actions">
+        <item
+            android:id="@+id/navigation_logout"
+            android:icon="@drawable/icon_logout"
+            android:title="@string/menu_logout"/>
+    </group>
 
 </menu>
