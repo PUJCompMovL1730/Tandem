@@ -12,7 +12,6 @@ import android.widget.TextView;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.R;
-import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 

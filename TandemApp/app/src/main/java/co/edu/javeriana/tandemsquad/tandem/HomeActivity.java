@@ -1,7 +1,6 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.util.Log;
@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -54,7 +55,7 @@ import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
 import static co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult.REQUEST_CHECK_SETTINGS;
 
-public class HomeActivity extends NavigationActivity implements OnMapReadyCallback, PlaceSelectionListener {
+public class HomeActivity extends NavigationActivity implements OnMapReadyCallback, PlaceSelectionListener, CreateMarkerDialog.OnMarkerCreatedListener{
 
   private static final double BOGOTA_LOWER_BOUND_LATITUDE = 4.465505;
   private static final double BOGOTA_LOWER_BOUND_LONGITUDE = -74.233671;
@@ -268,7 +269,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     fabAddMarker.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        //TODO Desplegar dialogo de creación de marcador
+        hideAllFloatingButtons();
         addMarker();
       }
     });
@@ -337,8 +338,10 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     transaction.add(android.R.id.content, newFragment).addToBackStack(null).commit();
   }
 
+  //Crear un marcador
   private void addMarker(){
-    //TODO Mostrar diálogo de creación de un marcador
+    CreateMarkerDialog createMarkerDialog = new CreateMarkerDialog(HomeActivity.this, HomeActivity.this);
+    createMarkerDialog.show();
   }
 
   private void type() {
@@ -491,6 +494,12 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     locationController.getMyLocation();
   }
 
+  //Creación de un marcador
+  public void onMarkerCreated(String type, String description){
+    //TODO Crear el marcador
+    Snackbar.make(getCurrentFocus(), type + ": " + description, Snackbar.LENGTH_LONG).show();
+  }
+
   @Override
   public void onError(Status status) {
   }
@@ -521,7 +530,11 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
   @Override
   public void onBackPressed(){
-    finish();
+    if (drawer.isDrawerOpen(GravityCompat.START)) {
+      drawer.closeDrawer(GravityCompat.START);
+    } else {
+      finish();
+    }
   }
 
   private void drawMyPoint(LatLng latLng) {

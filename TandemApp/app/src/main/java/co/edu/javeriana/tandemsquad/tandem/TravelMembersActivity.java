@@ -12,7 +12,6 @@ import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 

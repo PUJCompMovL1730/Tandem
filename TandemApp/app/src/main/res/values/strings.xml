@@ -48,6 +48,11 @@
     <string name="button_frequent_travel">Recorrido frecuente</string>
     <string name="travel_datetime">Hora y fecha</string>
 
+    <string name="create_marker_dialog_title">Reporta un evento</string>
+    <string name="event_type">Tipo:</string>
+    <string name="event_description">Descripción</string>
+
+    <string name="weekday_selection_dialog_title">Selecciona los días del recorrido</string>
     <string name="button_monday">Lun</string>
     <string name="button_tuesday">Mar</string>
     <string name="button_wednesday">Mie</string>

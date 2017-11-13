@@ -30,7 +30,7 @@ public class WeekDayPickerDialog extends AlertDialog implements DialogInterface.
 
     days = new HashMap<String, Boolean>();
 
-    setTitle("Selecciona los días del recorrido");
+    setTitle(R.string.weekday_selection_dialog_title);
     setButton(Dialog.BUTTON_POSITIVE, context.getString(android.R.string.ok), this);
     setButton(Dialog.BUTTON_NEGATIVE, context.getString(android.R.string.cancel), this);
 
