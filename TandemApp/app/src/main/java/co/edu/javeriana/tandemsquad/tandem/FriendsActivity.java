@@ -17,6 +17,7 @@ import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.UserAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
+import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
@@ -25,10 +26,13 @@ public class FriendsActivity extends NavigationActivity {
 
     private FireBaseAuthentication fireBaseAuthentication;
     private FireBaseStorage fireBaseStorage;
+    private FireBaseDatabase fireBaseDatabase;
 
     private ListView users;
     private List<Usuario> listUsers;
     private UserAdapter userAdapter;
+
+    private Usuario currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,18 @@ public class FriendsActivity extends NavigationActivity {
         initComponents();
         setButtonActions();
 
+        fireBaseDatabase = new FireBaseDatabase(this);
+
         fireBaseAuthentication = new FireBaseAuthentication(this) {
             @Override
             public void onSignInSuccess() {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
+
+                currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
+                if( currentUser != null )
+                {
+                    updateFriendsAdapter();
+                }
             }
         };
 
@@ -56,6 +68,23 @@ public class FriendsActivity extends NavigationActivity {
                 viewImage.setImageBitmap(image);
             }
         };
+    }
+
+    public void updateFriendsAdapter()
+    {
+        List<Usuario> amigos = currentUser.getAmigos();
+
+        if( amigos != null )
+        {
+            userAdapter = new UserAdapter(this, amigos);
+        }
+        else
+        {
+            amigos = new ArrayList<>();
+            userAdapter = new UserAdapter(this, amigos);
+        }
+
+        users.setAdapter(userAdapter);
     }
 
     @Override

@@ -52,9 +52,44 @@ public class FireBaseDatabase {
         marcadoresReference = firebaseDatabase.getReference("markers");
     }
 
-    public void writeUser(Usuario usuario) {
-        DatabaseReference userReference = firebaseDatabase.getReference("users/" + usuario.getId());
+    public void writeUser(final Usuario usuario) {
+        final DatabaseReference userReference = firebaseDatabase.getReference("users/" + usuario.getId());
+        final Map<String, String> messageData = new HashMap<>();
+        messageData.put("correo", usuario.getCorreo());
+        messageData.put("id", usuario.getId());
+        messageData.put("nombre", usuario.getNombre());
+        messageData.put("telefono", usuario.getTelefono());
+
+        String amigos = "";
+
+        if( !usuario.getAmigos().isEmpty() )
+        {
+            for( Usuario u : usuario.getAmigos() )
+            {
+                amigos += u.getId() + ",";
+            }
+        }
+
+        messageData.put("amigos", amigos.trim());
         userReference.setValue(usuario);
+
+        userReference.addListenerForSingleValueEvent(new ValueEventListener()
+        {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot)
+            {
+                DatabaseReference ref = dataSnapshot.getRef();
+                ref = ref.child(usuario.getId());
+                ref = ref.push();
+                ref.setValue(messageData);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.e("DATABASE EXCEPTION", "Error en la consulta");
+            }
+        });
     }
 
     public void writeMarker(Marcador marcador) {
@@ -73,7 +108,26 @@ public class FireBaseDatabase {
         return calendar;
     }
 
-    public Usuario getUser(String id) {
+    public List<Usuario> getFriendsFromUids( String amigos )
+    {
+        List<Usuario> amigosList = new ArrayList<>();
+        String[] amigosArray = amigos.split(",");
+
+        for( String a : amigosArray )
+        {
+            Usuario u = getUserWithoutFriends( a );
+
+            if( u != null )
+            {
+                amigosList.add(u);
+            }
+        }
+
+        return amigosList;
+    }
+
+    public Usuario getUserWithoutFriends( String id )
+    {
         if (userPool.containsKey(id)) {
             if(userPool.get(id) != null) {
                 return userPool.get(id);
@@ -88,6 +142,39 @@ public class FireBaseDatabase {
 
                 if (uid != null && nombre != null && correo != null) {
                     Usuario allegedUser = new Usuario(uid, nombre, correo);
+                    userPool.put(id, allegedUser);
+                    return allegedUser;
+                } else {
+                    throw new IllegalArgumentException("Unable to create User (Invalid data)");
+                }
+            } catch (Exception e) {
+                Log.e("DATABASE EXCEPTION", "Invalid user data: " + e.getMessage());
+                return null;
+            }
+        } else {
+            Log.e("DATABASE INFO", "TIMEOUT getting user: " + id);
+        }
+
+        return null;
+    }
+
+    public Usuario getUser(String id) {
+        if (userPool.containsKey(id)) {
+            if(userPool.get(id) != null) {
+                return userPool.get(id);
+            }
+        }
+        Map<String, String> unparsedUser = getGenericClassFromDatabase("users/" + id);
+        if (unparsedUser != null) {
+            try {
+                String uid = unparsedUser.get("id");
+                String nombre = unparsedUser.get("nombre");
+                String correo = unparsedUser.get("correo");
+                String amigos = unparsedUser.get("amigos");
+
+                if (uid != null && nombre != null && correo != null) {
+                    Usuario allegedUser = new Usuario(uid, nombre, correo);
+                    List<Usuario> amigosList = getFriendsFromUids( amigos );
                     userPool.put(id, allegedUser);
                     return allegedUser;
                 } else {
