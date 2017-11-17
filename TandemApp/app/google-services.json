@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "761540755261",
+    "firebase_url": "https://tandemapp-2a1f3.firebaseio.com",
+    "project_id": "tandemapp-2a1f3",
+    "storage_bucket": "tandemapp-2a1f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:761540755261:android:ec5d557799b32380",
+        "android_client_info": {
+          "package_name": "co.edu.javeriana.tandemsquad.tandem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "761540755261-o9uevsc4d6m69me33gr8oneo545q8mkh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.edu.javeriana.tandemsquad.tandem",
+            "certificate_hash": "43293cba6250eb717385c6cde125a25b6ddb2648"
+          }
+        },
+        {
+          "client_id": "761540755261-8l6eg1m6p278s3lktso5t6pplffuqhmg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6sSrvQ7ogwVZIC8iRulXfZzkfLEzW09M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "761540755261-8l6eg1m6p278s3lktso5t6pplffuqhmg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
