@@ -55,7 +55,7 @@ import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
 import static co.edu.javeriana.tandemsquad.tandem.utilities.ActivityResult.REQUEST_CHECK_SETTINGS;
 
-public class HomeActivity extends NavigationActivity implements OnMapReadyCallback, PlaceSelectionListener, CreateMarkerDialog.OnMarkerCreatedListener{
+public class HomeActivity extends NavigationActivity implements OnMapReadyCallback, PlaceSelectionListener, CreateMarkerDialog.OnMarkerCreatedListener, CreatePublicTravelDialog.OnTravelCreatedListener {
 
   private static final double BOGOTA_LOWER_BOUND_LATITUDE = 4.465505;
   private static final double BOGOTA_LOWER_BOUND_LONGITUDE = -74.233671;
@@ -279,6 +279,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
       @Override
       public void onClick(View v) {
         travelStarted = false;
+        //TODO Change status in DB to "FINALIZADO"
         stopTravelButton.startAnimation(btnClose);
         stopTravelButton.setClickable(false);
       }
@@ -315,7 +316,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   private void createInstantTravel(){
     Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
     Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
-    Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
+    Recorrido r = new Recorrido(mInicio, mFinal);
+    r.setEstado(Recorrido.Estado.EN_CURSO);
     r.agregarParticipante(currentUser);
     currentUser.agregarRecorrido(r);
     travelStarted = true;
@@ -327,10 +329,17 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   private void planTravel(){
     FragmentManager fragmentManager = getSupportFragmentManager();
     CreatePublicTravelDialog newFragment = new CreatePublicTravelDialog();
+    newFragment.setOnTravelCreatedListener(this);
 
     //Enviar datos al diálogo
     Bundle bundle = new Bundle();
     bundle.putString("placeName", searchPlace.getName().toString());
+    Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
+    Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
+    bundle.putDouble("mInicioLat", myLocation.latitude);
+    bundle.putDouble("mInicioLng", myLocation.longitude);
+    bundle.putDouble("mFinalLat", searchPlace.getLatLng().latitude);
+    bundle.putDouble("mFinalLng", searchPlace.getLatLng().longitude);
     newFragment.setArguments(bundle);
 
     FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -342,18 +351,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   private void addMarker(){
     CreateMarkerDialog createMarkerDialog = new CreateMarkerDialog(HomeActivity.this, HomeActivity.this);
     createMarkerDialog.show();
-  }
-
-  private void type() {
-    if (searchPlace != null) {
-      if (travelStarted) {
-        Snackbar.make(this.getCurrentFocus(), "Ya has iniciado el recorrido.", Snackbar.LENGTH_LONG).show();
-      } else {
-        showTravelOptionsDialog();
-      }
-    } else {
-      Snackbar.make(this.getCurrentFocus(), "Primero debes buscar un reccorido.", Snackbar.LENGTH_LONG).show();
-    }
   }
 
   private void members() {
@@ -376,58 +373,6 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
   private void photoHistory() {
     Snackbar.make(this.getCurrentFocus(), "Tomar una foto y subir a historia", Snackbar.LENGTH_LONG).show();
-  }
-
-  public void showTravelOptionsDialog() {
-
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setTitle(R.string.travel_opts_title)
-        .setSingleChoiceItems(R.array.travel_dialog_opts, -1, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            optionSelected = which;
-          }
-        })
-        .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            if (optionSelected == 0) {
-              Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
-              Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
-              Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.CASUAL);
-              r.agregarParticipante(currentUser);
-              currentUser.agregarRecorrido(r);
-            } else if (optionSelected == 1) {
-              Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
-              Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
-              Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.PUBLICADO);
-              r.agregarParticipante(currentUser);
-              currentUser.agregarRecorrido(r);
-              fireBaseDatabase.addTravel(r);
-            } else if (optionSelected == 2) {
-              Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
-              Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
-              Recorrido r = new Recorrido(mInicio, mFinal, Recorrido.Estado.VIAJE);
-              if (r.getHoraInicio().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || r.getHoraInicio().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-                r.agregarParticipante(currentUser);
-                currentUser.agregarRecorrido(r);
-                fireBaseDatabase.addTravel(r);
-              } else {
-                Snackbar.make(HomeActivity.this.getCurrentFocus(), "No estas en una fecha admitida para crear un Viaje.", Snackbar.LENGTH_LONG).show();
-              }
-            }
-          }
-        })
-        .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-          @Override
-          public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss();
-          }
-        });
-
-    AlertDialog dialog = builder.create();
-    dialog.show();
   }
 
   @Override
@@ -462,6 +407,15 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     if (Permissions.askPermissionWithJustification(this, Permissions.FINE_LOCATION, getString(R.string.permission_gps))) {
       locationAction();
     }
+  }
+
+  //Asociar recorrido al usuario
+  @Override
+  public void onTravelCreated(Recorrido newTravel) {
+    newTravel.agregarParticipante(currentUser);
+    currentUser.agregarRecorrido(newTravel);
+    fireBaseDatabase.addTravel(newTravel);
+    Snackbar.make(getCurrentFocus(), R.string.published_travel, Snackbar.LENGTH_LONG).show();
   }
 
   //Obtener ubicación actual

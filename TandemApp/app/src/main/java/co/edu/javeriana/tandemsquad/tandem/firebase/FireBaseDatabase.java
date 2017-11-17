@@ -1,6 +1,7 @@
 package co.edu.javeriana.tandemsquad.tandem.firebase;
 
 import android.app.Activity;
+import android.icu.text.Collator;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -67,6 +68,7 @@ public class FireBaseDatabase {
     public static long getUnixTimestamp(GregorianCalendar date) {
         return date.getTimeInMillis() / 1000;
     }
+
     public static GregorianCalendar getGregorianCalendar(long timestamp) {
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(timestamp * 1000);
@@ -75,7 +77,7 @@ public class FireBaseDatabase {
 
     public Usuario getUser(String id) {
         if (userPool.containsKey(id)) {
-            if(userPool.get(id) != null) {
+            if (userPool.get(id) != null) {
                 return userPool.get(id);
             }
         }
@@ -262,30 +264,39 @@ public class FireBaseDatabase {
         });
     }
 
-    public void addTravel(final Recorrido recorrido )
-    {
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("E yyyy.MM.dd 'at' hh:mm:ss a zzz");
+    public void addTravel(final Recorrido recorrido) {
         final Map<String, String> messageData = new HashMap<>();
-        String estado = recorrido.getEstado() == Recorrido.Estado.VIAJE ? "viaje" : "casual";
-        messageData.put("inicioLat", recorrido.getInicio().getPosicion().latitude+"");
-        messageData.put("inicioLng", recorrido.getInicio().getPosicion().longitude+"");
-        messageData.put("finLat", recorrido.getFin().getPosicion().latitude+"");
-        messageData.put("finLng", recorrido.getFin().getPosicion().longitude+"");
-        messageData.put("hora", dateFormatter.format(recorrido.getHoraInicio().getTime()));
-        messageData.put("tipo", estado);
+        String estado, tipo, privacidad;
+        estado = "finalizado";
+        if (recorrido.getEstado() == Recorrido.Estado.PLANEADO) {
+            estado = "planeado";
+        } else if (recorrido.getEstado() == Recorrido.Estado.EN_CURSO) {
+            estado = "en_curso";
+        }
+        tipo = "instantaneo";
+        if (recorrido.getTipo() == Recorrido.Tipo.VIAJE) {
+            tipo = "viaje";
+        } else if (recorrido.getTipo() == Recorrido.Tipo.FRECUENTE) {
+            tipo = "frecuente";
+        }
+        privacidad = recorrido.getPrivacidad() == Recorrido.Privacidad.PUBLICO ? "publico" : "privado";
+        messageData.put("inicioLat", String.valueOf(recorrido.getInicio().getPosicion().latitude));
+        messageData.put("inicioLng", String.valueOf(recorrido.getInicio().getPosicion().longitude));
+        messageData.put("finLat", String.valueOf(recorrido.getFin().getPosicion().latitude));
+        messageData.put("finLng", String.valueOf(recorrido.getFin().getPosicion().longitude));
+        messageData.put("fecha", recorrido.getFecha());
+        messageData.put("hora", recorrido.getHora());
+        messageData.put("estado", estado);
+        messageData.put("tipo", tipo);
+        messageData.put("privacidad", privacidad);
         List<String> uids = new ArrayList<>();
-
-        for( Usuario u : recorrido.getParticipantes())
-        {
+        for (Usuario u : recorrido.getParticipantes()) {
             uids.add(u.getId());
         }
         messageData.put("participantes", uids.toString());
-
-        recorridosReference.addListenerForSingleValueEvent(new ValueEventListener()
-        {
+        recorridosReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 DatabaseReference ref = dataSnapshot.getRef();
                 ref = ref.child(recorrido.getParticipantes().get(0).getId());
                 ref = ref.push();
@@ -293,15 +304,13 @@ public class FireBaseDatabase {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
+            public void onCancelled(DatabaseError databaseError) {
                 Log.e("DATABASE EXCEPTION", "Error en la consulta");
             }
         });
     }
 
-    public List<Recorrido> getTravels(String uid)
-    {
+    public List<Recorrido> getTravels(String uid) {
         List<Recorrido> recorridos = new LinkedList<>();
         List<Map<String, String>> unparsedTravels = getGenericListFromDatabase("travels/" + uid);
         for (Map<String, String> unparsedTravel : unparsedTravels) {
@@ -310,25 +319,39 @@ public class FireBaseDatabase {
                 String inicioLng = unparsedTravel.get("inicioLng");
                 String finLat = unparsedTravel.get("finlat");
                 String finLng = unparsedTravel.get("finLng");
+                String fecha = unparsedTravel.get("fecha");
+                String hora = unparsedTravel.get("hora");
+                String estado = unparsedTravel.get("estado");
                 String tipo = unparsedTravel.get("tipo");
-
+                String privacidad = unparsedTravel.get("privacidad");
                 Usuario user = getUser(uid);
-
                 if (user != null && inicioLat != null && inicioLng != null && finLat != null && finLng != null && tipo != null) {
                     Marcador inicio = new Marcador(new LatLng(Double.parseDouble(inicioLat), Double.parseDouble(inicioLng)), Marcador.Tipo.INICIO);
                     Marcador fin = new Marcador(new LatLng(Double.parseDouble(finLat), Double.parseDouble(finLng)), Marcador.Tipo.FIN);
-                    Recorrido.Estado estado;
-
-                    if(tipo.equals("Casual"))
-                    {
-                        estado = Recorrido.Estado.CASUAL;
+                    Recorrido.Estado estadoEnum;
+                    Recorrido.Tipo tipoEnum;
+                    Recorrido.Privacidad privacidadEnum;
+                    if (estado.equals("en_curso")) {
+                        estadoEnum = Recorrido.Estado.EN_CURSO;
+                    } else if (estado.equals("Publicado")) {
+                        estadoEnum = Recorrido.Estado.PLANEADO;
+                    } else {
+                        estadoEnum = Recorrido.Estado.FINALIZADO;
                     }
-                    else  if(tipo.equals("Publicado"))
-                    {
-                        estado =Recorrido.Estado.PUBLICADO;
+                    if (tipo.equals("viaje")) {
+                        tipoEnum = Recorrido.Tipo.VIAJE;
+                    } else if (tipo.equals("frecuente")) {
+                        tipoEnum = Recorrido.Tipo.FRECUENTE;
+                    } else {
+                        tipoEnum = Recorrido.Tipo.INSTANTANEO;
                     }
-
-                    //Recorrido rec = new Recorrido(inicio, fin, tipo);
+                    if (privacidad.equals("publico")) {
+                        privacidadEnum = Recorrido.Privacidad.PUBLICO;
+                    } else {
+                        privacidadEnum = Recorrido.Privacidad.PRIVADO;
+                    }
+                    Recorrido recorrido = new Recorrido(inicio, fin, fecha, hora, estadoEnum, privacidadEnum, tipoEnum);
+                    //TODO List of participants
                 } else {
                     throw new IllegalArgumentException("Unable to create Message");
                 }

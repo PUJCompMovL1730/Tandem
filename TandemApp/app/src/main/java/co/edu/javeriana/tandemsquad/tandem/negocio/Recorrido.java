@@ -7,33 +7,48 @@ import java.util.List;
 public class Recorrido {
 
     public enum Estado {
-        PUBLICADO, CASUAL, VIAJE, TERMINADO;
+        PLANEADO, EN_CURSO, FINALIZADO;
+    }
+
+    public enum Privacidad {
+        PUBLICO, PRIVADO;
+    }
+
+    public enum Tipo {
+        VIAJE, FRECUENTE, INSTANTANEO;
     }
 
     private Marcador inicio;
     private Marcador fin;
-    private GregorianCalendar horaInicio;
-    private GregorianCalendar horaFinal;
+    private String fecha;
+    private String hora;
     private List<Usuario> participantes;
     private Estado estado;
+    private Privacidad privacidad;
+    private Tipo tipo;
     private Clima clima;
 
-    public Recorrido(Marcador inicio, Marcador fin, Estado estado) {
+    public Recorrido(Marcador inicio, Marcador fin) {
         this.inicio = inicio;
         this.fin = fin;
-        this.horaInicio = new GregorianCalendar();
-        this.horaFinal = new GregorianCalendar();
-        this.estado = estado;
         participantes = new ArrayList<>();
     }
 
-    public void agregarParticipante( Usuario usuario )
-    {
+    public Recorrido(Marcador inicio, Marcador fin, String fecha, String hora, Estado estado, Privacidad privacidad, Tipo tipo) {
+        this.inicio = inicio;
+        this.fin = fin;
+        this.fecha = fecha;
+        this.hora = hora;
+        this.estado = estado;
+        this.privacidad = privacidad;
+        this.tipo = tipo;
+    }
+
+    public void agregarParticipante(Usuario usuario) {
         participantes.add(usuario);
     }
 
-    public List<Usuario> getParticipantes()
-    {
+    public List<Usuario> getParticipantes() {
         return participantes;
     }
 
@@ -45,12 +60,8 @@ public class Recorrido {
         this.estado = estado;
     }
 
-    public GregorianCalendar getHoraInicio() {
-        return horaInicio;
-    }
-
-    public GregorianCalendar getHoraFinal() {
-        return horaFinal;
+    public String getFecha() {
+        return fecha;
     }
 
     public Marcador getInicio() {
@@ -69,11 +80,19 @@ public class Recorrido {
         this.fin = fin;
     }
 
-    public void setHoraInicio(GregorianCalendar horaInicio) {
-        this.horaInicio = horaInicio;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public void setHoraFinal(GregorianCalendar horaFinal) {
-        this.horaFinal = horaFinal;
-    }
+    public Privacidad getPrivacidad() { return privacidad; }
+
+    public void setPrivacidad(Privacidad privacidad) { this.privacidad = privacidad; }
+
+    public Tipo getTipo() { return tipo; }
+
+    public void setTipo(Tipo tipo) { this.tipo = tipo; }
+
+    public String getHora() { return hora; }
+
+    public void setHora(String hora) { this.hora = hora; }
 }
