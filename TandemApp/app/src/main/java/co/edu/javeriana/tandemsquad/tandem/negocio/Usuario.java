@@ -59,6 +59,8 @@ public class Usuario {
         historial = new ArrayList<>();
     }
 
+    public void agregarAmigo( Usuario amigo ) { this.amigos.add(amigo); }
+
     public void agregarRecorrido( Recorrido r )
     {
         this.historial.add(r);
