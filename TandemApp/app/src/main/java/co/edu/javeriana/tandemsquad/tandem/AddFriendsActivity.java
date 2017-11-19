@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.view.Menu;
+import android.support.v4.app.NavUtils;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
@@ -18,22 +18,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.javeriana.tandemsquad.tandem.adapters.UserAdapter;
+import co.edu.javeriana.tandemsquad.tandem.adapters.UserNotFriendAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
-public class FriendsActivity extends NavigationActivity {
+public class AddFriendsActivity extends NavigationActivity {
 
   private FireBaseAuthentication fireBaseAuthentication;
   private FireBaseStorage fireBaseStorage;
   private FireBaseDatabase fireBaseDatabase;
 
-  private ListView friendsListView;
-  private List<Usuario> friendsList;
-  private UserAdapter userAdapter;
+  private ListView usersListView;
+  private List<Usuario> usersNotFriendsList;
+  private UserNotFriendAdapter userAdapter;
 
   private Usuario currentUser;
 
@@ -42,7 +42,7 @@ public class FriendsActivity extends NavigationActivity {
     super.onCreate(savedInstanceState);
 
     ViewStub stub = (ViewStub) findViewById(R.id.layout_stub);
-    stub.setLayoutResource(R.layout.activity_friends);
+    stub.setLayoutResource(R.layout.activity_add_friends);
     View contentView = stub.inflate();
 
     initComponents();
@@ -57,7 +57,7 @@ public class FriendsActivity extends NavigationActivity {
 
         currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
         if (currentUser != null) {
-          updateFriendsAdapter();
+          updateUsersAdapter();
         }
       }
     };
@@ -66,59 +66,51 @@ public class FriendsActivity extends NavigationActivity {
       @Override
       protected void onDownloadFileSuccess(Task<FileDownloadTask.TaskSnapshot> task, File file) {
         Uri uri = Uri.fromFile(file);
-        Bitmap image = (Bitmap) Utils.getImageFormUri(FriendsActivity.this, uri);
+        Bitmap image = (Bitmap) Utils.getImageFormUri(AddFriendsActivity.this, uri);
         viewImage.setImageBitmap(image);
       }
     };
   }
 
-  public void updateFriendsAdapter() {
-    friendsList = currentUser.getAmigos();
+  public void updateUsersAdapter() {
+    List<Usuario> friendsList = currentUser.getAmigos();
+    List<Usuario> allUsers = fireBaseDatabase.getAllUsers();
 
-    if (friendsList != null) {
-      userAdapter = new UserAdapter(this, friendsList);
-    } else {
-      friendsList = new ArrayList<>();
-      userAdapter = new UserAdapter(this, friendsList);
-    }
+    usersNotFriendsList.addAll(allUsers);
 
-    friendsListView.setAdapter(userAdapter);
+    //TODO Revisar
+    usersNotFriendsList.removeAll(friendsList);
+
+    userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
+    usersListView.setAdapter(userAdapter);
+    /**
+     usersNotFriendsList = currentUser.getAmigos();
+
+     if (usersNotFriendsList != null) {
+     userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
+     } else {
+     usersNotFriendsList = new ArrayList<>();
+     userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
+     }
+
+     usersListView.setAdapter(userAdapter);
+     */
   }
 
   @Override
   protected void initComponents() {
-    super.initComponents();
-    getSupportActionBar().setTitle(R.string.activity_label_friends);
+    //super.initComponents();
 
-    friendsListView = (ListView) findViewById(R.id.friends_list_view);
-    friendsList = new ArrayList<>();
-    userAdapter = new UserAdapter(this, friendsList);
-    friendsListView.setAdapter(userAdapter);
-  }
+    toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+    toolbar.setNavigationIcon(R.drawable.icon_arrow_back);
+    setSupportActionBar(toolbar);
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu){
-    super.onCreateOptionsMenu(menu);
-    getMenuInflater().inflate(R.menu.add_friend_menu, menu);
-    return true;
-  }
+    getSupportActionBar().setTitle(R.string.activity_label_add_friends);
 
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
-        drawer.openDrawer(GravityCompat.START);
-        return true;
-      case R.id.menu_settings:
-        break;
-      case R.id.menu_logout:
-        logout();
-        break;
-      case R.id.menu_add_friend:
-        startActivity(new Intent(this, AddFriendsActivity.class));
-        break;
-    }
-    return super.onOptionsItemSelected(item);
+    usersListView = (ListView) findViewById(R.id.not_friends_list_view);
+    usersNotFriendsList = new ArrayList<>();
+    userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
+    usersListView.setAdapter(userAdapter);
   }
 
   @Override
@@ -139,5 +131,15 @@ public class FriendsActivity extends NavigationActivity {
     Intent mainIntent = new Intent(this, LoginActivity.class);
     mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     startActivity(mainIntent);
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        NavUtils.navigateUpFromSameTask(this);
+        return true;
+    }
+    return super.onOptionsItemSelected(item);
   }
 }

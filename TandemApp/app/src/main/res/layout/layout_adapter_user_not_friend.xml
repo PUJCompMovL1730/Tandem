@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="@dimen/gutter">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_not_friend_adapter_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/icon_user"
+        android:layout_marginEnd="@dimen/gutter"/>
+
+    <TextView
+        android:id="@+id/user_not_friend_adapter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nombre de usuario"
+        android:textSize="16sp"/>
+
+    <ImageButton
+        android:id="@+id/add_friend"
+        android:src="@drawable/icon_add"
+        android:tint="#888888"
+        android:layout_marginStart="@dimen/gutter"
+        android:backgroundTint="@color/background"
+        android:layout_gravity="end|center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
