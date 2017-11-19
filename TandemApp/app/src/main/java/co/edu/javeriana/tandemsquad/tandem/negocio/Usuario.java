@@ -1,5 +1,6 @@
 package co.edu.javeriana.tandemsquad.tandem.negocio;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Usuario {
     private List<Usuario> amigos;
     private List<Historia> historias;
     private List<Recorrido> historial;
+    private Bitmap imagen;
 
     public Usuario(String id, String nombre, String correo) {
         this.id = id;
@@ -118,11 +120,23 @@ public class Usuario {
         return amigos;
     }
 
+    public void setAmigos(List<Usuario> amigos) {
+        this.amigos = amigos;
+    }
+
     public List<Historia> getHistorias() {
         return historias;
     }
 
     public List<Recorrido> getHistorial() {
         return historial;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 }

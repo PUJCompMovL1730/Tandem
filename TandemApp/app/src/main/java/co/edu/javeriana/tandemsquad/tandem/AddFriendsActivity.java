@@ -1,9 +1,11 @@
 package co.edu.javeriana.tandemsquad.tandem;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -16,16 +18,18 @@ import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.UserNotFriendAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Mensaje;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
-public class AddFriendsActivity extends NavigationActivity {
+public class AddFriendsActivity extends NavigationActivity implements UserNotFriendAdapter.OnAddFriendButtonPressedListener{
 
   private FireBaseAuthentication fireBaseAuthentication;
   private FireBaseStorage fireBaseStorage;
@@ -34,6 +38,9 @@ public class AddFriendsActivity extends NavigationActivity {
   private ListView usersListView;
   private List<Usuario> usersNotFriendsList;
   private UserNotFriendAdapter userAdapter;
+  private Iterator<Usuario> iterator;
+
+  private ProgressDialog dialog;
 
   private Usuario currentUser;
 
@@ -50,15 +57,32 @@ public class AddFriendsActivity extends NavigationActivity {
 
     fireBaseDatabase = new FireBaseDatabase(this);
 
+
     fireBaseAuthentication = new FireBaseAuthentication(this) {
       @Override
       public void onSignInSuccess() {
         setToolbarData(fireBaseAuthentication, fireBaseStorage);
+        dialog = ProgressDialog.show(AddFriendsActivity.this, "Cargando usuarios", "Espera un momento por favor...", false, false);
+        new Thread(new Runnable() {
+          @Override
+          public void run() {
+            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
+            if (currentUser != null) {
+              final List<Usuario> usuarios = fireBaseDatabase.getAllUsers();
+              final List<Usuario> friendsList = currentUser.getAmigos();
 
-        currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
-        if (currentUser != null) {
-          updateUsersAdapter();
-        }
+              runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  updateUsersAdapter(usuarios, friendsList);
+                }
+              });
+            }
+            if (dialog != null) {
+              dialog.dismiss();
+            }
+          }
+        }).start();
       }
     };
 
@@ -72,29 +96,24 @@ public class AddFriendsActivity extends NavigationActivity {
     };
   }
 
-  public void updateUsersAdapter() {
-    List<Usuario> friendsList = currentUser.getAmigos();
-    List<Usuario> allUsers = fireBaseDatabase.getAllUsers();
+  public void updateUsersAdapter(List<Usuario> usuarios, List<Usuario> friendsList) {
+    usersNotFriendsList.addAll(usuarios);
 
-    usersNotFriendsList.addAll(allUsers);
+    iterator = usersNotFriendsList.iterator();
 
-    //TODO Revisar
-    usersNotFriendsList.removeAll(friendsList);
+    while (iterator.hasNext()){
+      Usuario usuario = iterator.next();
+      for(Usuario friend : friendsList) {
+        if(usuario.getId().equals(friend.getId())){
+          iterator.remove();
+        }
+      }
+      if(usuario.getId().equals(currentUser.getId())){
+        iterator.remove();
+      }
+    }
 
-    userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
     usersListView.setAdapter(userAdapter);
-    /**
-     usersNotFriendsList = currentUser.getAmigos();
-
-     if (usersNotFriendsList != null) {
-     userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
-     } else {
-     usersNotFriendsList = new ArrayList<>();
-     userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
-     }
-
-     usersListView.setAdapter(userAdapter);
-     */
   }
 
   @Override
@@ -109,7 +128,7 @@ public class AddFriendsActivity extends NavigationActivity {
 
     usersListView = (ListView) findViewById(R.id.not_friends_list_view);
     usersNotFriendsList = new ArrayList<>();
-    userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList);
+    userAdapter = new UserNotFriendAdapter(this, usersNotFriendsList, this);
     usersListView.setAdapter(userAdapter);
   }
 
@@ -141,5 +160,12 @@ public class AddFriendsActivity extends NavigationActivity {
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @Override
+  public void onAddFriendButtonPressed(Usuario selectedUser) {
+    currentUser.agregarAmigo(selectedUser);
+    Snackbar.make(getCurrentFocus(), selectedUser.getNombre() + " fue añadido a tu lista de amigos", Snackbar.LENGTH_LONG).show();
+    fireBaseDatabase.updateFriendsList(currentUser);
   }
 }

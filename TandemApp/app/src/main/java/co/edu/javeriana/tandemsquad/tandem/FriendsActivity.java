@@ -18,7 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.javeriana.tandemsquad.tandem.adapters.UserAdapter;
+import co.edu.javeriana.tandemsquad.tandem.adapters.FriendAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
@@ -33,7 +33,7 @@ public class FriendsActivity extends NavigationActivity {
 
   private ListView friendsListView;
   private List<Usuario> friendsList;
-  private UserAdapter userAdapter;
+  private FriendAdapter userAdapter;
 
   private Usuario currentUser;
 
@@ -76,10 +76,10 @@ public class FriendsActivity extends NavigationActivity {
     friendsList = currentUser.getAmigos();
 
     if (friendsList != null) {
-      userAdapter = new UserAdapter(this, friendsList);
+      userAdapter = new FriendAdapter(this, friendsList);
     } else {
       friendsList = new ArrayList<>();
-      userAdapter = new UserAdapter(this, friendsList);
+      userAdapter = new FriendAdapter(this, friendsList);
     }
 
     friendsListView.setAdapter(userAdapter);
@@ -92,7 +92,7 @@ public class FriendsActivity extends NavigationActivity {
 
     friendsListView = (ListView) findViewById(R.id.friends_list_view);
     friendsList = new ArrayList<>();
-    userAdapter = new UserAdapter(this, friendsList);
+    userAdapter = new FriendAdapter(this, friendsList);
     friendsListView.setAdapter(userAdapter);
   }
 

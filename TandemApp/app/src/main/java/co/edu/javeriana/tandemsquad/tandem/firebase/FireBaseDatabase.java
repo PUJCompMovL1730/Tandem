@@ -1,16 +1,27 @@
 package co.edu.javeriana.tandemsquad.tandem.firebase;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.Collator;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -21,15 +32,19 @@ import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+import co.edu.javeriana.tandemsquad.tandem.FriendsActivity;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Mensaje;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
+import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
+import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 
 public class FireBaseDatabase {
 
   private Activity activity;
   private FirebaseDatabase firebaseDatabase;
+  private FireBaseStorage firebaseStorage;
   private DatabaseReference usuariosReference;
   private DatabaseReference recorridosReference;
   private DatabaseReference historiasReference;
@@ -46,11 +61,32 @@ public class FireBaseDatabase {
   public FireBaseDatabase(Activity acticity) {
     this.activity = acticity;
     firebaseDatabase = FirebaseDatabase.getInstance();
+    firebaseStorage = new FireBaseStorage(activity) {
+      @Override
+      protected void onDownloadFileSuccess(Task<FileDownloadTask.TaskSnapshot> task, File file) {
+      }
+    };
     usuariosReference = firebaseDatabase.getReference("users");
     recorridosReference = firebaseDatabase.getReference("travels");
     historiasReference = firebaseDatabase.getReference("histories");
     mensajesReference = firebaseDatabase.getReference("messages");
     marcadoresReference = firebaseDatabase.getReference("markers");
+  }
+
+  public void updateFriendsList(final Usuario usuario){
+    final DatabaseReference userReference = firebaseDatabase.getReference("users/" + usuario.getId());
+    String amigos = "";
+    boolean friends = false;
+    if (!usuario.getAmigos().isEmpty()) {
+      for (Usuario u : usuario.getAmigos()) {
+        if(friends) {
+          amigos += ",";
+        }
+        friends = true;
+        amigos += u.getId();
+      }
+    }
+    userReference.child("amigos").setValue(amigos);
   }
 
   public void writeUser(final Usuario usuario) {
@@ -134,7 +170,13 @@ public class FireBaseDatabase {
         String correo = unparsedUser.get("correo");
 
         if (uid != null && nombre != null && correo != null) {
-          Usuario allegedUser = new Usuario(uid, nombre, correo);
+          final Usuario allegedUser = new Usuario(uid, nombre, correo);
+          new Thread(new Runnable() {
+            @Override
+            public void run() {
+              firebaseStorage.downloadUserImage(allegedUser);
+            }
+          }).start();
           userPool.put(id, allegedUser);
           return allegedUser;
         } else {
@@ -162,7 +204,13 @@ public class FireBaseDatabase {
         String correo = unparsedUser.get("correo");
 
         if (uid != null && nombre != null && correo != null) {
-          Usuario allegedUser = new Usuario(uid, nombre, correo);
+          final Usuario allegedUser = new Usuario(uid, nombre, correo);
+          new Thread(new Runnable() {
+            @Override
+            public void run() {
+              firebaseStorage.downloadUserImage(allegedUser);
+            }
+          }).start();
           usuarios.add(allegedUser);
         } else {
           throw new IllegalArgumentException("Unable to create User (Invalid data)");
@@ -188,12 +236,18 @@ public class FireBaseDatabase {
         String nombre = unparsedUser.get("nombre");
         String correo = unparsedUser.get("correo");
         String amigos = unparsedUser.get("amigos");
-
         if (uid != null && nombre != null && correo != null) {
-          Usuario allegedUser = new Usuario(uid, nombre, correo);
+          final Usuario allegedUser = new Usuario(uid, nombre, correo);
           if (amigos != null) {
             List<Usuario> amigosList = getFriendsFromUids(amigos);
+            allegedUser.setAmigos(amigosList);
           }
+          new Thread(new Runnable() {
+            @Override
+            public void run() {
+              firebaseStorage.downloadUserImage(allegedUser);
+            }
+            }).start();
           userPool.put(id, allegedUser);
           return allegedUser;
         } else {

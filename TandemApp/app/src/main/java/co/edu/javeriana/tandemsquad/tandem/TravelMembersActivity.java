@@ -19,7 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import co.edu.javeriana.tandemsquad.tandem.adapters.UserAdapter;
+import co.edu.javeriana.tandemsquad.tandem.adapters.FriendAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
@@ -35,8 +35,8 @@ public class TravelMembersActivity extends NavigationActivity {
   private ListView members;
   private List<Usuario> listFriends;
   private List<Usuario> listMembers;
-  private UserAdapter userAdapter;
-  private UserAdapter memebersAdapter;
+  private FriendAdapter userAdapter;
+  private FriendAdapter memebersAdapter;
 
   private int invitedPosition;
   private int removedPosition;
@@ -87,9 +87,9 @@ public class TravelMembersActivity extends NavigationActivity {
     super.initComponents();
 
     listFriends = new ArrayList<Usuario>();
-    userAdapter = new UserAdapter(this, listFriends);
+    userAdapter = new FriendAdapter(this, listFriends);
     listMembers = new ArrayList<Usuario>();
-    memebersAdapter = new UserAdapter(this, listMembers);
+    memebersAdapter = new FriendAdapter(this, listMembers);
 
     if (friends == null) {
       Log.i("friends", R.id.invites_list_view + "");
@@ -139,7 +139,7 @@ public class TravelMembersActivity extends NavigationActivity {
     }
 
     listMembers.remove(userIndex);
-    memebersAdapter = new UserAdapter(this, listMembers);
+    memebersAdapter = new FriendAdapter(this, listMembers);
     members.setAdapter(memebersAdapter);
   }
 
