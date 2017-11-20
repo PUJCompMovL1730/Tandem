@@ -77,15 +77,14 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             protected void onSignUpFailed(Task<AuthResult> task) {
                 super.onSignUpFailed(task);
-                dialog.dismiss();
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
             }
 
             @Override
             public void onUserProfileUpdateSuccess() {
                 FirebaseUser user = getUser();
                 if(user != null) {
-                    dialog.dismiss();
-                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl(), user.getPhotoUrl());
+                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl());
                     fireBaseDatabase.writeUser(usuario);
                 }
             }
@@ -93,7 +92,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             protected void onUserProfileUpdateFailed(Task<Void> task) {
                 super.onUserProfileUpdateFailed(task);
-                dialog.dismiss();
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), "Reintentando: " + task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+                fireBaseAuthentication.updateUserProfile(signupBundle.getString("name"));
             }
         };
         fireBaseStorage = new FireBaseStorage(this) {
@@ -106,6 +106,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onUploadFileFailed(Task<UploadTask.TaskSnapshot> task) {
                 super.onUploadFileFailed(task);
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
                 fireBaseAuthentication.updateUserProfile(signupBundle.getString("name"));
             }
         };
@@ -113,6 +114,7 @@ public class SignupActivity extends AppCompatActivity {
         fireBaseDatabase = new FireBaseDatabase(this) {
             @Override
             protected void onSuccessWriteUser(Task<Void> task) {
+                dialog.dismiss();
                 goHome();
             }
 
