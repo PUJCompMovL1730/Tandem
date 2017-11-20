@@ -25,6 +25,7 @@ import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.FriendAdapter;
@@ -116,6 +117,16 @@ public class FriendsActivity extends NavigationActivity {
         return pixels;
     }
 
+    public String timeAgo(long time) {
+        long diff = FireBaseDatabase.getUnixTimestamp(new GregorianCalendar()) - time;
+        if (diff < 60) {
+            return "Hace " + diff + " segundos";
+        } else if (diff < 3600) {
+            return "Hace " + (diff / 60) + " minutos";
+        } else
+            return "Hace " + (diff / 3600) + "horas";
+    }
+
     public void updateStories(List<Historia> stories) {
         storiesContainer.removeAllViews();
         for (final Historia story : stories) {
@@ -155,6 +166,8 @@ public class FriendsActivity extends NavigationActivity {
                         viewStory.putExtra("image", bytesStory.toByteArray());
                         viewStory.putExtra("profileImage", bytesProfile.toByteArray());
                         viewStory.putExtra("username", story.getUsuario().getNombre());
+                        viewStory.putExtra("message", story.getMensaje());
+                        viewStory.putExtra("date", timeAgo(FireBaseDatabase.getUnixTimestamp(story.getFecha())));
                         startActivity(viewStory);
                     }
                 }

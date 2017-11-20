@@ -17,6 +17,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
@@ -46,6 +47,23 @@ public class FireBaseStorage {
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()) onUploadFileSuccess(task);
                 else onUploadFileFailed(task);
+            }
+        });
+    }
+
+    public final void uploadStory(String userId, Bitmap photo, final FireBaseDatabase.AsyncEventListener<Boolean> handler) {
+
+        ByteArrayOutputStream bytesStory = new ByteArrayOutputStream();
+        photo.compress(Bitmap.CompressFormat.JPEG, 85, bytesStory);
+
+        StorageReference imagesStorage = storageReference.child("stories/" + userId + ".jpg");
+        imagesStorage.putBytes(bytesStory.toByteArray()).addOnCompleteListener(activity, new OnCompleteListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                if (task.isSuccessful())
+                    handler.onActionPerformed(true);
+                else
+                    handler.onActionPerformed(false);
             }
         });
     }

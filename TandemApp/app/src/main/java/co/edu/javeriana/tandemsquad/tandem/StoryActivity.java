@@ -15,7 +15,7 @@ public class StoryActivity extends AppCompatActivity {
     ProgressBar storyProgressBar;
     CircleImageView storyProfileImage;
     ImageView storyImage;
-    TextView storyText;
+    TextView storyText, storyUser, storyDate;
     int progressStatusCounter = 0;
     Handler progressHandler = new Handler();
 
@@ -25,10 +25,14 @@ public class StoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_story);
         storyProgressBar = (ProgressBar) findViewById(R.id.story_progress_bar);
         storyText = (TextView) findViewById(R.id.story_text);
+        storyDate = (TextView) findViewById(R.id.story_date);
+        storyUser = (TextView) findViewById(R.id.story_user);
         storyProfileImage = (CircleImageView) findViewById(R.id.story_profile_image);
         storyImage = (ImageView) findViewById(R.id.story_image);
 
-        storyText.setText((String)getIntent().getStringExtra("username"));
+        storyText.setText((String)getIntent().getStringExtra("message"));
+        storyUser.setText((String)getIntent().getStringExtra("username"));
+        storyDate.setText((String)getIntent().getStringExtra("date"));
 
         byte[] profileImageBytes = getIntent().getByteArrayExtra("profileImage");
         Bitmap profileImageData = BitmapFactory.decodeByteArray(profileImageBytes, 0, profileImageBytes.length);
