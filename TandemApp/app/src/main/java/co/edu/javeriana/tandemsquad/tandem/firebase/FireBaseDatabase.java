@@ -78,6 +78,7 @@ public class FireBaseDatabase {
     }
 
     public void writeUser(final Usuario usuario) {
+
         final DatabaseReference userReference = firebaseDatabase.getReference("users/" + usuario.getId());
         final Map<String, String> messageData = new HashMap<>();
         messageData.put("correo", usuario.getCorreo());
@@ -95,21 +96,6 @@ public class FireBaseDatabase {
 
         messageData.put("amigos", amigos.trim());
         userReference.setValue(usuario);
-
-        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                DatabaseReference ref = dataSnapshot.getRef();
-                ref = ref.child(usuario.getId());
-                ref = ref.push();
-                ref.setValue(messageData);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("DATABASE EXCEPTION", "Error en la consulta");
-            }
-        });
     }
 
     public void writeMarker(Marcador marcador) {
