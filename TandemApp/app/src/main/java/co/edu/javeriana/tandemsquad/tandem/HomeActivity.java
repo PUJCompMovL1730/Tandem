@@ -27,6 +27,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
@@ -39,7 +40,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
@@ -238,6 +242,7 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
           } else { //Crear el recorrido
             hideAllFloatingButtons();
             createInstantTravel();
+            GoogleMapController.move(myLocation, GoogleMapConstants.ZOOM_STREET, googleMap);
           }
         }
       }
@@ -280,7 +285,9 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
       @Override
       public void onClick(View v) {
         travelStarted = false;
-        //TODO Change status in DB to "FINALIZADO"
+        fireBaseDatabase.finishTravel(currentUser);
+        googleMap.clear();
+        drawMyPoint(myLocation);
         stopTravelButton.startAnimation(btnClose);
         stopTravelButton.setClickable(false);
       }
@@ -315,12 +322,22 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
 
   //Crear un recorrido "instantáneo" (privado y que se realiza de una vez)
   private void createInstantTravel(){
+    Calendar currentDate = Calendar.getInstance(TimeZone.getDefault());
     Marcador mInicio = new Marcador(myLocation, Marcador.Tipo.INICIO, "Inicio de recorrido.");
     Marcador mFinal = new Marcador(searchPlace.getLatLng(), Marcador.Tipo.FIN, "Fin de recorrido.");
     Recorrido r = new Recorrido(mInicio, mFinal);
-    r.setEstado(Recorrido.Estado.EN_CURSO);
+    r.setEstadoVal(Recorrido.Estado.EN_CURSO);
+    r.setTipoVal(Recorrido.Tipo.INSTANTANEO);
+    r.setPrivacidadVal(Recorrido.Privacidad.PRIVADO);
     r.agregarParticipante(currentUser);
+    r.setEndName(searchPlace.getName().toString());
+    SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy", Locale.US);
+    SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm aaa", Locale.US);
+    r.setFecha(dateFormat.format(currentDate.getTime()));
+    r.setHora(timeFormat.format(currentDate.getTime()));
+
     currentUser.agregarRecorrido(r);
+    fireBaseDatabase.addTravel(r);
     travelStarted = true;
     stopTravelButton.startAnimation(btnOpen);
     stopTravelButton.setClickable(true);
@@ -413,9 +430,13 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
   //Asociar recorrido al usuario
   @Override
   public void onTravelCreated(Recorrido newTravel) {
+    newTravel.setEndName(searchPlace.getName().toString());
     newTravel.agregarParticipante(currentUser);
+    newTravel.setEndName(searchPlace.getName().toString());
     currentUser.agregarRecorrido(newTravel);
     fireBaseDatabase.addTravel(newTravel);
+    googleMap.clear();
+    drawMyPoint(myLocation);
     Snackbar.make(getCurrentFocus(), R.string.published_travel, Snackbar.LENGTH_LONG).show();
   }
 

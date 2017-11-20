@@ -10,11 +10,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
@@ -22,13 +24,18 @@ import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.TravelAdapter;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseAuthentication;
+import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 import co.edu.javeriana.tandemsquad.tandem.utilities.Utils;
 
 public class TravelsActivity extends NavigationActivity {
 
+    private FireBaseDatabase fireBaseDatabase;
     private FireBaseAuthentication fireBaseAuthentication;
+    private Usuario currentUser;
+    private String currentUserId;
     private FireBaseStorage fireBaseStorage;
 
     private ListView travels;
@@ -47,8 +54,7 @@ public class TravelsActivity extends NavigationActivity {
         stub.setLayoutResource(R.layout.activity_travels);
         View contentView = stub.inflate();
 
-        initComponents();
-        setButtonActions();
+        fireBaseDatabase = new FireBaseDatabase(this);
 
         fireBaseAuthentication = new FireBaseAuthentication(this) {
             @Override
@@ -56,6 +62,11 @@ public class TravelsActivity extends NavigationActivity {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
             }
         };
+        currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        currentUser = fireBaseDatabase.getUser(currentUserId);
+
+        initComponents();
+        setButtonActions();
 
         fireBaseStorage = new FireBaseStorage(this) {
             @Override
@@ -132,13 +143,23 @@ public class TravelsActivity extends NavigationActivity {
             switch (position) {
                 case 0:
                     //Historial de recorridos del usuario (recorridos finalizados)
-                    return TravelsHistoryFragment.newInstance();
+                    TravelsHistoryFragment historyFragment = TravelsHistoryFragment.newInstance();
+                    historyFragment.setCurrentUserId(currentUserId);
+                    historyFragment.setFireBaseDatabase(fireBaseDatabase);
+                    return historyFragment;
                 case 1:
                     //Recorridos que ha publicado el usuario y recorridos a los que sea ha unido
-                    return TravelsOwnFragment.newInstance();
+                    TravelsOwnFragment ownFragment = TravelsOwnFragment.newInstance();
+                    ownFragment.setCurrentUserId(currentUserId);
+                    ownFragment.setFireBaseDatabase(fireBaseDatabase);
+                    return ownFragment;
                 case 2:
                     //Recorridos publicados por otros usuarios
-                    return TravelsGlobalFragment.newInstance();
+                    TravelsGlobalFragment globalFragment = TravelsGlobalFragment.newInstance();
+                    globalFragment.setCurrentUser(currentUser);
+                    globalFragment.setCurrentUserId(currentUserId);
+                    globalFragment.setFireBaseDatabase(fireBaseDatabase);
+                    return globalFragment;
                 default:
                     return null;
             }

@@ -34,4 +34,8 @@ public class GoogleMapController {
         addMarker(latLng, title, snippet, googleMap, iconResource);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
+
+    public static void move(LatLng latLng, int zoom, GoogleMap googleMap) {
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
 }

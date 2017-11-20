@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TandemApp.iml" filepath="$PROJECT_DIR$/TandemApp.iml" />
+      <module fileurl="file://D:\Dropbox\Repositories\Tandem\TandemApp\TandemApp.iml" filepath="D:\Dropbox\Repositories\Tandem\TandemApp\TandemApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

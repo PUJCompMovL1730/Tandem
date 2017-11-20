@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,11 +17,17 @@ import java.util.List;
 import co.edu.javeriana.tandemsquad.tandem.HomeActivity;
 import co.edu.javeriana.tandemsquad.tandem.R;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
+import co.edu.javeriana.tandemsquad.tandem.negocio.Usuario;
 
-public class TravelAdapter extends ArrayAdapter<Recorrido>{
+public class GlobalTravelAdapter extends ArrayAdapter<Recorrido>{
 
-    public TravelAdapter(Context context, List<Recorrido> array) {
+    private OnJoinTravelButtonPressedListener listener;
+    private String currentUserId;
+
+    public GlobalTravelAdapter(Context context, List<Recorrido> array, OnJoinTravelButtonPressedListener listener, String id) {
         super(context, 0, array);
+        this.listener = listener;
+        this.currentUserId = id;
     }
 
     @NonNull
@@ -28,32 +35,36 @@ public class TravelAdapter extends ArrayAdapter<Recorrido>{
     public View getView(int position, @Nullable View convertView, @NonNull final ViewGroup parent) {
         final Recorrido travel = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_adapter_travel, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.layout_adapter_global_travel, parent, false);
         }
 
         TextView originDate = (TextView) convertView.findViewById(R.id.travel_adapter_origin_date);
         TextView originTime = (TextView) convertView.findViewById(R.id.travel_adapter_origin_time);
         TextView destiny = (TextView) convertView.findViewById(R.id.travel_adapter_destiny);
-
+        final ImageView addTravel = (ImageView) convertView.findViewById(R.id.join_travel);
+        for(Usuario usuario : travel.getParticipantes()) {
+            if(usuario.getId().equals(currentUserId)) {
+                addTravel.setImageResource(R.drawable.icon_done);
+                addTravel.setEnabled(false);
+            }
+        }
         originDate.setText(travel.getFecha());
         originTime.setText(travel.getHora());
         destiny.setText(travel.getEndName());
 
-        convertView.setOnClickListener(new View.OnClickListener() {
+        addTravel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle extras = new Bundle();
-                extras.putBoolean("draw", true);
-                extras.putDouble("lat1", travel.getInicio().getPosicion().latitude);
-                extras.putDouble("lon1", travel.getInicio().getPosicion().longitude);
-                extras.putDouble("lat2", travel.getFin().getPosicion().latitude);
-                extras.putDouble("lon2", travel.getFin().getPosicion().longitude);
-                Intent intent = new Intent(parent.getContext(), HomeActivity.class);
-                intent.putExtras(extras);
-                parent.getContext().startActivity(intent);
+                addTravel.setImageResource(R.drawable.icon_done);
+                addTravel.setEnabled(false);;
+                listener.onJoinTravelButtonPressed(travel);
             }
         });
 
         return convertView;
+    }
+
+    public interface OnJoinTravelButtonPressedListener{
+        void onJoinTravelButtonPressed(Recorrido selectedTravel);
     }
 }
