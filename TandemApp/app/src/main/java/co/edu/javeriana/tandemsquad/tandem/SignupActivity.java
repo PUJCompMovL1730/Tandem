@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -76,24 +77,23 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             protected void onSignUpFailed(Task<AuthResult> task) {
                 super.onSignUpFailed(task);
-                dialog.dismiss();
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
             }
 
             @Override
             public void onUserProfileUpdateSuccess() {
                 FirebaseUser user = getUser();
                 if(user != null) {
-                    dialog.dismiss();
-                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl(), user.getPhotoUrl());
+                    Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl());
                     fireBaseDatabase.writeUser(usuario);
-                    goHome();
                 }
             }
 
             @Override
             protected void onUserProfileUpdateFailed(Task<Void> task) {
                 super.onUserProfileUpdateFailed(task);
-                dialog.dismiss();
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), "Reintentando: " + task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+                fireBaseAuthentication.updateUserProfile(signupBundle.getString("name"));
             }
         };
         fireBaseStorage = new FireBaseStorage(this) {
@@ -106,13 +106,26 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onUploadFileFailed(Task<UploadTask.TaskSnapshot> task) {
                 super.onUploadFileFailed(task);
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
                 fireBaseAuthentication.updateUserProfile(signupBundle.getString("name"));
+            }
+        };
+
+        fireBaseDatabase = new FireBaseDatabase(this) {
+            @Override
+            protected void onSuccessWriteUser(Task<Void> task) {
+                dialog.dismiss();
+                goHome();
+            }
+
+            @Override
+            protected void onFailureWriteUser(Task<Void> task) {
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
             }
         };
     }
 
     private void initComponents() {
-        fireBaseDatabase = new FireBaseDatabase(this);
         inputPhoto = (CircleImageView) findViewById(R.id.signup_input_photo);
         layoutName = (TextInputLayout) findViewById(R.id.signup_layout_name);
         layoutEmail = (TextInputLayout) findViewById(R.id.signup_layout_email);
