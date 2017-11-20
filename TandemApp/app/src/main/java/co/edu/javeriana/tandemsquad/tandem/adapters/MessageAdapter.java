@@ -36,8 +36,10 @@ public class MessageAdapter extends ArrayAdapter<Mensaje>{
         //image.setText(chat.getOriginName());
         if (mensaje.isMe()) {
             name.setText(mensaje.getReceptor().getNombre());
+            image.setImageBitmap(mensaje.getReceptor().getImagen());
         } else {
             name.setText(mensaje.getEmisor().getNombre());
+            image.setImageBitmap(mensaje.getEmisor().getImagen());
         }
         message.setText(mensaje.getTexto());
 

@@ -46,6 +46,7 @@ import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseDatabase;
 import co.edu.javeriana.tandemsquad.tandem.firebase.FireBaseStorage;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapConstants;
 import co.edu.javeriana.tandemsquad.tandem.google.GoogleMapController;
+import co.edu.javeriana.tandemsquad.tandem.google.pathTracking.DrawPath;
 import co.edu.javeriana.tandemsquad.tandem.location.LocationController;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Marcador;
 import co.edu.javeriana.tandemsquad.tandem.negocio.Recorrido;
@@ -148,8 +149,8 @@ public class HomeActivity extends NavigationActivity implements OnMapReadyCallba
     cameraPosition.target(latLng2);
     cameraPosition.zoom(GoogleMapConstants.ZOOM_STREET);
     cameraPosition.bearing(0);
-
-    Utils.drawPathBetween(latLng1, latLng2, googleMap);
+      DrawPath drawPath = new DrawPath(googleMap, latLng1, latLng2);
+      drawPath.execute();
     googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition.build()), 1500, null);
     GoogleMapController.addMarker(latLng2, title, snippet, googleMap, R.drawable.pin);
   }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ListView;
@@ -58,27 +59,28 @@ public class MessagesActivity extends NavigationActivity {
             @Override
             public void onSignInSuccess() {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
+                if (dialog == null || !dialog.isShowing()) {
+                    dialog = ProgressDialog.show(MessagesActivity.this, "Cargando mensajes", "Espera un momento por favor...", false, false);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
+                            if (currentUser != null) {
+                                final List<Mensaje> mensajes = fireBaseDatabase.getMessages(currentUser.getId());
 
-                dialog = ProgressDialog.show(MessagesActivity.this, "Cargando mensajes", "Espera un momento por favor...", false, false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
-                        if (currentUser != null) {
-                            final List<Mensaje> mensajes = fireBaseDatabase.getMessages(currentUser.getId());
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    updateAndCheckMessages(mensajes);
-                                }
-                            });
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updateAndCheckMessages(mensajes);
+                                    }
+                                });
+                            }
+                            if (dialog != null) {
+                                dialog.dismiss();
+                            }
                         }
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        }
-                    }
-                }).start();
+                    }).start();
+                }
             }
         };
 
@@ -130,6 +132,7 @@ public class MessagesActivity extends NavigationActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         fireBaseAuthentication.start();
     }
 
@@ -137,6 +140,16 @@ public class MessagesActivity extends NavigationActivity {
     protected void onStop() {
         super.onStop();
         fireBaseAuthentication.stop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
