@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">TandemEnterprise</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="btnEvents">Eventos</string>
+    <string name="btnMarkers">Marcadores</string>
+    <string name="hintEmail">Correo</string>
+    <string name="hintPassword">Contraseña</string>
+    <string name="btnLogin">Iniciar sesión</string>
+    <string name="permission_gps">Permitenos poder ubicarte, concede los permisos</string>
+</resources>

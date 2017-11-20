@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp"
+    tools:context="co.edu.javeriana.tandemsquad.tandementerprise.LoginActivity">
+
+    <ImageView
+        android:layout_width="300dp"
+        android:layout_height="230dp"
+        android:src="@drawable/tandem_logo"
+        android:layout_gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="@string/hintEmail"
+        />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:hint="@string/hintPassword"
+        />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnLogin"
+        android:layout_gravity="center"
+        />
+
+</LinearLayout>
