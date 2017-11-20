@@ -54,7 +54,7 @@ public class FireBaseStorage {
     public final void uploadStory(String userId, Bitmap photo, final FireBaseDatabase.AsyncEventListener<Boolean> handler) {
 
         ByteArrayOutputStream bytesStory = new ByteArrayOutputStream();
-        photo.compress(Bitmap.CompressFormat.JPEG, 85, bytesStory);
+        photo.compress(Bitmap.CompressFormat.JPEG, 50, bytesStory);
 
         StorageReference imagesStorage = storageReference.child("stories/" + userId + ".jpg");
         imagesStorage.putBytes(bytesStory.toByteArray()).addOnCompleteListener(activity, new OnCompleteListener<UploadTask.TaskSnapshot>() {

@@ -124,7 +124,7 @@ public class FriendsActivity extends NavigationActivity {
         } else if (diff < 3600) {
             return "Hace " + (diff / 60) + " minutos";
         } else
-            return "Hace " + (diff / 3600) + "horas";
+            return "Hace " + (diff / 3600) + " horas";
     }
 
     public void updateStories(List<Historia> stories) {
