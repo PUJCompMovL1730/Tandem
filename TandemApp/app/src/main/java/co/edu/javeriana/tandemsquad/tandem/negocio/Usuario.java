@@ -67,19 +67,33 @@ public class Usuario {
         historial = new ArrayList<>();
         this.asyncImageDeliver = new ArrayList<>();
     }
-
-    public void addAsyncImageListener(ImageView image) {
+    public void addAsyncImageListener(final ImageView image) {
         if (getImagen() == null)
             this.asyncImageDeliver.add(image);
         else
-            image.setImageBitmap(getImagen());
+        {
+            Activity host = (Activity) image.getContext();
+            if (host != null) {
+                host.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        image.setImageBitmap(getImagen());
+                    }
+                });
+            }
+        }
     }
 
     public void deliverImages() {
         for (final ImageView view : this.asyncImageDeliver) {
             Activity host = (Activity) view.getContext();
             if (host != null) {
-                view.setImageBitmap(getImagen());
+                host.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setImageBitmap(getImagen());
+                    }
+                });
             }
         }
     }

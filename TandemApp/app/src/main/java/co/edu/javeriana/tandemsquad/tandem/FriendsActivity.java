@@ -15,11 +15,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +128,8 @@ public class FriendsActivity extends NavigationActivity {
             int marginPx = getResources().getDimensionPixelSize(R.dimen.gutter);
             margins.setMargins(marginPx, marginPx, marginPx, 0);
             image.setLayoutParams(margins);
-            story.getUsuario().addAsyncImageListener(image);
+            story.addAsyncImageListener(image);
+            //story.getUsuario().addAsyncImageListener(image);
             //image.setImageBitmap(story.getUsuario().getImagen());
 
             storyContainer.addView(image);
@@ -138,8 +143,20 @@ public class FriendsActivity extends NavigationActivity {
             storyContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent viewStory = new Intent(getApplicationContext(), StoryActivity.class);
-                    startActivity(viewStory);
+                    if (story.getImagen() != null && story.getUsuario() != null && story.getUsuario().getImagen() != null) {
+                        Intent viewStory = new Intent(getApplicationContext(), StoryActivity.class);
+
+                        ByteArrayOutputStream bytesProfile = new ByteArrayOutputStream();
+                        story.getUsuario().getImagen().compress(Bitmap.CompressFormat.JPEG, 85, bytesProfile);
+
+                        ByteArrayOutputStream bytesStory = new ByteArrayOutputStream();
+                        story.getImagen().compress(Bitmap.CompressFormat.JPEG, 85, bytesStory);
+
+                        viewStory.putExtra("image", bytesStory.toByteArray());
+                        viewStory.putExtra("profileImage", bytesProfile.toByteArray());
+                        viewStory.putExtra("username", story.getUsuario().getNombre());
+                        startActivity(viewStory);
+                    }
                 }
             });
 

@@ -79,22 +79,21 @@ public class FireBaseStorage {
     }
 
     public final void downloadStoryImage(final Historia historia) {
-    /*try {
-      final File localFile = File.createTempFile("stories", "png");
-      StorageReference imagesStorage = storageReference.child("stories/" + usuario.getId() + "/profile.png");
-      imagesStorage.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-        @Override
-        public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-          if (task.isSuccessful()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath());
-            historia.setImagen(bitmap);
-          }
-          else onDownloadFileFailed(task);
+        try {
+            final File localFile = File.createTempFile("stories", "png");
+            StorageReference imagesStorage = storageReference.child("stories/" + historia.getImagenUri() + ".jpg");
+            imagesStorage.getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath());
+                        historia.setImagen(bitmap);
+                    } else onDownloadFileFailed(task);
+                }
+            });
+        } catch (IOException e) {
+            //Snackbar.make(activity.getCurrentFocus(), e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
-      });
-    } catch (IOException e) {
-      Snackbar.make(activity.getCurrentFocus(), e.getMessage(), Snackbar.LENGTH_LONG).show();
-    }*/
     }
 
     public final void downloadUserImage(final Usuario usuario) {
