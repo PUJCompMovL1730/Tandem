@@ -454,6 +454,41 @@ public class FireBaseDatabase {
         });
     }
 
+    public Historia getStory(String id, final AsyncEventListener<Boolean> onImageReceived) {
+        Map<String, String> unparsedStory = getGenericClassFromDatabase("stories/" + id);
+        if (unparsedStory != null) {
+            try {
+                String mensaje = unparsedStory.get("mensaje");
+                String usuarioId = unparsedStory.get("usuario");
+                String fechaInt = unparsedStory.get("fecha");
+                String imagenUri = unparsedStory.get("imagen");
+                if (mensaje != null && usuarioId != null && fechaInt != null && imagenUri != null) {
+                    Usuario usuario = getUser(usuarioId);
+                    if (usuario == null) {
+                        throw new NullPointerException("Null user when getting story");
+                    }
+                    GregorianCalendar fecha = getGregorianCalendar(Long.parseLong(fechaInt));
+                    final Historia historia = new Historia(mensaje, usuario, fecha, imagenUri);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            firebaseStorage.downloadStoryImage(historia, onImageReceived);
+                        }
+                    }).start();
+                    return historia;
+                } else {
+                    throw new IllegalArgumentException("Unable to create Story (Invalid data)");
+                }
+            } catch (Exception e) {
+                Log.e("DATABASE EXCEPTION", "Invalid story data: " + e.getMessage());
+                return null;
+            }
+        } else {
+            Log.e("DATABASE INFO", "TIMEOUT getting story: " + id);
+        }
+        return null;
+    }
+
     public List<Historia> getAllStories() {
         List<Historia> historias = new LinkedList<>();
         List<Map<String, String>> unparsedStories = getGenericListFromDatabase("stories");
@@ -470,12 +505,12 @@ public class FireBaseDatabase {
                     }
                     GregorianCalendar fecha = getGregorianCalendar(Long.parseLong(fechaInt));
                     final Historia historia = new Historia(mensaje, usuario, fecha, imagenUri);
-                    new Thread(new Runnable() {
+                    /*new Thread(new Runnable() {
                         @Override
                         public void run() {
                             firebaseStorage.downloadStoryImage(historia);
                         }
-                    }).start();
+                    }).start();*/
                     historias.add(historia);
                 } else {
                     throw new IllegalArgumentException("Unable to create Story (Invalid data)");
