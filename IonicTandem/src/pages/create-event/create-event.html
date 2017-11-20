@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Crear un Evento</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Nombre del Evento</ion-label>
+      <ion-input type="text" [(ngModel)]="evName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Punto de Partida</ion-label>
+      <ion-input type="text" [(ngModel)]="evStart"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Punto de Llegada</ion-label>
+      <ion-input type="text" [(ngModel)]="evFinish"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Hora de Inicio</ion-label>
+      <ion-input type="text" [(ngModel)]="evTimeStart"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Hora de Fin</ion-label>
+      <ion-input type="text" [(ngModel)]="evTimeEnd"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Descripción</ion-label>
+      <ion-input type="text" [(ngModel)]="evDescription"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <button ion-button full (click)="createEvent()">Crear Evento</button>
+</ion-content>
