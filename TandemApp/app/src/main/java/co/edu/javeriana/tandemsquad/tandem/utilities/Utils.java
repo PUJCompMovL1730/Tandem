@@ -46,23 +46,6 @@ public class Utils {
         return null;
     }
 
-    public static void drawPathBetween(LatLng origin, LatLng destiny, GoogleMap googleMap) {
-        String url = obtenerDireccionesURL(origin, destiny);
-        DownloadTask downloadTask = new DownloadTask(googleMap);
-        downloadTask.execute(url);
-    }
-
-    public static String obtenerDireccionesURL(LatLng origin, LatLng destiny) {
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-        String str_dest = "destination=" + destiny.latitude + "," + destiny.longitude;
-        String sensor = "sensor=false";
-        String parameters = str_origin + "&" + str_dest + "&" + sensor;
-        String output = "json";
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-        Log.i("Call Rest service", url);
-        return url;
-    }
-
     public static double distance(double lat1, double long1, double lat2, double long2) {
         double latDistance = Math.toRadians(lat1 - lat2);
         double lngDistance = Math.toRadians(long1 - long2);
