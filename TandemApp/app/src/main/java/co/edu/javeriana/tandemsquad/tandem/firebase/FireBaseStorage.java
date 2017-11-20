@@ -104,7 +104,10 @@ public class FireBaseStorage {
                 @Override
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath());
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize = 6;
+
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath(), options);
                         historia.setImagen(bitmap);
                         onImageReceived.onActionPerformed(true);
                     } else onDownloadFileFailed(task);
@@ -123,7 +126,10 @@ public class FireBaseStorage {
                 @Override
                 public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
                     if (task.isSuccessful()) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath());
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize = 6;
+
+                        Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath(), options);
                         usuario.setImagen(bitmap);
                     } else onDownloadFileFailed(task);
                 }

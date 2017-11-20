@@ -27,7 +27,9 @@ public class Utils {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return BitmapFactory.decodeStream(imageStream);
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 6;
+        return BitmapFactory.decodeStream(imageStream, null, options);
     }
 
     public static File createImageFile(Activity activity) {
