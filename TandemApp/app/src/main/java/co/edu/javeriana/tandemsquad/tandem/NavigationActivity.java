@@ -29,7 +29,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
   protected TextView viewEmail;
   protected CircleImageView viewImage;
   private NavigationView navigationView;
-  private Toolbar toolbar;
+  protected Toolbar toolbar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

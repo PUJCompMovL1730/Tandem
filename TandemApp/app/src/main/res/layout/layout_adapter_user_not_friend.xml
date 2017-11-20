@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+              android:gravity="center"
+    android:padding="@dimen/gutter">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_not_friend_adapter_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="start|center"
+        android:src="@drawable/icon_user"
+        android:layout_marginEnd="@dimen/gutter"/>
+
+    <TextView
+        android:id="@+id/user_not_friend_adapter_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Nombre de usuario"
+        android:textSize="16sp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/add_friend"
+        android:layout_gravity="center|end"
+        android:src="@drawable/icon_add_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
