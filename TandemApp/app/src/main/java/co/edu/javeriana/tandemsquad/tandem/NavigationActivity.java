@@ -73,9 +73,9 @@ public abstract class NavigationActivity extends AppCompatActivity implements Na
         viewName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_name);
         viewEmail = (TextView) navigationView.getHeaderView(0).findViewById(R.id.nav_email);
         viewImage = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.nav_image);
-        viewName.setText(user.getDisplayName());
-        viewEmail.setText(user.getEmail());
       }
+      viewName.setText(user.getDisplayName());
+      viewEmail.setText(user.getEmail());
       if (user.getPhotoUrl() != null) {
         fireBaseStorage.downloadFile(user);
       }

@@ -74,6 +74,12 @@ public class CreatePublicTravelDialog extends DialogFragment implements DatePick
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.dialog_toolbar);
         toolbar.setTitle(R.string.create_travel_title);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("VERGA", "sii");
+            }
+        });
 
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 

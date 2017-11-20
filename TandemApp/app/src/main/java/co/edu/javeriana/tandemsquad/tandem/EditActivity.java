@@ -83,7 +83,7 @@ public class EditActivity extends AppCompatActivity {
             @Override
             protected void onDownloadFileSuccess(Task<FileDownloadTask.TaskSnapshot> task, File file) {
                 Uri uri = Uri.fromFile(file);
-                Bitmap image = (Bitmap) Utils.getImageFormUri(EditActivity.this, uri);
+                Bitmap image = Utils.getImageFormUri(EditActivity.this, uri);
                 inputPhoto.setImageBitmap(image);
             }
         };
