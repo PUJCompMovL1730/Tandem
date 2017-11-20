@@ -1,9 +1,11 @@
 package co.edu.javeriana.tandemsquad.tandem.firebase;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -80,6 +82,7 @@ public class FireBaseDatabase {
     public void writeUser(final Usuario usuario) {
 
         final DatabaseReference userReference = firebaseDatabase.getReference("users/" + usuario.getId());
+        Log.i("User ID", usuario.getId());
         final Map<String, String> messageData = new HashMap<>();
         messageData.put("correo", usuario.getCorreo());
         messageData.put("id", usuario.getId());
@@ -95,8 +98,20 @@ public class FireBaseDatabase {
         }
 
         messageData.put("amigos", amigos.trim());
-        userReference.setValue(usuario);
+        userReference.setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    onSuccessWriteUser(task);
+                } else {
+                    onFailureWriteUser(task);
+                }
+            }
+        });
     }
+
+    protected void onSuccessWriteUser(Task<Void> task) {}
+    protected void onFailureWriteUser(Task<Void> task) {}
 
     public void writeMarker(Marcador marcador) {
         DatabaseReference marcadorReference = firebaseDatabase.getReference("marcador");

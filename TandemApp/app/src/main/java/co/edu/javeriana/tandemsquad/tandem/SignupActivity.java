@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -86,7 +87,6 @@ public class SignupActivity extends AppCompatActivity {
                     dialog.dismiss();
                     Usuario usuario = new Usuario(user.getUid(), user.getDisplayName(), user.getEmail(), user.getPhotoUrl(), user.getPhotoUrl());
                     fireBaseDatabase.writeUser(usuario);
-                    goHome();
                 }
             }
 
@@ -109,10 +109,21 @@ public class SignupActivity extends AppCompatActivity {
                 fireBaseAuthentication.updateUserProfile(signupBundle.getString("name"));
             }
         };
+
+        fireBaseDatabase = new FireBaseDatabase(this) {
+            @Override
+            protected void onSuccessWriteUser(Task<Void> task) {
+                goHome();
+            }
+
+            @Override
+            protected void onFailureWriteUser(Task<Void> task) {
+                Snackbar.make(SignupActivity.this.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        };
     }
 
     private void initComponents() {
-        fireBaseDatabase = new FireBaseDatabase(this);
         inputPhoto = (CircleImageView) findViewById(R.id.signup_input_photo);
         layoutName = (TextInputLayout) findViewById(R.id.signup_layout_name);
         layoutEmail = (TextInputLayout) findViewById(R.id.signup_layout_email);
