@@ -118,7 +118,7 @@ public class AddFriendsActivity extends NavigationActivity implements UserNotFri
 
   @Override
   protected void initComponents() {
-    //super.initComponents();
+    super.initComponents();
 
     toolbar = (Toolbar) findViewById(R.id.main_toolbar);
     toolbar.setNavigationIcon(R.drawable.icon_arrow_back);
