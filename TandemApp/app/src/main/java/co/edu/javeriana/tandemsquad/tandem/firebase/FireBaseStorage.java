@@ -96,7 +96,7 @@ public class FireBaseStorage {
         }
     }
 
-    public final void downloadStoryImage(final Historia historia) {
+    public final void downloadStoryImage(final Historia historia, final FireBaseDatabase.AsyncEventListener<Boolean> onImageReceived) {
         try {
             final File localFile = File.createTempFile("stories", "png");
             StorageReference imagesStorage = storageReference.child("stories/" + historia.getImagenUri() + ".jpg");
@@ -106,6 +106,7 @@ public class FireBaseStorage {
                     if (task.isSuccessful()) {
                         Bitmap bitmap = BitmapFactory.decodeFile(localFile.getPath());
                         historia.setImagen(bitmap);
+                        onImageReceived.onActionPerformed(true);
                     } else onDownloadFileFailed(task);
                 }
             });
