@@ -36,10 +36,12 @@ public class MessageAdapter extends ArrayAdapter<Mensaje>{
         //image.setText(chat.getOriginName());
         if (mensaje.isMe()) {
             name.setText(mensaje.getReceptor().getNombre());
-            image.setImageBitmap(mensaje.getReceptor().getImagen());
+            mensaje.getReceptor().addAsyncImageListener(image);
+            //image.setImageBitmap(mensaje.getReceptor().getImagen());
         } else {
             name.setText(mensaje.getEmisor().getNombre());
-            image.setImageBitmap(mensaje.getEmisor().getImagen());
+            //image.setImageBitmap(mensaje.getEmisor().getImagen());
+            mensaje.getEmisor().addAsyncImageListener(image);
         }
         message.setText(mensaje.getTexto());
 

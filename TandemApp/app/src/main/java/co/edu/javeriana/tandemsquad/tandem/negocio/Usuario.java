@@ -1,7 +1,9 @@
 package co.edu.javeriana.tandemsquad.tandem.negocio;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,7 @@ public class Usuario {
     private List<Historia> historias;
     private List<Recorrido> historial;
     private Bitmap imagen;
+    private List<ImageView> asyncImageDeliver;
 
     public Usuario(String id, String nombre, String correo) {
         this.id = id;
@@ -26,6 +29,7 @@ public class Usuario {
         amigos = new ArrayList<>();
         historias = new ArrayList<>();
         historial = new ArrayList<>();
+        this.asyncImageDeliver = new ArrayList<>();
     }
 
     public Usuario(String id, String nombre, String correo, Uri foto) {
@@ -33,6 +37,7 @@ public class Usuario {
         this.nombre = nombre;
         this.correo = correo;
         this.foto = foto;
+        this.asyncImageDeliver = new ArrayList<>();
         amigos = new ArrayList<>();
         historias = new ArrayList<>();
         historial = new ArrayList<>();
@@ -47,6 +52,7 @@ public class Usuario {
         amigos = new ArrayList<>();
         historias = new ArrayList<>();
         historial = new ArrayList<>();
+        this.asyncImageDeliver = new ArrayList<>();
     }
 
     public Usuario(String id, String nombre, String correo, Uri foto, Uri portada, String telefono) {
@@ -59,12 +65,30 @@ public class Usuario {
         amigos = new ArrayList<>();
         historias = new ArrayList<>();
         historial = new ArrayList<>();
+        this.asyncImageDeliver = new ArrayList<>();
     }
 
-    public void agregarAmigo( Usuario amigo ) { this.amigos.add(amigo); }
+    public void addAsyncImageListener(ImageView image) {
+        if (getImagen() == null)
+            this.asyncImageDeliver.add(image);
+        else
+            image.setImageBitmap(getImagen());
+    }
 
-    public void agregarRecorrido( Recorrido r )
-    {
+    public void deliverImages() {
+        for (final ImageView view : this.asyncImageDeliver) {
+            Activity host = (Activity) view.getContext();
+            if (host != null) {
+                view.setImageBitmap(getImagen());
+            }
+        }
+    }
+
+    public void agregarAmigo(Usuario amigo) {
+        this.amigos.add(amigo);
+    }
+
+    public void agregarRecorrido(Recorrido r) {
         this.historial.add(r);
     }
 
@@ -138,5 +162,6 @@ public class Usuario {
 
     public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
+        deliverImages();
     }
 }

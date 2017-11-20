@@ -40,7 +40,8 @@ public class FriendAdapter extends ArrayAdapter<Usuario> {
         ImageView startChat = (ImageView) convertView.findViewById(R.id.start_chat);
 
 
-        image.setImageBitmap(user.getImagen());
+        //image.setImageBitmap(user.getImagen());
+        user.addAsyncImageListener(image);
         name.setText(user.getNombre());
         username.setText(user.getCorreo());
 

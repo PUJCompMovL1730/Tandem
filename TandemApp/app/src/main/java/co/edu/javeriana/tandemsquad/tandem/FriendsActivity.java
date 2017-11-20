@@ -124,7 +124,8 @@ public class FriendsActivity extends NavigationActivity {
             int marginPx = getResources().getDimensionPixelSize(R.dimen.gutter);
             margins.setMargins(marginPx, marginPx, marginPx, 0);
             image.setLayoutParams(margins);
-            image.setImageBitmap(story.getUsuario().getImagen());
+            story.getUsuario().addAsyncImageListener(image);
+            //image.setImageBitmap(story.getUsuario().getImagen());
 
             storyContainer.addView(image);
 

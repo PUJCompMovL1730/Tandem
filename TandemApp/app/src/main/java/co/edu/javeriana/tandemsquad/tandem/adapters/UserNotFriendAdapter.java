@@ -41,7 +41,8 @@ public class UserNotFriendAdapter extends ArrayAdapter<Usuario> {
         TextView name = (TextView) convertView.findViewById(R.id.user_not_friend_adapter_name);
         ImageView addButton = (ImageView) convertView.findViewById(R.id.add_friend);
 
-        image.setImageBitmap(user.getImagen());
+        //image.setImageBitmap(user.getImagen());
+        user.addAsyncImageListener(image);
         name.setText(user.getNombre());
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
