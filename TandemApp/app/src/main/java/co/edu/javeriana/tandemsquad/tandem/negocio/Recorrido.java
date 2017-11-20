@@ -1,5 +1,7 @@
 package co.edu.javeriana.tandemsquad.tandem.negocio;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -18,15 +20,21 @@ public class Recorrido {
         VIAJE, FRECUENTE, INSTANTANEO;
     }
 
+    private String key;
     private Marcador inicio;
     private Marcador fin;
     private String fecha;
     private String hora;
+    @Exclude
     private List<Usuario> participantes;
     private Estado estado;
     private Privacidad privacidad;
+    private String endName;
     private Tipo tipo;
     private Clima clima;
+
+    public Recorrido() {
+    }
 
     public Recorrido(Marcador inicio, Marcador fin) {
         this.inicio = inicio;
@@ -34,7 +42,8 @@ public class Recorrido {
         participantes = new ArrayList<>();
     }
 
-    public Recorrido(Marcador inicio, Marcador fin, String fecha, String hora, Estado estado, Privacidad privacidad, Tipo tipo) {
+    public Recorrido(String key, Marcador inicio, Marcador fin, String fecha, String hora, Estado estado, Privacidad privacidad, Tipo tipo, String nombreFin) {
+        this.key = key;
         this.inicio = inicio;
         this.fin = fin;
         this.fecha = fecha;
@@ -42,21 +51,42 @@ public class Recorrido {
         this.estado = estado;
         this.privacidad = privacidad;
         this.tipo = tipo;
+        this.endName = nombreFin;
+        participantes = new ArrayList<>();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public void agregarParticipante(Usuario usuario) {
         participantes.add(usuario);
     }
 
+    @Exclude
     public List<Usuario> getParticipantes() {
         return participantes;
     }
 
-    public Estado getEstado() {
+    public String getEstado() {
+        return estado.name();
+    }
+
+    public void setEstado(String estadoString) {
+        estado = Estado.valueOf(estadoString);
+    }
+
+    @Exclude
+    public Estado getEstadoVal() {
         return estado;
     }
 
-    public void setEstado(Estado estado) {
+    @Exclude
+    public void setEstadoVal(Estado estado) {
         this.estado = estado;
     }
 
@@ -84,15 +114,43 @@ public class Recorrido {
         this.fecha = fecha;
     }
 
-    public Privacidad getPrivacidad() { return privacidad; }
+    public String getPrivacidad() {
+        return privacidad.name();
+    }
 
-    public void setPrivacidad(Privacidad privacidad) { this.privacidad = privacidad; }
+    public void setPrivacidad(String privacidadString) {
+        privacidad = Privacidad.valueOf(privacidadString);
+    }
 
-    public Tipo getTipo() { return tipo; }
+    @Exclude
+    public Privacidad getPrivacidadVal() { return privacidad; }
 
-    public void setTipo(Tipo tipo) { this.tipo = tipo; }
+    @Exclude
+    public void setPrivacidadVal(Privacidad privacidad) { this.privacidad = privacidad; }
+
+    public String getTipo() {
+        return tipo.name();
+    }
+
+    public void setTipo(String tipoString) {
+        tipo = Tipo.valueOf(tipoString);
+    }
+
+    @Exclude
+    public Tipo getTipoVal() { return tipo; }
+
+    @Exclude
+    public void setTipoVal(Tipo tipo) { this.tipo = tipo; }
 
     public String getHora() { return hora; }
 
     public void setHora(String hora) { this.hora = hora; }
+
+    public String getEndName() {
+        return endName;
+    }
+
+    public void setEndName(String endName) {
+        this.endName = endName;
+    }
 }

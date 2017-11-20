@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="co.edu.javeriana.tandemsquad.tandem.StoryActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/story_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bicycle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="30dp">
+        <ProgressBar
+            android:id="@+id/story_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="false"
+            android:max="100"
+            android:minHeight="30dp"
+            android:progress="2"
+            android:progressBackgroundTint="@color/colorPrimary" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/story_profile_image"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/user" />
+            <TextView
+                android:layout_weight="0.5"
+                android:textColor="#888888"
+                android:id="@+id/story_user"
+                android:textAlignment="viewStart"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Hi"
+                tools:ignore="RtlCompat" />
+            <TextView
+                android:layout_weight="0.5"
+                android:textColor="#888888"
+                android:id="@+id/story_date"
+                android:textAlignment="viewEnd"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="Hace 2 días"
+                tools:ignore="RtlCompat" />
+        </LinearLayout>
+        <TextView
+            android:textColor="#888888"
+            android:textSize="20sp"
+            android:id="@+id/story_text"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="Ther" />
+    </LinearLayout>
+</FrameLayout>

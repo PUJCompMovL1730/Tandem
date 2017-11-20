@@ -79,9 +79,9 @@ public class CreatePublicTravelDialog extends DialogFragment implements DatePick
 
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.icon_close);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            //actionBar.setHomeButtonEnabled(true);
+            //actionBar.setHomeAsUpIndicator(R.drawable.icon_close);
         }
         setHasOptionsMenu(true);
 
@@ -175,26 +175,22 @@ public class CreatePublicTravelDialog extends DialogFragment implements DatePick
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_create_travel:
-                travel.setEstado(Recorrido.Estado.PLANEADO);
+                travel.setEstadoVal(Recorrido.Estado.PLANEADO);
                 if (radioGroupPrivacy.getCheckedRadioButtonId() == R.id.radio_button_private) {
-                    travel.setPrivacidad(Recorrido.Privacidad.PRIVADO);
+                    travel.setPrivacidadVal(Recorrido.Privacidad.PRIVADO);
                 }
                 else {
-                    travel.setPrivacidad(Recorrido.Privacidad.PUBLICO);
+                    travel.setPrivacidadVal(Recorrido.Privacidad.PUBLICO);
                 }
                 if (radioGroupType.getCheckedRadioButtonId() == R.id.radio_button_trip) {
-                    travel.setTipo(Recorrido.Tipo.VIAJE);
+                    travel.setTipoVal(Recorrido.Tipo.VIAJE);
                 }
                 else {
-                    travel.setTipo(Recorrido.Tipo.FRECUENTE);
+                    travel.setTipoVal(Recorrido.Tipo.FRECUENTE);
                 }
                 travel.setFecha(dateText.getText().toString());
                 travel.setHora(timeText.getText().toString());
                 listener.onTravelCreated(travel);
-                this.dismiss();
-                return true;
-            case android.R.id.home:
-                //TODO Change R.id
                 this.dismiss();
                 return true;
         }

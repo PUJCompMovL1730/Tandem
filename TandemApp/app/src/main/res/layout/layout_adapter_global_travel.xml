@@ -12,7 +12,7 @@
         android:src="@drawable/icon_bicicle" />
 
     <LinearLayout
-        android:paddingStart="56dp"
+        android:paddingStart="50dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -31,23 +31,28 @@
 
             <TextView
                 android:id="@+id/travel_adapter_origin_date"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fecha"/>
 
             <TextView
                 android:id="@+id/travel_adapter_origin_time"
                 android:paddingStart="8dp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hora"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
         </LinearLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <ImageView
+        android:id="@+id/join_travel"
+        android:layout_gravity="center"
+        android:src="@drawable/icon_add_grey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

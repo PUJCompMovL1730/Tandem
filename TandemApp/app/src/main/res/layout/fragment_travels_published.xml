@@ -6,14 +6,9 @@
               android:layout_margin="@dimen/gutter"
              tools:context="co.edu.javeriana.tandemsquad.tandem.TravelsOwnFragment">
 
-    <TextView
+    <ListView
+        android:id="@+id/travels_published_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recorridos publicados"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recorridos a los que perteneces"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

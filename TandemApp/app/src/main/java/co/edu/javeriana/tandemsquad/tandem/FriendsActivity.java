@@ -15,12 +15,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import co.edu.javeriana.tandemsquad.tandem.adapters.FriendAdapter;
@@ -112,6 +117,16 @@ public class FriendsActivity extends NavigationActivity {
         return pixels;
     }
 
+    public String timeAgo(long time) {
+        long diff = FireBaseDatabase.getUnixTimestamp(new GregorianCalendar()) - time;
+        if (diff < 60) {
+            return "Hace " + diff + " segundos";
+        } else if (diff < 3600) {
+            return "Hace " + (diff / 60) + " minutos";
+        } else
+            return "Hace " + (diff / 3600) + "horas";
+    }
+
     public void updateStories(List<Historia> stories) {
         storiesContainer.removeAllViews();
         for (final Historia story : stories) {
@@ -124,7 +139,8 @@ public class FriendsActivity extends NavigationActivity {
             int marginPx = getResources().getDimensionPixelSize(R.dimen.gutter);
             margins.setMargins(marginPx, marginPx, marginPx, 0);
             image.setLayoutParams(margins);
-            story.getUsuario().addAsyncImageListener(image);
+            story.addAsyncImageListener(image);
+            //story.getUsuario().addAsyncImageListener(image);
             //image.setImageBitmap(story.getUsuario().getImagen());
 
             storyContainer.addView(image);
@@ -138,8 +154,22 @@ public class FriendsActivity extends NavigationActivity {
             storyContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent viewStory = new Intent(getApplicationContext(), StoryActivity.class);
-                    startActivity(viewStory);
+                    if (story.getImagen() != null && story.getUsuario() != null && story.getUsuario().getImagen() != null) {
+                        Intent viewStory = new Intent(getApplicationContext(), StoryActivity.class);
+
+                        ByteArrayOutputStream bytesProfile = new ByteArrayOutputStream();
+                        story.getUsuario().getImagen().compress(Bitmap.CompressFormat.JPEG, 85, bytesProfile);
+
+                        ByteArrayOutputStream bytesStory = new ByteArrayOutputStream();
+                        story.getImagen().compress(Bitmap.CompressFormat.JPEG, 85, bytesStory);
+
+                        viewStory.putExtra("image", bytesStory.toByteArray());
+                        viewStory.putExtra("profileImage", bytesProfile.toByteArray());
+                        viewStory.putExtra("username", story.getUsuario().getNombre());
+                        viewStory.putExtra("message", story.getMensaje());
+                        viewStory.putExtra("date", timeAgo(FireBaseDatabase.getUnixTimestamp(story.getFecha())));
+                        startActivity(viewStory);
+                    }
                 }
             });
 
