@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
@@ -37,6 +38,7 @@ public class ChatActivity extends NavigationActivity {
     private Button sendButton;
     private ChatAdapter chatAdapter;
     private List<Mensaje> chats;
+    private ValueEventListener eventListener;
 
     private ProgressDialog dialog;
 
@@ -64,39 +66,41 @@ public class ChatActivity extends NavigationActivity {
             @Override
             public void onSignInSuccess() {
                 setToolbarData(fireBaseAuthentication, fireBaseStorage);
-                dialog = ProgressDialog.show(ChatActivity.this, "Cargando mensajes", "Espera un momento por favor...", false, false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
-                        otherUser = fireBaseDatabase.getUser(otherUserId);
-                        if (currentUser != null && otherUser != null) {
-                            final List<Mensaje> mensajes = fireBaseDatabase.getMessages(currentUser.getId());
+                if (dialog == null || !dialog.isShowing()) {
+                    dialog = ProgressDialog.show(ChatActivity.this, "Cargando mensajes", "Espera un momento por favor...", false, false);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentUser = fireBaseDatabase.getUser(fireBaseAuthentication.getUser().getUid());
+                            otherUser = fireBaseDatabase.getUser(otherUserId);
+                            if (currentUser != null && otherUser != null) {
+                                final List<Mensaje> mensajes = fireBaseDatabase.getMessages(currentUser.getId());
 
-                            fireBaseDatabase.addMessageListener(currentUser.getId(), new FireBaseDatabase.AsyncEventListener<Mensaje>() {
-                                @Override
-                                public void onActionPerformed(final Mensaje item) {
-                                    runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            displayAndAddMessage(item);
-                                        }
-                                    });
-                                }
-                            });
+                                eventListener = fireBaseDatabase.addMessageListener(currentUser.getId(), new FireBaseDatabase.AsyncEventListener<Mensaje>() {
+                                    @Override
+                                    public void onActionPerformed(final Mensaje item) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                displayAndAddMessage(item);
+                                            }
+                                        });
+                                    }
+                                });
 
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    updateAndCheckMessages(mensajes);
-                                }
-                            });
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        updateAndCheckMessages(mensajes);
+                                    }
+                                });
+                            }
+                            if (dialog != null) {
+                                dialog.dismiss();
+                            }
                         }
-                        if (dialog != null) {
-                            dialog.dismiss();
-                        }
-                    }
-                }).start();
+                    }).start();
+                }
             }
         };
 
@@ -158,7 +162,7 @@ public class ChatActivity extends NavigationActivity {
     @Override
     protected void initComponents() {
         super.initComponents();
-        if(otherUser != null){
+        if (otherUser != null) {
             getSupportActionBar().setTitle(otherUser.getNombre());
         }
         chatsContainer = (ListView) findViewById(R.id.chats_container);
@@ -189,6 +193,7 @@ public class ChatActivity extends NavigationActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        fireBaseDatabase.removeMessageEventListener(eventListener, currentUser.getId());
         fireBaseAuthentication.stop();
     }
 

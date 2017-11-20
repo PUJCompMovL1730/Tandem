@@ -238,9 +238,14 @@ public class FireBaseDatabase {
         return null;
     }
 
-    public void addMessageListener(final String uid, final AsyncEventListener<Mensaje> handler) {
+    public void removeMessageEventListener(ValueEventListener listener, String uid) {
         DatabaseReference messageReference = firebaseDatabase.getReference("messages/" + uid);
-        messageReference.addValueEventListener(new ValueEventListener() {
+        messageReference.removeEventListener(listener);
+    }
+
+    public ValueEventListener addMessageListener(final String uid, final AsyncEventListener<Mensaje> handler) {
+        DatabaseReference messageReference = firebaseDatabase.getReference("messages/" + uid);
+        return messageReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("DATABASE INFO", "Data changed");

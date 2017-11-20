@@ -111,7 +111,7 @@ public class FireBaseStorage {
                 }
             });
         } catch (IOException e) {
-            Snackbar.make(activity.getCurrentFocus(), e.getMessage(), Snackbar.LENGTH_LONG).show();
+            //Snackbar.make(activity.getCurrentFocus(), e.getMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -119,6 +119,6 @@ public class FireBaseStorage {
     }
 
     protected void onDownloadFileFailed(Task<FileDownloadTask.TaskSnapshot> task) {
-        Snackbar.make(activity.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(activity.getCurrentFocus(), task.getException().getMessage(), Snackbar.LENGTH_LONG).show();
     }
 }
