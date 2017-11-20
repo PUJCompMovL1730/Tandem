@@ -84,8 +84,11 @@ public class FirebaseDBManager
             try
             {
                 String id = unparsedEnterprise.get( "id" );
-                String email = unparsedEnterprise.get( "correo" );
-                String name = unparsedEnterprise.get( "nombre" );
+                String email = unparsedEnterprise.get( "email" );
+                String name = unparsedEnterprise.get( "name" );
+                Log.i("hay user", id);
+                Log.i("hay user", email);
+                Log.i("hay user", name);
 
                 if( id != null && email != null && name != null )
                 {

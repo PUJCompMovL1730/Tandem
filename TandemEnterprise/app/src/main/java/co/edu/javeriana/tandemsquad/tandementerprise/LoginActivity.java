@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity
                             {
                                 dialog.dismiss();
                                 authManager.signOut();
-                                Toast.makeText(LoginActivity.this, "La cuenta no es una Empresa", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "La cuenta no es una Empresa", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
